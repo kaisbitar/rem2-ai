@@ -5,7 +5,6 @@ import { css } from "styled-system/css";
 import Header from "@/components/popup/Header";
 
 const HomePage: React.FC = () => {
-
 	const containerClasses = css({
 		background: "white",
 		borderRadius: "0",
@@ -19,7 +18,6 @@ const HomePage: React.FC = () => {
 		display: "flex",
 		flexDirection: "column",
 	});
-
 
 	const mainClasses = css({
 		padding: "5",
