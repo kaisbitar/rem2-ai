@@ -1,5 +1,6 @@
 import type React from "react";
 import { css, cx } from "styled-system/css";
+import Tooltip from "./Tooltip";
 
 export interface StatCardProps {
 	/** Main value to display */
@@ -7,6 +8,7 @@ export interface StatCardProps {
 	/** Statistic label */
 	label?: string;
 	/** Custom CSS class (optional) */
+	tooltip?: string;
 	className?: string;
 	/** Dynamic colors to apply (optional) */
 	dynamicColors?: {
@@ -20,59 +22,84 @@ export interface StatCardProps {
 const StatCard: React.FC<StatCardProps> = ({
 	value,
 	label,
+	tooltip,
 	className = "",
 	dynamicColors,
 }) => {
 	const containerClasses = css({
-		background: "gray.50",
+		width: "9rem",
+		backgroundColor: "white",
 		padding: "4",
 		borderRadius: "lg",
-		textAlign: "center",
-		display: "flex",
-		flexDirection: "column",
-		alignItems: "center",
-		justifyContent: "center",
+		boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
 		border: "1px solid",
 		borderColor: "gray.200",
-		transition: "all 0.3s ease",
-		_hover: {
-			borderColor: "gray.300",
-		},
+		position: "relative",
+		overflow: "hidden",
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "flex-start",
+		justifyContent: "flex-start",
+	});
+
+	const gradientBarClasses = css({
+		position: "absolute",
+		top: "0",
+		left: "0",
+		right: "0",
+		height: "2px",
+		background: "linear-gradient(to right, #A1CA2B,rgb(43, 173, 110))",
+	});
+
+	const contentClasses = css({
+		position: "relative",
+		zIndex: "1",
+		width: "100%",
+	});
+
+	const topRowClasses = css({
+		alignItems: "center",
+		gap: "3",
+		marginBottom: "2",
+	});
+
+	const labelClasses = css({
+		fontSize: "xs",
+		fontWeight: "medium",
+		color: "gray.600",
+		textTransform: "uppercase",
+		letterSpacing: "wide",
 	});
 
 	const valueClasses = css({
 		fontSize: "md",
 		fontWeight: "bold",
-		marginBottom: "1",
-		color: "primary.500",
-		fontFamily: "numeric",
-		fontVariantNumeric: "tabular-nums",
-	});
-
-	const labelClasses = css({
-		fontSize: "xs",
-		color: "gray.500",
-		fontFamily: "subtitle",
-		letterSpacing: "normal",
-		textTransform: "uppercase",
-		fontWeight: "normal",
-		textAlign: "center",
+		color: "gray.800",
+		lineHeight: "1",
+		marginLeft: "0.3",
 	});
 
 	// Combine dynamic colors with base styles
 	const dynamicStyle = dynamicColors
 		? {
-				backgroundColor: dynamicColors.backgroundColor,
-				borderColor: dynamicColors.borderColor,
-				boxShadow: dynamicColors.boxShadow,
-			}
+			backgroundColor: dynamicColors.backgroundColor,
+			borderColor: dynamicColors.borderColor,
+			boxShadow: dynamicColors.boxShadow,
+		}
 		: {};
 
 	return (
-		<div className={cx(containerClasses, className)} style={dynamicStyle}>
-			<div className={valueClasses}>{value}</div>
-			{label && <div className={labelClasses}>{label}</div>}
-		</div>
+		<Tooltip content={tooltip || "No tooltip"}>
+			<div className={cx(containerClasses, className)} style={dynamicStyle}>
+				<div className={gradientBarClasses} />
+				<div className={contentClasses}>
+					<div className={topRowClasses}>
+						<span className={labelClasses}>{label}</span>
+						<div className={valueClasses}>{value}</div>
+					</div>
+				</div>
+			</div>
+		</Tooltip>
 	);
 };
 

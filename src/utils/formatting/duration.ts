@@ -10,13 +10,13 @@ export function formatDuration(durationMs: number): string {
 	const safeDuration = safeNumber(durationMs, 0);
 
 	if (safeDuration < 1000) {
-		return `${Math.round(safeDuration)}ms`;
+		return `${Math.round(safeDuration)} ms`;
 	}
 
 	const seconds = safeDuration / 1000;
 
 	if (seconds < 60) {
-		return `${seconds.toFixed(1)}s`;
+		return `${seconds.toFixed(1)} s`;
 	}
 
 	const minutes = Math.floor(seconds / 60);
@@ -24,7 +24,7 @@ export function formatDuration(durationMs: number): string {
 
 	if (minutes < 60) {
 		if (remainingSeconds === 0) {
-			return `${minutes}m`;
+			return `${minutes} m`;
 		}
 		return `${minutes}m ${remainingSeconds}s`;
 	}
@@ -33,7 +33,7 @@ export function formatDuration(durationMs: number): string {
 	const remainingMinutes = minutes % 60;
 
 	if (remainingMinutes === 0) {
-		return `${hours}h`;
+		return `${hours} h`;
 	}
-	return `${hours}h ${remainingMinutes}m`;
+	return `${hours}h ${remainingMinutes} m`;
 }

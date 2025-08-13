@@ -1,13 +1,10 @@
 import ServicesSection from "@/components/popup/ServicesSection";
 import StatsSection from "@/components/popup/StatsSection";
-import AppIcon from "@/icons/icon32.png";
 import type React from "react";
-import { useNavigate } from "react-router-dom";
 import { css } from "styled-system/css";
 import Header from "@/components/popup/Header";
 
 const HomePage: React.FC = () => {
-	const navigate = useNavigate();
 
 	const containerClasses = css({
 		background: "white",
@@ -23,50 +20,6 @@ const HomePage: React.FC = () => {
 		flexDirection: "column",
 	});
 
-	const headerClasses = css({
-		background: "brand.gradient",
-		color: "white",
-		padding: "4",
-		display: "flex",
-		justifyContent: "space-between",
-		alignItems: "center",
-		flexShrink: 0,
-	});
-
-	const titleClasses = css({
-		fontSize: "lg",
-		fontWeight: "bold",
-		display: "flex",
-		alignItems: "center",
-		gap: "2",
-	});
-
-	const iconClasses = css({
-		width: "24px",
-		height: "24px",
-		verticalAlign: "middle",
-		marginRight: "6",
-	});
-
-	const settingsButtonClasses = css({
-		background: "rgba(255, 255, 255, 0.2)",
-		border: "none",
-		color: "white",
-		py: "1",
-		px: "2",
-		borderRadius: "xl",
-		fontWeight: "medium",
-		fontSize: "xs",
-		cursor: "pointer",
-		display: "flex",
-		alignItems: "center",
-		gap: "1",
-		transition: "all 0.2s ease",
-		_hover: {
-			background: "rgba(255, 255, 255, 0.3)",
-			transform: "scale(1.05)",
-		},
-	});
 
 	const mainClasses = css({
 		padding: "5",
