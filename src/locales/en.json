@@ -1,9 +1,9 @@
 {
 	"appDescription": "Measure the carbon and water footprint of your AI requests",
-	"appName": "AI Impact Tracker",
+	"appName": "REM2 AI",
 	"carbon": "Carbon",
 	"confirmReset": "Reset all data?",
-	"defaultTitle": "AI Impact Tracker",
+	"defaultTitle": "REM2 AI",
 	"duration": "Duration",
 	"high": "High",
 	"low": "Low",

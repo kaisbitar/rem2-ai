@@ -1,9 +1,9 @@
 {
 	"appDescription": "Mesurez l'empreinte carbone et hydrique de vos requêtes IA",
-	"appName": "IA Impact Tracker",
+	"appName": "REM2 AI",
 	"carbon": "Carbone",
 	"confirmReset": "Réinitialiser toutes les données ?",
-	"defaultTitle": "IA Impact Tracker",
+	"defaultTitle": "REM2 AI",
 	"duration": "Durée",
 	"high": "Élevé",
 	"low": "Faible",

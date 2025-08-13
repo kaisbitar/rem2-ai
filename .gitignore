@@ -2,6 +2,7 @@
 *.lock
 .output/
 .wxt/
+dist/
 node_modules/
 
 ## Panda CSS
