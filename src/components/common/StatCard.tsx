@@ -40,6 +40,14 @@ const StatCard: React.FC<StatCardProps> = ({
 		flexDirection: "column",
 		alignItems: "flex-start",
 		justifyContent: "flex-start",
+		transition: "all 0.3s ease",
+		cursor: "pointer",
+		_hover: {
+			transform: "translateY(-2px)",
+			boxShadow: "0 8px 25px rgba(0, 0, 0, 0.15)",
+			borderColor: "#A1CA2B",
+			backgroundColor: "gray.50",
+		},
 	});
 
 	const gradientBarClasses = css({
@@ -82,10 +90,10 @@ const StatCard: React.FC<StatCardProps> = ({
 	// Combine dynamic colors with base styles
 	const dynamicStyle = dynamicColors
 		? {
-				backgroundColor: dynamicColors.backgroundColor,
-				borderColor: dynamicColors.borderColor,
-				boxShadow: dynamicColors.boxShadow,
-			}
+			backgroundColor: dynamicColors.backgroundColor,
+			borderColor: dynamicColors.borderColor,
+			boxShadow: dynamicColors.boxShadow,
+		}
 		: {};
 
 	return (

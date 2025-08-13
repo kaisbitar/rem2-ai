@@ -22,7 +22,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 
 	const tooltipClasses = css({
 		position: "absolute",
-		top: "-30",
+		top: "-35",
 		left: "50%",
 		transform: "translateX(-50%)",
 		backgroundColor: "gray.800",
