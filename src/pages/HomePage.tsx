@@ -4,6 +4,7 @@ import AppIcon from "@/icons/icon32.png";
 import type React from "react";
 import { useNavigate } from "react-router-dom";
 import { css } from "styled-system/css";
+import Header from "@/components/popup/Header";
 
 const HomePage: React.FC = () => {
 	const navigate = useNavigate();
@@ -76,19 +77,7 @@ const HomePage: React.FC = () => {
 
 	return (
 		<div className={containerClasses}>
-			<header className={headerClasses}>
-				<h1 className={titleClasses}>
-					<img src={AppIcon} alt="App icon" className={iconClasses} />
-					{i18n.t("appName")}
-				</h1>
-				<button
-					type={"button"}
-					onClick={() => navigate("/settings")}
-					className={settingsButtonClasses}
-				>
-					⚙️ {i18n.t("settings")}
-				</button>
-			</header>
+			<Header />
 
 			<main className={mainClasses}>
 				<StatsSection />
