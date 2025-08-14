@@ -5,7 +5,6 @@ import { css } from "styled-system/css";
 import Header from "@/components/popup/Header";
 import ForestRestoration from "@/components/popup/ForestRestoration";
 
-
 const HomePage: React.FC = () => {
 	const containerClasses = css({
 		background: "white",

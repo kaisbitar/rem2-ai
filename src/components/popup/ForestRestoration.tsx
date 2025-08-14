@@ -10,7 +10,7 @@ interface ForestRestorationProps {
 const ForestRestoration: React.FC<ForestRestorationProps> = ({
     value,
     unit = "m²",
-    className = ""
+    className = "",
 }) => {
     const containerClasses = css({
         backgroundColor: "white",
@@ -63,13 +63,15 @@ const ForestRestoration: React.FC<ForestRestorationProps> = ({
         height: "100%",
         borderRadius: "full",
         transition: "width 0.5s ease, background-color 0.3s ease",
-        ...(value > 0 ? {
-            backgroundColor: "green.main",
-            width: `${Math.min((value / 100) * 100, 100)}%`, // Scale to 100m² = 100%
-        } : {
-            backgroundColor: "#EF4444", // Red color for zero/negative
-            width: "100%",
-        }),
+        ...(value > 0
+            ? {
+                backgroundColor: "green.main",
+                width: `${Math.min((value / 100) * 100, 100)}%`, // Scale to 100m² = 100%
+            }
+            : {
+                backgroundColor: "#EF4444", // Red color for zero/negative
+                width: "100%",
+            }),
     });
 
     const valueClasses = css({
@@ -95,11 +97,7 @@ const ForestRestoration: React.FC<ForestRestorationProps> = ({
 
     // Plant icon SVG
     const PlantIcon = () => (
-        <svg
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className={plantIconClasses}
-        >
+        <svg viewBox="0 0 24 24" fill="currentColor" className={plantIconClasses}>
             <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 1H9L3 7V9H5V20C5 21.1 5.9 22 7 22H17C18.1 22 19 21.1 19 20V9H21ZM17 20H7V9H17V20Z" />
         </svg>
     );
@@ -107,11 +105,10 @@ const ForestRestoration: React.FC<ForestRestorationProps> = ({
     const getStatusMessage = () => {
         if (value > 0) {
             return `${value} ${unit} of forest restored!`;
-        } else if (value === 0) {
+        } if (value === 0) {
             return "No forest restoration yet";
-        } else {
-            return "Forest restoration needed";
         }
+        return "Forest restoration needed";
     };
 
     return (
@@ -123,17 +120,15 @@ const ForestRestoration: React.FC<ForestRestorationProps> = ({
 
             <div className={progressContainerClasses}>
                 <div className={progressBarClasses}>
-                    <div className={progressFillClasses}></div>
+                    <div className={progressFillClasses} />
                 </div>
                 <div className={valueClasses}>{value}</div>
                 <span className={unitClasses}>{unit}</span>
             </div>
 
-            <p className={statusMessageClasses}>
-                {getStatusMessage()}
-            </p>
+            <p className={statusMessageClasses}>{getStatusMessage()}</p>
         </div>
     );
 };
 
-export default ForestRestoration; 
+export default ForestRestoration;
