@@ -3,7 +3,7 @@ import StatsSection from "@/components/popup/StatsSection";
 import type React from "react";
 import { css } from "styled-system/css";
 import Header from "@/components/popup/Header";
-import ForestRestoration from "@/components/popup/ForestRestoration";
+import Balance from "@/components/popup/Balance";
 
 const HomePage: React.FC = () => {
 	const containerClasses = css({
@@ -32,7 +32,7 @@ const HomePage: React.FC = () => {
 			<Header />
 
 			<main className={mainClasses}>
-				<ForestRestoration value={10} />
+				<Balance consumed={1.2} restored={5} />
 				<StatsSection />
 				<ServicesSection />
 			</main>

@@ -19,12 +19,12 @@ const StatsSection: React.FC = () => {
 	);
 
 	const containerClasses = css({
-		backgroundColor: "gray.50",
-		borderRadius: "lg",
-		border: "1px solid",
-		borderColor: "gray.200",
-		padding: "4",
-		marginBottom: "6",
+		// backgroundColor: "gray.50",
+		// borderRadius: "lg",
+		// border: "1px solid",
+		// borderColor: "gray.200",
+		// padding: "4",
+		marginTop: "6",
 	});
 
 	const headerClasses = css({
@@ -40,8 +40,8 @@ const StatsSection: React.FC = () => {
 
 	const statsGridClasses = css({
 		display: "grid",
-		gridTemplateColumns: "repeat(2, 1fr)",
-		gap: "3",
+		gridTemplateColumns: "repeat(3, 1fr)",
+		gap: "1",
 		marginBottom: "4",
 	});
 

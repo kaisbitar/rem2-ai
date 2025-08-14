@@ -35,11 +35,11 @@ const ServicesSection: React.FC = () => {
 	return (
 		<div
 			className={css({
-				backgroundColor: "gray.50",
-				borderRadius: "lg",
-				border: "1px solid",
-				borderColor: "gray.200",
-				padding: "4",
+				// backgroundColor: "gray.50",
+				// borderRadius: "lg",
+				// border: "1px solid",
+				// borderColor: "gray.200",
+				// padding: "4",
 				marginBottom: "6",
 			})}
 		>

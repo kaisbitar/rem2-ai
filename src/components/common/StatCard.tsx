@@ -27,7 +27,8 @@ const StatCard: React.FC<StatCardProps> = ({
 	dynamicColors,
 }) => {
 	const containerClasses = css({
-		width: "9rem",
+		width: "7rem",
+		height: "4rem",
 		backgroundColor: "white",
 		padding: "4",
 		borderRadius: "lg",
@@ -41,7 +42,6 @@ const StatCard: React.FC<StatCardProps> = ({
 		alignItems: "flex-start",
 		justifyContent: "flex-start",
 		transition: "all 0.3s ease",
-		cursor: "pointer",
 		_hover: {
 			transform: "translateY(-2px)",
 			boxShadow: "0 8px 25px rgba(0, 0, 0, 0.15)",
@@ -72,7 +72,7 @@ const StatCard: React.FC<StatCardProps> = ({
 	});
 
 	const labelClasses = css({
-		fontSize: "xs",
+		fontSize: ".5rem",
 		fontWeight: "medium",
 		color: "gray.600",
 		textTransform: "uppercase",
@@ -90,10 +90,10 @@ const StatCard: React.FC<StatCardProps> = ({
 	// Combine dynamic colors with base styles
 	const dynamicStyle = dynamicColors
 		? {
-				backgroundColor: dynamicColors.backgroundColor,
-				borderColor: dynamicColors.borderColor,
-				boxShadow: dynamicColors.boxShadow,
-			}
+			backgroundColor: dynamicColors.backgroundColor,
+			borderColor: dynamicColors.borderColor,
+			boxShadow: dynamicColors.boxShadow,
+		}
 		: {};
 
 	return (
