@@ -12,7 +12,6 @@ import { css } from "styled-system/css";
 const StatsSection: React.FC = () => {
 	const { stats, viewMode } = useAppContext();
 
-
 	const containerClasses = css({
 		marginTop: "6",
 	});
@@ -34,8 +33,6 @@ const StatsSection: React.FC = () => {
 		gap: "1",
 		marginBottom: "4",
 	});
-
-
 
 	return (
 		<div className={containerClasses}>

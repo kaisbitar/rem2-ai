@@ -60,7 +60,7 @@ const HomePage: React.FC = () => {
 			<Header />
 			<main className={mainClasses}>
 				<Balance consumed={1.2} restored={5} />
-				<button onClick={toggleModelsBreakdown}>
+				<button type="button" onClick={toggleModelsBreakdown}>
 					{showStats ? "Show Services" : "Show Stats"}
 				</button>
 				<div className={contentContainerClasses}>
