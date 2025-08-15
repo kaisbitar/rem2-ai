@@ -2,7 +2,6 @@ import type React from "react";
 import { css } from "styled-system/css";
 import { useNavigate } from "react-router-dom";
 
-
 interface HeaderProps {
 	className?: string;
 }
@@ -43,13 +42,12 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 	// });
 
 	const settingsButtonClasses = css({
-
 		fontSize: "lg",
 	});
 
 	return (
 		<header className={`${headerContainerClasses} ${className || ""}`}>
-			<div className={'gradient-bar'} />
+			<div className={"gradient-bar"} />
 
 			<h1 className={titleClasses}>
 				RE<span className={superscriptClasses}>m2</span>.AI
@@ -63,7 +61,6 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 				⚙️
 				{/* {i18n.t("settings")} */}
 			</button>
-
 		</header>
 	);
 };

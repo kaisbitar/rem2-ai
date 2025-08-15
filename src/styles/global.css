@@ -5,55 +5,66 @@
 
 /* Header animations */
 @keyframes float {
-  0%, 100% { 
-    transform: translateY(0px) rotate(0deg); 
-    opacity: 0.1;
-  }
-  50% { 
-    transform: translateY(-20px) rotate(180deg); 
-    opacity: 0.15;
-  }
+	0%,
+	100% {
+		transform: translateY(0px) rotate(0deg);
+		opacity: 0.1;
+	}
+	50% {
+		transform: translateY(-20px) rotate(180deg);
+		opacity: 0.15;
+	}
 }
 
 @keyframes pulse {
-  0%, 100% { 
-    transform: scale(1); 
-    opacity: 0.08;
-  }
-  50% { 
-    transform: scale(1.1); 
-    opacity: 0.12;
-  }
+	0%,
+	100% {
+		transform: scale(1);
+		opacity: 0.08;
+	}
+	50% {
+		transform: scale(1.1);
+		opacity: 0.12;
+	}
 }
 
 /* Balance shimmer animations using pseudo-element */
 @keyframes shimmer {
-  0% { left: -100%; }
-  100% { left: 100%; }
+	0% {
+		left: -100%;
+	}
+	100% {
+		left: 100%;
+	}
 }
 
 .bar-shimmer {
-  position: relative;
+	position: relative;
 }
 
 .bar-shimmer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  animation: shimmer 2s infinite;
-  pointer-events: none;
+	content: "";
+	position: absolute;
+	top: 0;
+	left: -100%;
+	width: 100%;
+	height: 100%;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgba(255, 255, 255, 0.3),
+		transparent
+	);
+	animation: shimmer 2s infinite;
+	pointer-events: none;
 }
 
 /* Gradient bar animation */
 .gradient-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(to right, #bcb58e, #accf94);
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 2px;
+	background: linear-gradient(to right, #bcb58e, #accf94);
 }

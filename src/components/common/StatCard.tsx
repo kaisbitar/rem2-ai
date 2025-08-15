@@ -50,7 +50,6 @@ const StatCard: React.FC<StatCardProps> = ({
 		},
 	});
 
-
 	const contentClasses = css({
 		position: "relative",
 		zIndex: "1",
@@ -82,16 +81,16 @@ const StatCard: React.FC<StatCardProps> = ({
 	// Combine dynamic colors with base styles
 	const dynamicStyle = dynamicColors
 		? {
-			backgroundColor: dynamicColors.backgroundColor,
-			borderColor: dynamicColors.borderColor,
-			boxShadow: dynamicColors.boxShadow,
-		}
+				backgroundColor: dynamicColors.backgroundColor,
+				borderColor: dynamicColors.borderColor,
+				boxShadow: dynamicColors.boxShadow,
+			}
 		: {};
 
 	return (
 		<Tooltip content={tooltip || "No tooltip"}>
 			<div className={cx(containerClasses, className)} style={dynamicStyle}>
-				<div className={'gradient-bar'} />
+				<div className={"gradient-bar"} />
 				<div className={contentClasses}>
 					<div className={topRowClasses}>
 						<span className={labelClasses}>{label}</span>
