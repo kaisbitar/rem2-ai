@@ -9,6 +9,7 @@ export interface StatCardProps {
 	label?: string;
 	/** Custom CSS class (optional) */
 	tooltip?: string;
+	icon?: React.ReactNode;
 	className?: string;
 	/** Dynamic colors to apply (optional) */
 	dynamicColors?: {
@@ -23,24 +24,20 @@ const StatCard: React.FC<StatCardProps> = ({
 	value,
 	label,
 	tooltip,
+	icon,
 	className = "",
 	dynamicColors,
 }) => {
 	const containerClasses = css({
-		width: "5rem",
+		width: "7rem",
 		height: "4rem",
 		backgroundColor: "white",
 		padding: "8px 0px 0px 8px",
 		borderRadius: "lg",
-		boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+		// boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
 		border: "1px solid",
 		borderColor: "gray.200",
 		position: "relative",
-		// overflow: "hidden",
-		// display: "flex",
-		// flexDirection: "column",
-		// alignItems: "flex-start",
-		// justifyContent: "flex-start",
 		transition: "all 0.3s ease",
 		_hover: {
 			transform: "translateY(-2px)",
@@ -63,6 +60,7 @@ const StatCard: React.FC<StatCardProps> = ({
 	});
 
 	const labelClasses = css({
+		display: "flex",
 		fontSize: ".5rem",
 		fontWeight: "medium",
 		color: "gray.600",
@@ -78,13 +76,17 @@ const StatCard: React.FC<StatCardProps> = ({
 		marginLeft: "0.3",
 	});
 
+	const iconClasses = css({
+		marginRight: "1",
+	});
+
 	// Combine dynamic colors with base styles
 	const dynamicStyle = dynamicColors
 		? {
-				backgroundColor: dynamicColors.backgroundColor,
-				borderColor: dynamicColors.borderColor,
-				boxShadow: dynamicColors.boxShadow,
-			}
+			backgroundColor: dynamicColors.backgroundColor,
+			borderColor: dynamicColors.borderColor,
+			boxShadow: dynamicColors.boxShadow,
+		}
 		: {};
 
 	return (
@@ -93,7 +95,11 @@ const StatCard: React.FC<StatCardProps> = ({
 				<div className={"gradient-bar"} />
 				<div className={contentClasses}>
 					<div className={topRowClasses}>
-						<span className={labelClasses}>{label}</span>
+
+						<div className={labelClasses}>
+							<span className={iconClasses}>{icon}</span>
+							<span>{label}</span>
+						</div>
 						<div className={valueClasses}>{value}</div>
 					</div>
 				</div>

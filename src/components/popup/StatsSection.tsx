@@ -6,6 +6,15 @@ import {
 	formatCarbon,
 	formatWater,
 } from "@/utils/formatting/display";
+import {
+	Globe,
+	GlobeSimpleIcon,
+	CloudRain,
+	Clock,
+	Tree,
+	Leaf,
+	Butterfly
+} from "@phosphor-icons/react";
 import type React from "react";
 import { css } from "styled-system/css";
 
@@ -28,42 +37,81 @@ const StatsSection: React.FC = () => {
 	});
 
 	const statsGridClasses = css({
-		display: "grid",
+		display: "flex",
 		gridTemplateColumns: "repeat(4, 1fr)",
-		gap: "1",
+		gap: "5px",
 		marginBottom: "4",
 	});
 
+	const restorationGridClasses = css({
+		display: "flex",
+		gridTemplateColumns: "repeat(3, 1fr)",
+		gap: "5px",
+		marginBottom: "4",
+	});
+
+
+
 	return (
 		<div className={containerClasses}>
-			<h2 className={headerClasses}>
+			{/* <h2 className={headerClasses}>
 				{viewMode === "daily"
 					? i18n.t("todayConsumption")
 					: i18n.t("totalConsumption")}
-			</h2>
+			</h2> */}
 
+			<h6>AI Usage Equivalences</h6>
 			<div className={statsGridClasses}>
-				<StatCard value={stats.requests} label={`🌐 ${i18n.t("requests")}`} />
+				<StatCard value={stats.requests} label={`${i18n.t("requests")} `}
+					icon={<GlobeSimpleIcon size={12} />} />
+				<StatCard value={stats.requests * 325} label={`${i18n.t("tokens")}`}
+					icon={<CloudRain size={12} />} />
+			</div>
+
+			<h6>AI Usage Equivalences</h6>
+			<div className={statsGridClasses}>
 
 				<StatCard
 					value={formatCarbon(stats.carbon)}
-					label={`🌎 ${i18n.t("carbon")}`}
+					label={`${i18n.t("carbon")}`}
+					icon={<Globe size={12} />}
 				/>
 
 				<StatCard
 					value={formatWater(stats.water)}
-					label={`💧 ${i18n.t("water")}`}
+					label={`${i18n.t("water")}`}
+					icon={<CloudRain size={12} />}
 				/>
 
 				<StatCard
 					value={formatDuration(stats.totalDuration || 0)}
-					label={`⏳ ${i18n.t("totalDuration")}`}
+					label={`${i18n.t("totalDuration")}`}
+					icon={<Clock size={12} />}
 				/>
 			</div>
 
-			{/* <div className={impactMessageContainerClasses}>
-				<ImpactMessageCard messages={impactMessages} />
-			</div> */}
+			<h6>Restoration Equivalences</h6>
+			<div className={restorationGridClasses}>
+				<StatCard
+					value={0}
+					label="Trees planted"
+					icon={<Tree size={12} />}
+				/>
+
+				<StatCard
+					value={0 + 'm² rewetted'}
+					label="Peatland "
+					icon={<Leaf size={12} />}
+				/>
+
+				<StatCard
+					value={0}
+					label="Habitat m² restored"
+					icon={<Butterfly size={12} />}
+				/>
+			</div>
+
+
 		</div>
 	);
 };

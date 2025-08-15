@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 	});
 
 	const titleClasses = css({
-		fontSize: "xl",
+		fontSize: "3xl",
 		fontWeight: "light",
 		marginBottom: "2",
 		textShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",

@@ -33,7 +33,7 @@ const Balance: React.FC<BalanceProps> = ({
 		backgroundColor: "white",
 		padding: "4",
 		borderRadius: "lg",
-		boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+		// boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
 		border: "1px solid",
 		borderColor: "gray.200",
 		position: "relative",
@@ -46,9 +46,8 @@ const Balance: React.FC<BalanceProps> = ({
 		cursor: "pointer",
 		_hover: {
 			transform: "translateY(-2px)",
-			boxShadow: "0 8px 25px rgba(0, 0, 0, 0.15)",
+			boxShadow: "0 5px 5px rgba(0, 0, 0, 0.15)",
 			borderColor: "#A1CA2B",
-			backgroundColor: "gray.50",
 		},
 	});
 
@@ -118,7 +117,7 @@ const Balance: React.FC<BalanceProps> = ({
 	return (
 		<div className={`${containerClasses} ${className}`}>
 			<div className={"gradient-bar"} />
-			<h3 className={headerClasses}>Your m2 Balance</h3>
+			{/* <h3 className={headerClasses}>Your m2 Balance</h3> */}
 			<div className={chartContainerClasses}>
 				<div className={labelClasses}>
 					<span className={`${valueClasses} ${css({ color: "brown" })}`}>
