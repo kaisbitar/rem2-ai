@@ -52,7 +52,7 @@ const StatsSection: React.FC = () => {
 	return (
 		<div className={containerClasses}>
 			<h2 className={headerClasses}>
-				📊{" "}
+				{/* 📊{" "} */}
 				{viewMode === "daily"
 					? i18n.t("todayConsumption")
 					: i18n.t("totalConsumption")}

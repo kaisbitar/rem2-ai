@@ -115,9 +115,14 @@ const Balance: React.FC<BalanceProps> = ({
         fontWeight: "bold",
     });
 
+
+
+
     return (
         <div className={`${containerClasses} ${className}`}>
-            <h3 className={headerClasses}>Balance</h3>
+            <div className={'gradient-bar'} />
+
+            <h3 className={headerClasses}>Your m2 Balance</h3>
             <div className={chartContainerClasses}>
                 <div className={labelClasses}>
                     <span className={`${valueClasses} ${css({ color: "brown" })}`}>
@@ -135,6 +140,7 @@ const Balance: React.FC<BalanceProps> = ({
                     </span> m²
                 </div>
             </div>
+            Due to restore: 0.0Xm
         </div>
     );
 };

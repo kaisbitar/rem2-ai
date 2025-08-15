@@ -35,6 +35,7 @@ const HomePage: React.FC = () => {
 				<Balance consumed={1.2} restored={5} />
 				<StatsSection />
 				<ServicesSection />
+
 			</main>
 		</div>
 	);

@@ -55,7 +55,8 @@ const ServicesSection: React.FC = () => {
 					marginBottom: "3",
 				})}
 			>
-				🔗 {i18n.t("serviceBreakdown")}
+				{/* 🔗 */}
+				{i18n.t("serviceBreakdown")}
 			</h2>
 
 			<div

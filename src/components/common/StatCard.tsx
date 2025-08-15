@@ -50,14 +50,6 @@ const StatCard: React.FC<StatCardProps> = ({
 		},
 	});
 
-	const gradientBarClasses = css({
-		position: "absolute",
-		top: "0",
-		left: "0",
-		right: "0",
-		height: "2px",
-		background: "linear-gradient(to right, #A1CA2B,rgb(43, 173, 110))",
-	});
 
 	const contentClasses = css({
 		position: "relative",
@@ -99,7 +91,7 @@ const StatCard: React.FC<StatCardProps> = ({
 	return (
 		<Tooltip content={tooltip || "No tooltip"}>
 			<div className={cx(containerClasses, className)} style={dynamicStyle}>
-				<div className={gradientBarClasses} />
+				<div className={'gradient-bar'} />
 				<div className={contentClasses}>
 					<div className={topRowClasses}>
 						<span className={labelClasses}>{label}</span>
