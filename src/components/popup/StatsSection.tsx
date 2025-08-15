@@ -97,17 +97,9 @@ const StatsSection: React.FC = () => {
 			<div className={restorationGridClasses}>
 				<StatCard value={0} label="Trees planted" icon={<Tree size={12} />} />
 
-				<StatCard
-					value={0}
-					label="Peatland "
-					icon={<Leaf size={12} />}
-				/>
+				<StatCard value={0} label="Peatland " icon={<Leaf size={12} />} />
 
-				<StatCard
-					value={0}
-					label="Habitat"
-					icon={<Butterfly size={12} />}
-				/>
+				<StatCard value={0} label="Habitat" icon={<Butterfly size={12} />} />
 			</div>
 		</div>
 	);

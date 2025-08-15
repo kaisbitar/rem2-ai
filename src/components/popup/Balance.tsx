@@ -51,14 +51,6 @@ const Balance: React.FC<BalanceProps> = ({
 		},
 	});
 
-	const headerClasses = css({
-		fontSize: "lg",
-		fontWeight: "bold",
-		textAlign: "center",
-		marginBottom: "0",
-		gridRow: "1",
-	});
-
 	const chartContainerClasses = css({
 		display: "grid",
 		gridTemplateColumns: "auto 1fr auto",
