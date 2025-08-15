@@ -1,6 +1,5 @@
 import type React from "react";
 import { css } from "styled-system/css";
-import StatCard from "./StatCard";
 
 export interface ImpactMessageCardProps {
 	/** Array of impact messages to display */
@@ -19,7 +18,6 @@ export interface ImpactMessageCardProps {
 const ImpactMessageCard: React.FC<ImpactMessageCardProps> = ({
 	messages,
 	className = "",
-	dynamicColors,
 }) => {
 	const containerClasses = css({
 		backgroundColor: "white",
@@ -45,19 +43,16 @@ const ImpactMessageCard: React.FC<ImpactMessageCardProps> = ({
 	});
 
 	return (
-		<StatCard
-			className={`${containerClasses} ${className}`}
-			value={
-				<div className={contentClasses}>
-					{messages.map((message, index) => (
-						<span key={index} className={messageClasses}>
-							{message}
-						</span>
-					))}
-				</div>
-			}
-			dynamicColors={dynamicColors}
-		/>
+		<div className={`${containerClasses} ${className}`}>
+			<div className={"gradient-bar"} />
+			<div className={contentClasses}>
+				{messages.map((message, index) => (
+					<span key={index} className={messageClasses}>
+						{message}
+					</span>
+				))}
+			</div>
+		</div>
 	);
 };
 

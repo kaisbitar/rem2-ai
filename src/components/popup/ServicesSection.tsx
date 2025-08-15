@@ -33,32 +33,7 @@ const ServicesSection: React.FC = () => {
 	}
 
 	return (
-		<div
-			className={css({
-				// backgroundColor: "gray.50",
-				// borderRadius: "lg",
-				// border: "1px solid",
-				// borderColor: "gray.200",
-				// padding: "4",
-				marginBottom: "6",
-			})}
-		>
-			<h2
-				className={css({
-					fontSize: "lg",
-					fontFamily: "heading",
-					fontWeight: "semibold",
-					color: "gray.800",
-					display: "flex",
-					alignItems: "center",
-					gap: "2",
-					marginBottom: "3",
-				})}
-			>
-				{/* 🔗 */}
-				{i18n.t("serviceBreakdown")}
-			</h2>
-
+		<div>
 			<div
 				className={css({
 					display: "flex",
@@ -73,19 +48,7 @@ const ServicesSection: React.FC = () => {
 					);
 
 					return (
-						<div
-							key={serviceName}
-							className={css({
-								backgroundColor: "white",
-								borderRadius: "md",
-								border: "1px solid",
-								borderColor: "gray.200",
-								padding: "3",
-								display: "flex",
-								flexDirection: "column",
-								gap: "2",
-							})}
-						>
+						<div key={serviceName} className={css({})}>
 							<div
 								className={css({
 									display: "flex",
@@ -104,29 +67,14 @@ const ServicesSection: React.FC = () => {
 								>
 									{serviceName}
 								</h3>
-								<span
-									className={css({
-										fontSize: "xs",
-										fontFamily: "numeric",
-										color: "gray.600",
-										fontWeight: "medium",
-										backgroundColor: "gray.100",
-										border: "1px solid",
-										borderColor: "gray.200",
-										borderRadius: "md",
-										paddingX: "1.5",
-										paddingY: "0.5",
-									})}
-								>
-									{percentage.toFixed(1)}%
-								</span>
+								<span>{percentage.toFixed(1)}%</span>
 							</div>
 
 							<div
 								className={css({
 									display: "grid",
-									gridTemplateColumns: "repeat(2, 1fr)",
-									gap: "2",
+									gridTemplateColumns: "repeat(4,1fr)",
+									gap: "1",
 								})}
 							>
 								<StatCard

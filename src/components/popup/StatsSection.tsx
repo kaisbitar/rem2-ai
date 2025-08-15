@@ -1,7 +1,6 @@
 import StatCard from "@/components/common/StatCard";
-import ImpactMessageCard from "@/components/common/ImpactMessageCard";
 import { useAppContext } from "@/context/AppContext";
-import { CarbonCalculator } from "@/utils/calculations/carbon";
+// import { CarbonCalculator } from "@/utils/calculations/carbon";
 import {
 	formatDuration,
 	formatCarbon,
@@ -12,18 +11,9 @@ import { css } from "styled-system/css";
 
 const StatsSection: React.FC = () => {
 	const { stats, viewMode } = useAppContext();
-	const impactMessages = CarbonCalculator.getImpactMessages(
-		stats.carbon,
-		stats.water,
-		stats.requests,
-	);
+
 
 	const containerClasses = css({
-		// backgroundColor: "gray.50",
-		// borderRadius: "lg",
-		// border: "1px solid",
-		// borderColor: "gray.200",
-		// padding: "4",
 		marginTop: "6",
 	});
 
@@ -40,19 +30,16 @@ const StatsSection: React.FC = () => {
 
 	const statsGridClasses = css({
 		display: "grid",
-		gridTemplateColumns: "repeat(3, 1fr)",
+		gridTemplateColumns: "repeat(4, 1fr)",
 		gap: "1",
 		marginBottom: "4",
 	});
 
-	const impactMessageContainerClasses = css({
-		marginBottom: "4",
-	});
+
 
 	return (
 		<div className={containerClasses}>
 			<h2 className={headerClasses}>
-				{/* 📊{" "} */}
 				{viewMode === "daily"
 					? i18n.t("todayConsumption")
 					: i18n.t("totalConsumption")}
@@ -77,9 +64,9 @@ const StatsSection: React.FC = () => {
 				/>
 			</div>
 
-			<div className={impactMessageContainerClasses}>
+			{/* <div className={impactMessageContainerClasses}>
 				<ImpactMessageCard messages={impactMessages} />
-			</div>
+			</div> */}
 		</div>
 	);
 };
