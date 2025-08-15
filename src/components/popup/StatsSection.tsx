@@ -52,11 +52,11 @@ const StatsSection: React.FC = () => {
 
 	return (
 		<div className={containerClasses}>
-			{/* <h2 className={headerClasses}>
+			<h2 className={headerClasses}>
 				{viewMode === "daily"
 					? i18n.t("todayConsumption")
 					: i18n.t("totalConsumption")}
-			</h2> */}
+			</h2>
 
 			<h6>AI Usage Equivalences</h6>
 			<div className={statsGridClasses}>
