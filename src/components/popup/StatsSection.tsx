@@ -13,7 +13,7 @@ import {
 	Clock,
 	Tree,
 	Leaf,
-	Butterfly
+	Butterfly,
 } from "@phosphor-icons/react";
 import type React from "react";
 import { css } from "styled-system/css";
@@ -50,8 +50,6 @@ const StatsSection: React.FC = () => {
 		marginBottom: "4",
 	});
 
-
-
 	return (
 		<div className={containerClasses}>
 			{/* <h2 className={headerClasses}>
@@ -62,15 +60,20 @@ const StatsSection: React.FC = () => {
 
 			<h6>AI Usage Equivalences</h6>
 			<div className={statsGridClasses}>
-				<StatCard value={stats.requests} label={`${i18n.t("requests")} `}
-					icon={<GlobeSimpleIcon size={12} />} />
-				<StatCard value={stats.requests * 325} label={`${i18n.t("tokens")}`}
-					icon={<CloudRain size={12} />} />
+				<StatCard
+					value={stats.requests}
+					label={`${i18n.t("requests")} `}
+					icon={<GlobeSimpleIcon size={12} />}
+				/>
+				<StatCard
+					value={stats.requests * 325}
+					label={`${i18n.t("tokens")}`}
+					icon={<CloudRain size={12} />}
+				/>
 			</div>
 
 			<h6>AI Usage Equivalences</h6>
 			<div className={statsGridClasses}>
-
 				<StatCard
 					value={formatCarbon(stats.carbon)}
 					label={`${i18n.t("carbon")}`}
@@ -92,26 +95,20 @@ const StatsSection: React.FC = () => {
 
 			<h6>Restoration Equivalences</h6>
 			<div className={restorationGridClasses}>
-				<StatCard
-					value={0}
-					label="Trees planted"
-					icon={<Tree size={12} />}
-				/>
+				<StatCard value={0} label="Trees planted" icon={<Tree size={12} />} />
 
 				<StatCard
-					value={0 + 'm² rewetted'}
+					value={0}
 					label="Peatland "
 					icon={<Leaf size={12} />}
 				/>
 
 				<StatCard
 					value={0}
-					label="Habitat m² restored"
+					label="Habitat"
 					icon={<Butterfly size={12} />}
 				/>
 			</div>
-
-
 		</div>
 	);
 };

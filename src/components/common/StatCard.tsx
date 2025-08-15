@@ -83,10 +83,10 @@ const StatCard: React.FC<StatCardProps> = ({
 	// Combine dynamic colors with base styles
 	const dynamicStyle = dynamicColors
 		? {
-			backgroundColor: dynamicColors.backgroundColor,
-			borderColor: dynamicColors.borderColor,
-			boxShadow: dynamicColors.boxShadow,
-		}
+				backgroundColor: dynamicColors.backgroundColor,
+				borderColor: dynamicColors.borderColor,
+				boxShadow: dynamicColors.boxShadow,
+			}
 		: {};
 
 	return (
@@ -95,7 +95,6 @@ const StatCard: React.FC<StatCardProps> = ({
 				<div className={"gradient-bar"} />
 				<div className={contentClasses}>
 					<div className={topRowClasses}>
-
 						<div className={labelClasses}>
 							<span className={iconClasses}>{icon}</span>
 							<span>{label}</span>

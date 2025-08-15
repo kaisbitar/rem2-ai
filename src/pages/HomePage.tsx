@@ -20,7 +20,6 @@ const HomePage: React.FC = () => {
 		minHeight: "500px",
 		display: "flex",
 		flexDirection: "column",
-
 	});
 
 	const mainClasses = css({
@@ -67,9 +66,13 @@ const HomePage: React.FC = () => {
 				<h3 className={balanceHeaderClasses}>Your m2 Balance</h3>
 
 				<Balance consumed={1.2} restored={5} />
-				{/* <button type="button" onClick={toggleModelsBreakdown}>
+				<button
+					type="button"
+					onClick={toggleModelsBreakdown}
+					style={{ display: "none" }}
+				>
 					{showStats ? "Show Services" : "Show Stats"}
-				</button> */}
+				</button>
 				<div className={contentContainerClasses}>
 					<div className={statsClasses}>
 						<StatsSection />

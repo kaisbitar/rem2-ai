@@ -5,7 +5,7 @@ import {
 	GlobeSimpleIcon,
 	Globe,
 	CloudRain,
-	Clock
+	Clock,
 } from "@phosphor-icons/react";
 import type React from "react";
 import { css } from "styled-system/css";
@@ -60,9 +60,7 @@ const ServicesSection: React.FC = () => {
 
 	if (services.length === 0) {
 		return (
-			<div className={emptyStateClasses}>
-				{i18n.t("visitToStartTracking")}
-			</div>
+			<div className={emptyStateClasses}>{i18n.t("visitToStartTracking")}</div>
 		);
 	}
 
@@ -77,9 +75,7 @@ const ServicesSection: React.FC = () => {
 				return (
 					<div key={serviceName}>
 						<div className={serviceHeaderClasses}>
-							<h3 className={serviceTitleClasses}>
-								{serviceName}
-							</h3>
+							<h3 className={serviceTitleClasses}>{serviceName}</h3>
 							<span>{percentage.toFixed(1)}%</span>
 						</div>
 
