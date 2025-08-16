@@ -59,11 +59,7 @@ const StatsSection: React.FC = () => {
 					label={`${i18n.t("tokens")}`}
 					icon={<CloudRain size={19} />}
 				/>
-				<StatCard
-					value={'XXX'}
-					label={`m2`}
-					icon={<Plant size={19} />}
-				/>
+				<StatCard value={"XXX"} label={"m2"} icon={<Plant size={19} />} />
 			</div>
 
 			<h6>AI Usage Equivalences</h6>
@@ -89,11 +85,26 @@ const StatsSection: React.FC = () => {
 
 			<h6>Restoration Equivalences</h6>
 			<div className={statsGridClasses}>
-				<StatCard value={0} label="Trees" unit="planted" icon={<Tree size={19} />} />
+				<StatCard
+					value={0}
+					label="Trees"
+					unit="planted"
+					icon={<Tree size={19} />}
+				/>
 
-				<StatCard value={0} label="Peatland " unit="m² rewetted" icon={<Leaf size={19} />} />
+				<StatCard
+					value={0}
+					label="Peatland "
+					unit="m² rewetted"
+					icon={<Leaf size={19} />}
+				/>
 
-				<StatCard value={0} label="Habitat" unit="m² restored" icon={<Butterfly size={19} />} />
+				<StatCard
+					value={0}
+					label="Habitat"
+					unit="m² restored"
+					icon={<Butterfly size={19} />}
+				/>
 			</div>
 		</div>
 	);

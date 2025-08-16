@@ -35,7 +35,6 @@ const Balance: React.FC<BalanceProps> = ({
 		backgroundColor: "white",
 		padding: "4",
 		borderRadius: "lg",
-		// boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
 		border: "1px solid",
 		borderColor: "gray.200",
 		position: "relative",
@@ -45,12 +44,6 @@ const Balance: React.FC<BalanceProps> = ({
 		alignItems: "flex-start",
 		justifyContent: "flex-start",
 		transition: "all 0.3s ease",
-		cursor: "pointer",
-		// _hover: {
-		// 	transform: "translateY(-2px)",
-		// 	boxShadow: "0 5px 5px rgba(0, 0, 0, 0.15)",
-		// 	borderColor: "#A1CA2B",
-		// },
 	});
 
 	const chartContainerClasses = css({
@@ -111,7 +104,6 @@ const Balance: React.FC<BalanceProps> = ({
 	return (
 		<div className={`${containerClasses} ${className}`}>
 			<div className={"gradient-bar"} />
-			{/* <h3 className={headerClasses}>Your m2 Balance</h3> */}
 			<div className={chartContainerClasses}>
 				<div className={labelClasses}>
 					<span className={`${valueClasses} ${css({ color: "brown" })}`}>
@@ -120,12 +112,10 @@ const Balance: React.FC<BalanceProps> = ({
 					m²
 				</div>
 				<div className={chartWrapperClasses}>
-					<div className="bar-shimmer" />
 					<div
 						className={consumedBarClasses}
 						style={{ width: `${animatedWidths.consumed}%` }}
 					/>
-					<div className="bar-shimmer" />
 					<div
 						className={restoredBarClasses}
 						style={{ width: `${animatedWidths.restored}%` }}
@@ -140,9 +130,8 @@ const Balance: React.FC<BalanceProps> = ({
 			</div>
 			Due to restore: 0.0Xm
 			<CallToActionButton
-				variant="donor"
 				text="Restore m2"
-				className='btn-theme-green'
+				className="btn-theme-green"
 				icon={<Plant size={19} />}
 				onClick={() => { }}
 			/>

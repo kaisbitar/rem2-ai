@@ -60,7 +60,6 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 				<User size={16} />
 				<Gear size={16} />
 			</button>
-
 		</header>
 	);
 };

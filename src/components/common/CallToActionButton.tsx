@@ -2,7 +2,6 @@ import type React from "react";
 import { css, cx } from "styled-system/css";
 
 export interface CallToActionButtonProps {
-    variant: string;
     text: string;
     icon: React.ReactNode;
     className?: string;
@@ -11,7 +10,6 @@ export interface CallToActionButtonProps {
 }
 
 const CallToActionButton: React.FC<CallToActionButtonProps> = ({
-    variant,
     text,
     icon,
     className = "",
@@ -23,20 +21,18 @@ const CallToActionButton: React.FC<CallToActionButtonProps> = ({
         alignItems: "center",
         justifyContent: "center",
         gap: "3",
-        // width: "100%",
         padding: "4",
         paddingY: "3",
         borderRadius: "lg",
         border: "1px solid",
-        // fontSize: "10px",
-        // fontWeight: "semibold",
         transition: "all 0.3s ease",
         cursor: "pointer",
-        // opacity: disabled ? 0.6 : 1,
-        _hover: disabled ? {} : {
-            transform: "translateZ(-2px)",
-            boxShadow: "0 5px 5px rgba(0, 0, 0, 0.15)",
-        },
+        _hover: disabled
+            ? {}
+            : {
+                transform: "translateY(-1px)",
+                boxShadow: "0 5px 5px rgba(0, 0, 0, 0.15)",
+            },
     });
 
     const iconClasses = css({
@@ -61,4 +57,4 @@ const CallToActionButton: React.FC<CallToActionButtonProps> = ({
     );
 };
 
-export default CallToActionButton; 
+export default CallToActionButton;

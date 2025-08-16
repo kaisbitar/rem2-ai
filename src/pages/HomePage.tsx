@@ -20,7 +20,6 @@ const HomePage: React.FC = () => {
 		display: "flex",
 		flexDirection: "column",
 		color: "gray.700",
-
 	});
 
 	const mainClasses = css({
@@ -69,12 +68,12 @@ const HomePage: React.FC = () => {
 				<h3 className={balanceHeaderClasses}>Your m2 Balance</h3>
 
 				<Balance consumed={1.2} restored={7.2} />
-				{/* <button
+				<button
 					type="button"
 					onClick={toggleModelsBreakdown}
 				>
 					{showStats ? "Show Services" : "Show Stats"}
-				</button> */}
+				</button>
 
 				<div className={contentContainerClasses}>
 					<div className={statsClasses}>

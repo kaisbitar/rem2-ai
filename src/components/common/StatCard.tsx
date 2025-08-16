@@ -99,10 +99,10 @@ const StatCard: React.FC<StatCardProps> = ({
 	// Combine dynamic colors with base styles
 	const dynamicStyle = dynamicColors
 		? {
-			backgroundColor: dynamicColors.backgroundColor,
-			borderColor: dynamicColors.borderColor,
-			boxShadow: dynamicColors.boxShadow,
-		}
+				backgroundColor: dynamicColors.backgroundColor,
+				borderColor: dynamicColors.borderColor,
+				boxShadow: dynamicColors.boxShadow,
+			}
 		: {};
 
 	return (
@@ -115,11 +115,8 @@ const StatCard: React.FC<StatCardProps> = ({
 							<span className={iconClasses}>{icon}</span>
 							<span>{label}</span>
 						</div>
-						<div className={valueClasses}>
-							{value}
-						</div>
+						<div className={valueClasses}>{value}</div>
 						<div className={unitClasses}>{unit}</div>
-
 					</div>
 				</div>
 			</div>
