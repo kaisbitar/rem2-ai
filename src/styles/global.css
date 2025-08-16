@@ -68,3 +68,41 @@
 	height: 2px;
 	background: linear-gradient(to right, #bcb58e, #accf94);
 }
+
+/* CallToActionButton theme classes */
+.btn-theme-green {
+	background-color: #e6f0ca ;
+	border-color: #8BB023 ;
+	color: #374151 ;
+}
+
+.btn-theme-green:hover {
+	background-color: #8BB023 ;
+	border-color: #7A9A1F ;
+	color: white ;
+}
+
+.btn-theme-magenta {
+	background-color: #c2185ba3 ;
+	border-color: #C2185B ;
+	color: #374151 ;
+}
+
+.btn-theme-magenta:hover {
+	background-color: #E91E63 ;
+	border-color: #AD1457 ;
+	color: white ;
+
+}
+
+.btn-theme-brown {
+	background-color: #8D6E63 ;
+	border-color: #6D4C41 ;
+	color: #374151 ;	
+}
+
+.btn-theme-brown:hover {
+	background-color: #6D4C41 ;
+	border-color: #5D4037 ;
+	color: white ;
+}

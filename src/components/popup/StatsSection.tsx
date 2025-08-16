@@ -14,6 +14,7 @@ import {
 	Tree,
 	Leaf,
 	Butterfly,
+	Plant,
 } from "@phosphor-icons/react";
 import type React from "react";
 import { css } from "styled-system/css";
@@ -22,18 +23,12 @@ const StatsSection: React.FC = () => {
 	const { stats, viewMode } = useAppContext();
 
 	const containerClasses = css({
-		marginTop: "6",
+		// marginTop: "6",
 	});
 
 	const headerClasses = css({
 		fontSize: "lg",
-		fontFamily: "heading",
 		fontWeight: "semibold",
-		color: "gray.800",
-		display: "flex",
-		alignItems: "center",
-		gap: "2",
-		marginBottom: "3",
 	});
 
 	const statsGridClasses = css({
@@ -41,13 +36,7 @@ const StatsSection: React.FC = () => {
 		gridTemplateColumns: "repeat(4, 1fr)",
 		gap: "5px",
 		marginBottom: "4",
-	});
-
-	const restorationGridClasses = css({
-		display: "flex",
-		gridTemplateColumns: "repeat(3, 1fr)",
-		gap: "5px",
-		marginBottom: "4",
+		marginTop: "1",
 	});
 
 	return (
@@ -63,12 +52,17 @@ const StatsSection: React.FC = () => {
 				<StatCard
 					value={stats.requests}
 					label={`${i18n.t("requests")} `}
-					icon={<GlobeSimpleIcon size={12} />}
+					icon={<GlobeSimpleIcon size={19} />}
 				/>
 				<StatCard
 					value={stats.requests * 325}
 					label={`${i18n.t("tokens")}`}
-					icon={<CloudRain size={12} />}
+					icon={<CloudRain size={19} />}
+				/>
+				<StatCard
+					value={'XXX'}
+					label={`m2`}
+					icon={<Plant size={19} />}
 				/>
 			</div>
 
@@ -77,29 +71,29 @@ const StatsSection: React.FC = () => {
 				<StatCard
 					value={formatCarbon(stats.carbon)}
 					label={`${i18n.t("carbon")}`}
-					icon={<Globe size={12} />}
+					icon={<Globe size={19} />}
 				/>
 
 				<StatCard
 					value={formatWater(stats.water)}
 					label={`${i18n.t("water")}`}
-					icon={<CloudRain size={12} />}
+					icon={<CloudRain size={19} />}
 				/>
 
 				<StatCard
 					value={formatDuration(stats.totalDuration || 0)}
 					label={`${i18n.t("totalDuration")}`}
-					icon={<Clock size={12} />}
+					icon={<Clock size={19} />}
 				/>
 			</div>
 
 			<h6>Restoration Equivalences</h6>
-			<div className={restorationGridClasses}>
-				<StatCard value={0} label="Trees planted" icon={<Tree size={12} />} />
+			<div className={statsGridClasses}>
+				<StatCard value={0} label="Trees" unit="planted" icon={<Tree size={19} />} />
 
-				<StatCard value={0} label="Peatland " icon={<Leaf size={12} />} />
+				<StatCard value={0} label="Peatland " unit="m² rewetted" icon={<Leaf size={19} />} />
 
-				<StatCard value={0} label="Habitat" icon={<Butterfly size={12} />} />
+				<StatCard value={0} label="Habitat" unit="m² restored" icon={<Butterfly size={19} />} />
 			</div>
 		</div>
 	);

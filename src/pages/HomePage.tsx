@@ -15,11 +15,12 @@ const HomePage: React.FC = () => {
 		margin: "0",
 		boxShadow: "none",
 		width: "100%",
-		height: "100%",
 		minWidth: "400px",
-		minHeight: "500px",
+		height: "600px",
 		display: "flex",
 		flexDirection: "column",
+		color: "gray.700",
+
 	});
 
 	const mainClasses = css({
@@ -36,6 +37,7 @@ const HomePage: React.FC = () => {
 	const contentContainerClasses = css({
 		position: "relative",
 		overflow: "scroll",
+		height: "350px",
 	});
 
 	const statsClasses = css({
@@ -52,6 +54,7 @@ const HomePage: React.FC = () => {
 		transition: "transform 0.3s ease",
 		transform: showStats ? "translateY(100%)" : "translateY(0)",
 		opacity: showStats ? 0 : 1,
+		display: showStats ? "none" : "block",
 	});
 
 	const balanceHeaderClasses = css({
@@ -65,14 +68,14 @@ const HomePage: React.FC = () => {
 			<main className={mainClasses}>
 				<h3 className={balanceHeaderClasses}>Your m2 Balance</h3>
 
-				<Balance consumed={1.2} restored={5} />
-				<button
+				<Balance consumed={1.2} restored={7.2} />
+				{/* <button
 					type="button"
 					onClick={toggleModelsBreakdown}
-					style={{ display: "none" }}
 				>
 					{showStats ? "Show Services" : "Show Stats"}
-				</button>
+				</button> */}
+
 				<div className={contentContainerClasses}>
 					<div className={statsClasses}>
 						<StatsSection />

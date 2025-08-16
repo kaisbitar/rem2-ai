@@ -1,6 +1,7 @@
 import type React from "react";
 import { css } from "styled-system/css";
 import { useNavigate } from "react-router-dom";
+import { Gear, User } from "@phosphor-icons/react";
 
 interface HeaderProps {
 	className?: string;
@@ -13,7 +14,6 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 		padding: "10px 25px 6px 25px",
 		borderBottom: "1px solid #e5e7eb",
 		borderColor: "gray.200",
-		boxShadow: "1px 1px 7px 0px #00000017",
 		display: "flex",
 		justifyContent: "space-between",
 		alignItems: "center",
@@ -22,10 +22,8 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 	const titleClasses = css({
 		fontSize: "3xl",
 		fontWeight: "light",
-		marginBottom: "2",
-		textShadow: "0 2px 8px rgba(0, 0, 0, 0.2)",
+		// marginBottom: "2",
 		letterSpacing: "tight",
-		color: "gray.700",
 	});
 
 	const superscriptClasses = css({
@@ -34,15 +32,16 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 		fontWeight: "bold",
 	});
 
-	// const taglineClasses = css({
-	// 	fontSize: "sm",
-	// 	opacity: "0.95",
-	// 	fontWeight: "light",
-	// 	textShadow: "0 1px 4px rgba(0, 0, 0, 0.15)",
-	// });
+	const taglineClasses = css({
+		fontSize: "sm",
+		opacity: "0.95",
+		fontWeight: "light",
+	});
 
 	const settingsButtonClasses = css({
 		fontSize: "lg",
+		display: "flex",
+		gap: "4",
 	});
 
 	return (
@@ -51,16 +50,17 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 
 			<h1 className={titleClasses}>
 				RE<span className={superscriptClasses}>m2</span>.AI
-				{/* <p className={taglineClasses}>Track & Restore AI Impact</p> */}
+				<p className={taglineClasses}>Track & Restore AI Impact</p>
 			</h1>
 			<button
 				type={"button"}
 				className={settingsButtonClasses}
 				onClick={() => navigate("/settings")}
 			>
-				⚙️
-				{/* {i18n.t("settings")} */}
+				<User size={16} />
+				<Gear size={16} />
 			</button>
+
 		</header>
 	);
 };

@@ -5,7 +5,7 @@ import {
 	GlobeSimpleIcon,
 	Globe,
 	CloudRain,
-	Clock,
+	Clock
 } from "@phosphor-icons/react";
 import type React from "react";
 import { css } from "styled-system/css";
@@ -60,12 +60,21 @@ const ServicesSection: React.FC = () => {
 
 	if (services.length === 0) {
 		return (
-			<div className={emptyStateClasses}>{i18n.t("visitToStartTracking")}</div>
+			<div className={emptyStateClasses}>
+				{i18n.t("visitToStartTracking")}
+			</div>
 		);
 	}
 
+	const headerClasses = css({
+		fontSize: "lg",
+		fontWeight: "semibold",
+	});
+
 	return (
 		<div className={containerClasses}>
+			<h2 className={headerClasses}>AI Models Breakdown
+			</h2>
 			{services.map(([serviceName, serviceStats]) => {
 				const percentage = calculatePercentage(
 					serviceStats.requests,
@@ -75,7 +84,9 @@ const ServicesSection: React.FC = () => {
 				return (
 					<div key={serviceName}>
 						<div className={serviceHeaderClasses}>
-							<h3 className={serviceTitleClasses}>{serviceName}</h3>
+							<h3 className={serviceTitleClasses}>
+								{serviceName}
+							</h3>
 							<span>{percentage.toFixed(1)}%</span>
 						</div>
 
@@ -85,12 +96,12 @@ const ServicesSection: React.FC = () => {
 							<StatCard
 								value={serviceStats.requests}
 								label={`${i18n.t("requests")}`}
-								icon={<GlobeSimpleIcon size={12} />}
+								icon={<GlobeSimpleIcon size={19} />}
 							/>
 							<StatCard
 								value={serviceStats.requests * 325}
 								label={`${i18n.t("tokens")}`}
-								icon={<CloudRain size={12} />}
+								icon={<CloudRain size={19} />}
 							/>
 						</div>
 
@@ -99,18 +110,18 @@ const ServicesSection: React.FC = () => {
 							<StatCard
 								value={formatCarbon(serviceStats.carbon)}
 								label={`${i18n.t("carbon")}`}
-								icon={<Globe size={12} />}
+								icon={<Globe size={19} />}
 							/>
 							<StatCard
 								value={formatWater(serviceStats.water)}
 								label={`${i18n.t("water")}`}
-								icon={<CloudRain size={12} />}
+								icon={<CloudRain size={19} />}
 							/>
 
 							<StatCard
 								value={`${(serviceStats.totalDuration / 1000).toFixed(1)}s`}
 								label={`${i18n.t("duration")}`}
-								icon={<Clock size={12} />}
+								icon={<Clock size={19} />}
 							/>
 						</div>
 					</div>

@@ -10,6 +10,7 @@ export interface StatCardProps {
 	/** Custom CSS class (optional) */
 	tooltip?: string;
 	icon?: React.ReactNode;
+	unit?: string;
 	className?: string;
 	/** Dynamic colors to apply (optional) */
 	dynamicColors?: {
@@ -25,14 +26,16 @@ const StatCard: React.FC<StatCardProps> = ({
 	label,
 	tooltip,
 	icon,
+	unit,
 	className = "",
 	dynamicColors,
 }) => {
 	const containerClasses = css({
-		width: "7rem",
-		height: "4rem",
+		width: "100px",
+		// height: "65px",
 		backgroundColor: "white",
-		padding: "8px 0px 0px 8px",
+		padding: "10px",
+		paddingBottom: "15px",
 		borderRadius: "lg",
 		// boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
 		border: "1px solid",
@@ -56,7 +59,7 @@ const StatCard: React.FC<StatCardProps> = ({
 	const topRowClasses = css({
 		alignItems: "center",
 		gap: "3",
-		marginBottom: "2",
+		// marginBottom: "2",
 	});
 
 	const labelClasses = css({
@@ -66,6 +69,9 @@ const StatCard: React.FC<StatCardProps> = ({
 		color: "gray.600",
 		textTransform: "uppercase",
 		letterSpacing: "wide",
+		marginBottom: "1",
+		textAlign: "center",
+		justifyContent: "center",
 	});
 
 	const valueClasses = css({
@@ -73,20 +79,30 @@ const StatCard: React.FC<StatCardProps> = ({
 		fontWeight: "bold",
 		color: "gray.800",
 		lineHeight: "1",
-		marginLeft: "0.3",
+		textAlign: "center",
+		justifyContent: "center",
+	});
+
+	const unitClasses = css({
+		fontSize: "10px",
+		color: "red.400",
+		marginLeft: "1",
+		textAlign: "center",
+		justifyContent: "center",
 	});
 
 	const iconClasses = css({
 		marginRight: "1",
+		marginTop: "-3px",
 	});
 
 	// Combine dynamic colors with base styles
 	const dynamicStyle = dynamicColors
 		? {
-				backgroundColor: dynamicColors.backgroundColor,
-				borderColor: dynamicColors.borderColor,
-				boxShadow: dynamicColors.boxShadow,
-			}
+			backgroundColor: dynamicColors.backgroundColor,
+			borderColor: dynamicColors.borderColor,
+			boxShadow: dynamicColors.boxShadow,
+		}
 		: {};
 
 	return (
@@ -99,7 +115,11 @@ const StatCard: React.FC<StatCardProps> = ({
 							<span className={iconClasses}>{icon}</span>
 							<span>{label}</span>
 						</div>
-						<div className={valueClasses}>{value}</div>
+						<div className={valueClasses}>
+							{value}
+						</div>
+						<div className={unitClasses}>{unit}</div>
+
 					</div>
 				</div>
 			</div>

@@ -1,6 +1,8 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 import { css } from "styled-system/css";
+import CallToActionButton from "../common/CallToActionButton";
+import { Plant } from "@phosphor-icons/react";
 
 interface BalanceProps {
 	consumed: number;
@@ -44,11 +46,11 @@ const Balance: React.FC<BalanceProps> = ({
 		justifyContent: "flex-start",
 		transition: "all 0.3s ease",
 		cursor: "pointer",
-		_hover: {
-			transform: "translateY(-2px)",
-			boxShadow: "0 5px 5px rgba(0, 0, 0, 0.15)",
-			borderColor: "#A1CA2B",
-		},
+		// _hover: {
+		// 	transform: "translateY(-2px)",
+		// 	boxShadow: "0 5px 5px rgba(0, 0, 0, 0.15)",
+		// 	borderColor: "#A1CA2B",
+		// },
 	});
 
 	const chartContainerClasses = css({
@@ -137,6 +139,13 @@ const Balance: React.FC<BalanceProps> = ({
 				</div>
 			</div>
 			Due to restore: 0.0Xm
+			<CallToActionButton
+				variant="donor"
+				text="Restore m2"
+				className='btn-theme-green'
+				icon={<Plant size={19} />}
+				onClick={() => { }}
+			/>
 		</div>
 	);
 };
