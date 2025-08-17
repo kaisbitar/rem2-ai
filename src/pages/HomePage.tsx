@@ -30,9 +30,9 @@ const HomePage: React.FC = () => {
 		minHeight: 0,
 	});
 
-	const toggleModelsBreakdown = () => {
-		setShowStats(!showStats);
-	};
+	// const toggleModelsBreakdown = () => {
+	// 	setShowStats(!showStats);
+	// };
 
 	const contentContainerClasses = css({
 		position: "relative",
