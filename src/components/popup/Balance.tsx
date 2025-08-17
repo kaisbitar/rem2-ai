@@ -139,15 +139,14 @@ const Balance: React.FC<BalanceProps> = ({
 					text="Details"
 					className="btn-theme-magenta"
 					icon={<ChartLineUp size={19} />}
-					onClick={() => { }}
+					onClick={() => {}}
 				/>
 				<CallToActionButton
 					text="Restore m2"
 					className="btn-theme-green"
 					icon={<Plant size={19} />}
-					onClick={() => { }}
+					onClick={() => {}}
 				/>
-
 			</div>
 		</div>
 	);

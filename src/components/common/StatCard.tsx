@@ -99,10 +99,10 @@ const StatCard: React.FC<StatCardProps> = ({
 	// Combine dynamic colors with base styles
 	const dynamicStyle = dynamicColors
 		? {
-			backgroundColor: dynamicColors.backgroundColor,
-			borderColor: dynamicColors.borderColor,
-			boxShadow: dynamicColors.boxShadow,
-		}
+				backgroundColor: dynamicColors.backgroundColor,
+				borderColor: dynamicColors.borderColor,
+				boxShadow: dynamicColors.boxShadow,
+			}
 		: {};
 
 	return (

@@ -63,23 +63,25 @@ const HomePage: React.FC = () => {
 		fontWeight: "bold",
 		marginBottom: "5px",
 	});
-	const showServicesClasses = css({
-		marginLeft: "auto",
-		width: "100px",
-		textAlign: "center",
-		backgroundColor: "brown",
-		borderRadius: "sm",
-		padding: "2",
-		color: "white",
-		fontWeight: "bold",
-		fontSize: "sm",
-		cursor: "pointer",
-	});
+	// const showServicesClasses = css({
+	// 	marginLeft: "auto",
+	// 	width: "100px",
+	// 	textAlign: "center",
+	// 	backgroundColor: "brown",
+	// 	borderRadius: "sm",
+	// 	padding: "2",
+	// 	color: "white",
+	// 	fontWeight: "bold",
+	// 	fontSize: "sm",
+	// 	cursor: "pointer",
+	// });
 	return (
 		<div className={containerClasses}>
 			<Header />
 			<main className={mainClasses}>
-				<h3 className={balanceHeaderClasses}>Your <Plant style={{ margin: "0px 2px" }} /> m2 Balance</h3>
+				<h3 className={balanceHeaderClasses}>
+					Your <Plant style={{ margin: "0px 2px" }} /> m2 Balance
+				</h3>
 
 				<Balance consumed={1.2} restored={7.2} />
 				{/* <div className={showServicesClasses}><button type="button" onClick={toggleModelsBreakdown}>
