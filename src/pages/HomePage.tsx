@@ -30,9 +30,9 @@ const HomePage: React.FC = () => {
 		minHeight: 0,
 	});
 
-	// const toggleModelsBreakdown = () => {
-	// 	setShowStats(!showStats);
-	// };
+	const toggleModelsBreakdown = () => {
+		setShowStats(!showStats);
+	};
 
 	const contentContainerClasses = css({
 		position: "relative",
@@ -63,18 +63,18 @@ const HomePage: React.FC = () => {
 		fontWeight: "bold",
 		marginBottom: "5px",
 	});
-	// const showServicesClasses = css({
-	// 	marginLeft: "auto",
-	// 	width: "100px",
-	// 	textAlign: "center",
-	// 	backgroundColor: "brown",
-	// 	borderRadius: "sm",
-	// 	padding: "2",
-	// 	color: "white",
-	// 	fontWeight: "bold",
-	// 	fontSize: "sm",
-	// 	cursor: "pointer",
-	// });
+	const showServicesClasses = css({
+		marginLeft: "auto",
+		width: "100px",
+		textAlign: "center",
+		backgroundColor: "brown",
+		borderRadius: "sm",
+		padding: "2",
+		color: "white",
+		fontWeight: "bold",
+		fontSize: "sm",
+		cursor: "pointer",
+	});
 	return (
 		<div className={containerClasses}>
 			<Header />
@@ -84,10 +84,10 @@ const HomePage: React.FC = () => {
 				</h3>
 
 				<Balance consumed={1.2} restored={7.2} />
-				{/* <div className={showServicesClasses}><button type="button" onClick={toggleModelsBreakdown}>
+				<div className={showServicesClasses}><button type="button" onClick={toggleModelsBreakdown}>
 					{showStats ? "Details" : "Total"}
 				</button>
-				</div> */}
+				</div>
 				<div className={contentContainerClasses}>
 					<div className={statsClasses}>
 						<StatsSection />
