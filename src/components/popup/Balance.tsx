@@ -2,7 +2,7 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import { css } from "styled-system/css";
 import CallToActionButton from "../common/CallToActionButton";
-import { Plant } from "@phosphor-icons/react";
+import { ChartLineUp, Plant } from "@phosphor-icons/react";
 
 interface BalanceProps {
 	consumed: number;
@@ -52,6 +52,7 @@ const Balance: React.FC<BalanceProps> = ({
 		alignItems: "center",
 		gap: "3",
 		gridRow: "2",
+		marginBottom: "5px",
 	});
 
 	const labelClasses = css({
@@ -79,7 +80,7 @@ const Balance: React.FC<BalanceProps> = ({
 		position: "absolute",
 		left: "50%",
 		height: "100%",
-		backgroundColor: "#85693f70",
+		backgroundColor: "#c2175b7a",
 		transform: "translateX(-100%)",
 		transition: "width 1s ease-out",
 		overflow: "hidden",
@@ -101,12 +102,16 @@ const Balance: React.FC<BalanceProps> = ({
 		fontWeight: "bold",
 	});
 
+	const dueLabelClasses = css({
+		width: "100px",
+	});
+
 	return (
 		<div className={`${containerClasses} ${className}`}>
 			<div className={"gradient-bar"} />
 			<div className={chartContainerClasses}>
 				<div className={labelClasses}>
-					<span className={`${valueClasses} ${css({ color: "brown" })}`}>
+					<span className={`${valueClasses} ${css({ color: "#c2185b" })}`}>
 						{consumed}
 					</span>{" "}
 					m²
@@ -128,13 +133,22 @@ const Balance: React.FC<BalanceProps> = ({
 					m²
 				</div>
 			</div>
-			Due to restore: 0.0Xm
-			<CallToActionButton
-				text="Restore m2"
-				className="btn-theme-green"
-				icon={<Plant size={19} />}
-				onClick={() => { }}
-			/>
+			<div className={css({ display: "flex", gap: "2" })}>
+				<span className={dueLabelClasses}>Due to restore: 0.0Xm</span>
+				<CallToActionButton
+					text="Details"
+					className="btn-theme-magenta"
+					icon={<ChartLineUp size={19} />}
+					onClick={() => { }}
+				/>
+				<CallToActionButton
+					text="Restore m2"
+					className="btn-theme-green"
+					icon={<Plant size={19} />}
+					onClick={() => { }}
+				/>
+
+			</div>
 		</div>
 	);
 };

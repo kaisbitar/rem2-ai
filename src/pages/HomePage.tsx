@@ -5,6 +5,7 @@ import { css } from "styled-system/css";
 import Header from "@/components/popup/Header";
 import Balance from "@/components/popup/Balance";
 import { useState } from "react";
+import { Plant } from "@phosphor-icons/react";
 
 const HomePage: React.FC = () => {
 	const [showStats, setShowStats] = useState(true);
@@ -35,7 +36,7 @@ const HomePage: React.FC = () => {
 
 	const contentContainerClasses = css({
 		position: "relative",
-		overflow: "scroll",
+		// overflow: "scroll",
 		height: "350px",
 	});
 
@@ -57,24 +58,34 @@ const HomePage: React.FC = () => {
 	});
 
 	const balanceHeaderClasses = css({
+		display: "flex",
 		fontSize: "lg",
 		fontWeight: "bold",
+		marginBottom: "5px",
 	});
-
+	const showServicesClasses = css({
+		marginLeft: "auto",
+		width: "100px",
+		textAlign: "center",
+		backgroundColor: "brown",
+		borderRadius: "sm",
+		padding: "2",
+		color: "white",
+		fontWeight: "bold",
+		fontSize: "sm",
+		cursor: "pointer",
+	});
 	return (
 		<div className={containerClasses}>
 			<Header />
 			<main className={mainClasses}>
-				<h3 className={balanceHeaderClasses}>Your m2 Balance</h3>
+				<h3 className={balanceHeaderClasses}>Your <Plant style={{ margin: "0px 2px" }} /> m2 Balance</h3>
 
 				<Balance consumed={1.2} restored={7.2} />
-				<button
-					type="button"
-					onClick={toggleModelsBreakdown}
-				>
-					{showStats ? "Show Services" : "Show Stats"}
+				{/* <div className={showServicesClasses}><button type="button" onClick={toggleModelsBreakdown}>
+					{showStats ? "Details" : "Total"}
 				</button>
-
+				</div> */}
 				<div className={contentContainerClasses}>
 					<div className={statsClasses}>
 						<StatsSection />

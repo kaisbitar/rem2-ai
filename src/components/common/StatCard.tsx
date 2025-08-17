@@ -31,7 +31,7 @@ const StatCard: React.FC<StatCardProps> = ({
 	dynamicColors,
 }) => {
 	const containerClasses = css({
-		width: "100px",
+		width: "85px",
 		// height: "65px",
 		backgroundColor: "white",
 		padding: "10px",
@@ -85,7 +85,7 @@ const StatCard: React.FC<StatCardProps> = ({
 
 	const unitClasses = css({
 		fontSize: "10px",
-		color: "red.400",
+		color: "#c2175b",
 		marginLeft: "1",
 		textAlign: "center",
 		justifyContent: "center",
@@ -99,10 +99,10 @@ const StatCard: React.FC<StatCardProps> = ({
 	// Combine dynamic colors with base styles
 	const dynamicStyle = dynamicColors
 		? {
-				backgroundColor: dynamicColors.backgroundColor,
-				borderColor: dynamicColors.borderColor,
-				boxShadow: dynamicColors.boxShadow,
-			}
+			backgroundColor: dynamicColors.backgroundColor,
+			borderColor: dynamicColors.borderColor,
+			boxShadow: dynamicColors.boxShadow,
+		}
 		: {};
 
 	return (

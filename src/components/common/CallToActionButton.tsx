@@ -20,9 +20,9 @@ const CallToActionButton: React.FC<CallToActionButtonProps> = ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        gap: "3",
-        padding: "4",
-        paddingY: "3",
+        gap: "1",
+        padding: "2",
+        // paddingY: "3",
         borderRadius: "lg",
         border: "1px solid",
         transition: "all 0.3s ease",
@@ -40,7 +40,7 @@ const CallToActionButton: React.FC<CallToActionButtonProps> = ({
     });
 
     const textClasses = css({
-        fontSize: "sm",
+        fontSize: "12px",
         fontWeight: "semibold",
     });
 

@@ -29,13 +29,15 @@ const StatsSection: React.FC = () => {
 	const headerClasses = css({
 		fontSize: "lg",
 		fontWeight: "semibold",
+		marginBottom: "5px",
+		marginTop: "20px",
 	});
 
 	const statsGridClasses = css({
 		display: "flex",
 		gridTemplateColumns: "repeat(4, 1fr)",
 		gap: "5px",
-		marginBottom: "4",
+		marginBottom: "10px",
 		marginTop: "1",
 	});
 

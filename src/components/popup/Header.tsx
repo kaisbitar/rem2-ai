@@ -1,7 +1,7 @@
 import type React from "react";
 import { css } from "styled-system/css";
 import { useNavigate } from "react-router-dom";
-import { Gear, User } from "@phosphor-icons/react";
+import { ListIcon, Plant, User } from "@phosphor-icons/react";
 
 interface HeaderProps {
 	className?: string;
@@ -11,7 +11,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 	const navigate = useNavigate();
 
 	const headerContainerClasses = css({
-		padding: "10px 25px 6px 25px",
+		padding: "10px 20px 6px 18px",
 		borderBottom: "1px solid #e5e7eb",
 		borderColor: "gray.200",
 		display: "flex",
@@ -20,6 +20,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 	});
 
 	const titleClasses = css({
+		display: "flex",
 		fontSize: "3xl",
 		fontWeight: "light",
 		// marginBottom: "2",
@@ -32,11 +33,11 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 		fontWeight: "bold",
 	});
 
-	const taglineClasses = css({
-		fontSize: "sm",
-		opacity: "0.95",
-		fontWeight: "light",
-	});
+	// const taglineClasses = css({
+	// 	fontSize: "sm",
+	// 	opacity: "0.95",
+	// 	fontWeight: "light",
+	// });
 
 	const settingsButtonClasses = css({
 		fontSize: "lg",
@@ -48,18 +49,20 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 		<header className={`${headerContainerClasses} ${className || ""}`}>
 			<div className={"gradient-bar"} />
 
-			<h1 className={titleClasses}>
-				RE<span className={superscriptClasses}>m2</span>.AI
-				<p className={taglineClasses}>Track & Restore AI Impact</p>
-			</h1>
 			<button
 				type={"button"}
 				className={settingsButtonClasses}
 				onClick={() => navigate("/settings")}
 			>
-				<User size={16} />
-				<Gear size={16} />
+				<ListIcon size={16} />
 			</button>
+			<h1 className={titleClasses}>
+
+				RE <Plant color="green" style={{ margin: "0px 2px" }} /><span className={superscriptClasses}>m2</span>.AI
+				{/* <p className={taglineClasses}>Track & Restore AI Impact</p> */}
+			</h1>
+
+			<User size={16} />
 		</header>
 	);
 };
