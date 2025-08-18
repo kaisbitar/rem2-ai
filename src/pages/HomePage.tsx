@@ -97,7 +97,7 @@ const HomePage: React.FC = () => {
 					tooltip="Monthly m² restoration"
 					className={`${autoBalanceClasses} btn-theme-green`}
 					icon={<FlowerIcon size={19} />}
-					onClick={() => { }}
+					onClick={() => {}}
 				/>
 			</main>
 			<Footer />

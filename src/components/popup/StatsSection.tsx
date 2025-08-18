@@ -20,7 +20,7 @@ import type React from "react";
 import { css } from "styled-system/css";
 
 const StatsSection: React.FC = () => {
-	const { stats, viewMode } = useAppContext();
+	const { stats } = useAppContext();
 
 	const containerClasses = css({
 		marginTop: "3",
@@ -44,7 +44,7 @@ const StatsSection: React.FC = () => {
 	return (
 		<div className={containerClasses}>
 			{/* <h2 className={headerClasses}>
-				{viewMode === "daily"
+			 === "daily"
 					? i18n.t("todayConsumption")
 					: i18n.t("totalConsumption")}
 			</h2> */}
