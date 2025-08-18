@@ -57,8 +57,8 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 				<ListIcon size={16} />
 			</button>
 			<h1 className={titleClasses}>
-
-				RE <Plant color="green" style={{ margin: "0px 2px" }} /><span className={superscriptClasses}>m2</span>.AI
+				RE <Plant color="green" style={{ margin: "0px 2px" }} />
+				<span className={superscriptClasses}>m2</span>.AI
 				{/* <p className={taglineClasses}>Track & Restore AI Impact</p> */}
 			</h1>
 

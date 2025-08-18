@@ -34,9 +34,9 @@ const HomePage: React.FC = () => {
 		minHeight: 0,
 	});
 
-	const toggleModelsBreakdown = () => {
-		setShowStats(!showStats);
-	};
+	// const toggleModelsBreakdown = () => {
+	// 	setShowStats(!showStats);
+	// };
 
 	const contentContainerClasses = css({
 		position: "relative",
@@ -91,15 +91,14 @@ const HomePage: React.FC = () => {
 					<div className={servicesClasses}>
 						<ServicesSection />
 					</div>
-
-				</div><CallToActionButton
+				</div>
+				<CallToActionButton
 					text="Auto Balance"
 					tooltip="Monthly m² restoration"
 					className={`${autoBalanceClasses} btn-theme-green`}
 					icon={<FlowerIcon size={19} />}
 					onClick={() => { }}
 				/>
-
 			</main>
 			<Footer />
 		</div>

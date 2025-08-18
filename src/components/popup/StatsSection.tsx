@@ -26,12 +26,12 @@ const StatsSection: React.FC = () => {
 		marginTop: "3",
 	});
 
-	const headerClasses = css({
-		fontSize: "lg",
-		fontWeight: "semibold",
-		marginBottom: "5px",
-		marginTop: "20px",
-	});
+	// const headerClasses = css({
+	// 	fontSize: "lg",
+	// 	fontWeight: "semibold",
+	// 	marginBottom: "5px",
+	// 	marginTop: "20px",
+	// });
 
 	const statsGridClasses = css({
 		display: "flex",
