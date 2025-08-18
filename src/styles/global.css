@@ -10,7 +10,8 @@
 	left: 0;
 	right: 0;
 	height: 2px;
-	background: linear-gradient(to right, #bcb58e, #accf94);
+	background: linear-gradient(to right, #e6f0ca40, #73ff1329);
+	
 }
 
 /* CallToActionButton theme classes */

@@ -34,14 +34,15 @@ const StatCard: React.FC<StatCardProps> = ({
 		width: "85px",
 		// height: "65px",
 		backgroundColor: "white",
-		padding: "10px",
-		paddingBottom: "15px",
+		padding: "6px",
+		paddingBottom: "0px",
 		borderRadius: "lg",
 		// boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
 		border: "1px solid",
 		borderColor: "gray.200",
 		position: "relative",
 		transition: "all 0.3s ease",
+		cursor: "default",
 		_hover: {
 			transform: "translateY(-2px)",
 			boxShadow: "0 8px 25px rgba(0, 0, 0, 0.15)",
@@ -59,7 +60,7 @@ const StatCard: React.FC<StatCardProps> = ({
 	const topRowClasses = css({
 		alignItems: "center",
 		gap: "3",
-		// marginBottom: "2",
+		marginBottom: "2",
 	});
 
 	const labelClasses = css({
@@ -69,7 +70,6 @@ const StatCard: React.FC<StatCardProps> = ({
 		color: "gray.600",
 		textTransform: "uppercase",
 		letterSpacing: "wide",
-		marginBottom: "1",
 		textAlign: "center",
 		justifyContent: "center",
 	});
@@ -89,6 +89,7 @@ const StatCard: React.FC<StatCardProps> = ({
 		marginLeft: "1",
 		textAlign: "center",
 		justifyContent: "center",
+
 	});
 
 	const iconClasses = css({
@@ -99,10 +100,10 @@ const StatCard: React.FC<StatCardProps> = ({
 	// Combine dynamic colors with base styles
 	const dynamicStyle = dynamicColors
 		? {
-				backgroundColor: dynamicColors.backgroundColor,
-				borderColor: dynamicColors.borderColor,
-				boxShadow: dynamicColors.boxShadow,
-			}
+			backgroundColor: dynamicColors.backgroundColor,
+			borderColor: dynamicColors.borderColor,
+			boxShadow: dynamicColors.boxShadow,
+		}
 		: {};
 
 	return (

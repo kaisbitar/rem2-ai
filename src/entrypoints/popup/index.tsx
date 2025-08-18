@@ -10,7 +10,7 @@ import "@/styles/global.css";
 
 const PopupRoot: React.FC = () => {
 	return (
-		<AppContextProvider viewMode="global">
+		<AppContextProvider viewMode="daily">
 			<div className={css({ fontFamily: "body" })}>
 				<Router>
 					<Routes>
