@@ -10,7 +10,7 @@ import CallToActionButton from "@/components/common/CallToActionButton";
 import { Footer } from "@/components/common/Footer";
 
 const HomePage: React.FC = () => {
-	const [showStats, setShowStats] = useState(true);
+	const [showStats] = useState(true);
 
 	const containerClasses = css({
 		background: "white",
@@ -97,7 +97,7 @@ const HomePage: React.FC = () => {
 					tooltip="Monthly m² restoration"
 					className={`${autoBalanceClasses} btn-theme-green`}
 					icon={<FlowerIcon size={19} />}
-					onClick={() => {}}
+					onClick={() => { }}
 				/>
 			</main>
 			<Footer />
