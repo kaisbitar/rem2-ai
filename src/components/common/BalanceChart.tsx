@@ -1,7 +1,6 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 import { css } from "styled-system/css";
-// import Tooltip from "@/components/common/Tooltip";
 
 interface BalanceChartProps {
     consumed: number;
@@ -27,6 +26,18 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
     const [animatedWidths, setAnimatedWidths] = useState({
         consumed: 0,
         restored: 0,
+    });
+
+    const [tooltip, setTooltip] = useState<{
+        content: string;
+        x: number;
+        y: number;
+        visible: boolean;
+    }>({
+        content: "",
+        x: 0,
+        y: 0,
+        visible: false,
     });
 
     useEffect(() => {
@@ -60,19 +71,19 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
         position: "relative",
         backgroundColor: "#a1ca2a45",
         borderRadius: "full",
-        overflow: "hidden",
+        overflow: "visible",
     });
 
     const consumedBarClasses = css({
         position: "absolute",
-        left: "50%",
+        right: "50%",
         height: "100%",
         backgroundColor: "#c2175b7a",
-        transform: "translateX(-100%)",
         transition: "width 1s ease-out",
         overflow: "hidden",
         borderRadius: "50px 0px 0px 50px",
         zIndex: "1",
+        cursor: "pointer",
         _hover: {
             backgroundColor: consumedColor,
         },
@@ -86,6 +97,8 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
         transition: "width 1s ease-out",
         overflow: "hidden",
         borderRadius: "0px 10px 10px 0px",
+        zIndex: "1",
+        cursor: "pointer",
         _hover: {
             backgroundColor: restoredColor,
         },
@@ -94,8 +107,40 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
     const valueClasses = css({
         fontSize: "3xl",
         fontWeight: "bold",
-        color: consumedColor,
+        color: consumedColor
     });
+
+    const customTooltipClasses = css({
+        position: "fixed",
+        backgroundColor: "gray.800",
+        color: "white",
+        padding: "8px 12px",
+        borderRadius: "6px",
+        fontSize: "12px",
+        whiteSpace: "nowrap",
+        zIndex: "1000",
+        pointerEvents: "none",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
+        border: "1px solid",
+        borderColor: "gray.700",
+        opacity: tooltip.visible ? "1" : "0",
+        visibility: tooltip.visible ? "visible" : "hidden",
+        transition: "opacity 0.4s ease",
+        transform: "translate(0%, -100%)",
+    });
+
+    const handleMouseEnter = (content: string, event: React.MouseEvent) => {
+        setTooltip({
+            content,
+            x: event.clientX,
+            y: event.clientY,
+            visible: true,
+        });
+    };
+
+    const handleMouseLeave = () => {
+        setTooltip(prev => ({ ...prev, visible: false }));
+    };
 
     return (
         <div className={`${chartContainerClasses} ${className}`}>
@@ -106,16 +151,17 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                 {unit}
             </div>
             <div className={chartWrapperClasses}>
-                {/* <Tooltip content={"Consumed"}> */}
-
                 <div
                     className={consumedBarClasses}
                     style={{ width: `${animatedWidths.consumed}%` }}
+                    onMouseEnter={(e) => handleMouseEnter(`Consumed: ${consumed} ${unit}`, e)}
+                    onMouseLeave={handleMouseLeave}
                 />
-                {/* </Tooltip> */}
                 <div
                     className={restoredBarClasses}
                     style={{ width: `${animatedWidths.restored}%` }}
+                    onMouseEnter={(e) => handleMouseEnter(`Restored: ${restored} ${unit}`, e)}
+                    onMouseLeave={handleMouseLeave}
                 />
             </div>
             <div className={labelClasses}>
@@ -123,6 +169,17 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                     {restored}
                 </span>{" "}
                 {unit}
+            </div>
+
+            {/* Custom tooltip */}
+            <div
+                className={customTooltipClasses}
+                style={{
+                    left: tooltip.x,
+                    top: tooltip.y,
+                }}
+            >
+                {tooltip.content}
             </div>
         </div>
     );
