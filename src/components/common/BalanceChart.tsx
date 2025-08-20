@@ -107,7 +107,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
     const valueClasses = css({
         fontSize: "3xl",
         fontWeight: "bold",
-        color: consumedColor
+        color: consumedColor,
     });
 
     const customTooltipClasses = css({
@@ -139,7 +139,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
     };
 
     const handleMouseLeave = () => {
-        setTooltip(prev => ({ ...prev, visible: false }));
+        setTooltip((prev) => ({ ...prev, visible: false }));
     };
 
     return (
@@ -154,14 +154,36 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
                 <div
                     className={consumedBarClasses}
                     style={{ width: `${animatedWidths.consumed}%` }}
-                    onMouseEnter={(e) => handleMouseEnter(`Consumed: ${consumed} ${unit}`, e)}
+                    onMouseEnter={(e) =>
+                        handleMouseEnter(`Consumed: ${consumed} ${unit}`, e)
+                    }
                     onMouseLeave={handleMouseLeave}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Consumed: ${consumed} ${unit}`}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            handleMouseEnter(`Consumed: ${consumed} ${unit}`, e as any);
+                        }
+                    }}
                 />
                 <div
                     className={restoredBarClasses}
                     style={{ width: `${animatedWidths.restored}%` }}
-                    onMouseEnter={(e) => handleMouseEnter(`Restored: ${restored} ${unit}`, e)}
+                    onMouseEnter={(e) =>
+                        handleMouseEnter(`Restored: ${restored} ${unit}`, e)
+                    }
                     onMouseLeave={handleMouseLeave}
+                    role="button"
+                    tabIndex={0}
+                    aria-label={`Restored: ${restored} ${unit}`}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            handleMouseEnter(`Restored: ${restored} ${unit}`, e as any);
+                        }
+                    }}
                 />
             </div>
             <div className={labelClasses}>
