@@ -34,6 +34,7 @@ const Tooltip: React.FC<TooltipProps> = ({
 		zIndex: "50",
 		opacity: isVisible ? "1" : "0",
 		visibility: isVisible ? "visible" : "hidden",
+		height: isVisible ? "auto" : "0%",
 		transition: "opacity 0.2s ease, visibility 0.2s ease",
 		boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
 		border: "1px solid",
