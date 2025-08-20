@@ -19,7 +19,6 @@ const Balance: React.FC<BalanceProps> = ({
 	className = "",
 	onDetailsClick,
 }) => {
-
 	const containerClasses = css({
 		backgroundColor: "white",
 		padding: "4",
@@ -34,8 +33,6 @@ const Balance: React.FC<BalanceProps> = ({
 		justifyContent: "flex-start",
 		transition: "all 0.3s ease",
 	});
-
-
 
 	const dueLabelClasses = css({
 		fontSize: "sm",
@@ -60,7 +57,7 @@ const Balance: React.FC<BalanceProps> = ({
 					text="Restore m2"
 					className="btn-theme-green"
 					icon={<Plant size={19} />}
-					onClick={() => { }}
+					onClick={() => {}}
 				/>
 			</div>
 		</div>

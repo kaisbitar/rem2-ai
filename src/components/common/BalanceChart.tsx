@@ -1,7 +1,7 @@
 import type React from "react";
 import { useEffect, useState } from "react";
 import { css } from "styled-system/css";
-import Tooltip from "@/components/common/Tooltip";
+// import Tooltip from "@/components/common/Tooltip";
 
 interface BalanceChartProps {
     consumed: number;
@@ -94,7 +94,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
     const valueClasses = css({
         fontSize: "3xl",
         fontWeight: "bold",
-        color: consumedColor
+        color: consumedColor,
     });
 
     return (
@@ -128,4 +128,4 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
     );
 };
 
-export default BalanceChart; 
+export default BalanceChart;
