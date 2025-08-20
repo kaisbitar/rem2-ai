@@ -39,7 +39,6 @@ const HomePage: React.FC = () => {
 		opacity: showStats ? 1 : 0,
 		height: showStats ? "100%" : "0%",
 		transition: "opacity .4s ease-in-out, height .5s ease-in-out",
-
 	});
 
 	const balanceHeaderClasses = css({
@@ -77,7 +76,7 @@ const HomePage: React.FC = () => {
 					tooltip="Monthly m² restoration"
 					className={`${autoBalanceClasses} btn-theme-green`}
 					icon={<FlowerIcon size={19} />}
-					onClick={() => { }}
+					onClick={() => {}}
 				/>
 			</main>
 			<Footer />

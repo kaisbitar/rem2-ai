@@ -30,9 +30,7 @@ const Header: React.FC<HeaderProps> = () => {
 		marginLeft: "0",
 		marginRight: "2",
 		fontWeight: "bold",
-
 	});
-
 
 	const settingsButtonClasses = css({
 		fontSize: "lg",
