@@ -97,7 +97,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
             height: "0",
             borderStyle: "solid",
             borderWidth: "8px 12px 8px 0",
-            borderColor: "transparent #c2175b7a transparent transparent",
+            borderColor: `transparent #c2175b7a transparent transparent`,
             zIndex: "2",
         },
         "&:hover::after": {
@@ -128,7 +128,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
             height: "0",
             borderStyle: "solid",
             borderWidth: "8px 0 8px 12px",
-            borderColor: "transparent transparent transparent #0080004d",
+            borderColor: `transparent transparent transparent #0080004d`,
             zIndex: "2",
         },
         "&:hover::after": {
@@ -158,7 +158,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
         opacity: tooltip.visible ? "1" : "0",
         visibility: tooltip.visible ? "visible" : "hidden",
         transition: "opacity 0.4s ease",
-        // left: "100px", 
+        // left: "100px",
         transform: "translate(0%, -130%)",
     });
 
