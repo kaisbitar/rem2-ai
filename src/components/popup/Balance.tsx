@@ -7,13 +7,17 @@ import { ChartLineUp, Plant } from "@phosphor-icons/react";
 interface BalanceProps {
 	consumed: number;
 	restored: number;
+	showStats: boolean;
 	className?: string;
+	onDetailsClick?: () => void;
 }
 
 const Balance: React.FC<BalanceProps> = ({
 	consumed,
 	restored,
+	showStats,
 	className = "",
+	onDetailsClick,
 }) => {
 	const totalAbsolute = Math.abs(consumed) + Math.abs(restored) || 1;
 	const consumedPercentage = (Math.abs(consumed) / totalAbsolute) * 50;
@@ -103,7 +107,10 @@ const Balance: React.FC<BalanceProps> = ({
 	});
 
 	const dueLabelClasses = css({
-		width: "100px",
+		fontSize: "sm",
+		fontWeight: "medium",
+		color: "gray.500",
+		marginBottom: "5px",
 	});
 
 	return (
@@ -133,19 +140,19 @@ const Balance: React.FC<BalanceProps> = ({
 					m²
 				</div>
 			</div>
+			<span className={dueLabelClasses}>Due to restore: 0.0Xm</span>
 			<div className={css({ display: "flex", gap: "2" })}>
-				<span className={dueLabelClasses}>Due to restore: 0.0Xm</span>
 				<CallToActionButton
-					text="Details"
+					text={showStats ? "Hide Details" : "Show Details"}
 					className="btn-theme-magenta"
 					icon={<ChartLineUp size={19} />}
-					onClick={() => {}}
+					onClick={onDetailsClick}
 				/>
 				<CallToActionButton
 					text="Restore m2"
 					className="btn-theme-green"
 					icon={<Plant size={19} />}
-					onClick={() => {}}
+					onClick={() => { }}
 				/>
 			</div>
 		</div>

@@ -1,9 +1,9 @@
 {
 	"appDescription": "Measure the carbon and water footprint of your AI requests",
-	"appName": "REM2 AI",
+	"appName": "m2 Balance AI",
 	"carbon": "Carbon",
 	"confirmReset": "Reset all data?",
-	"defaultTitle": "REM2 AI",
+	"defaultTitle": "m2 Balance AI",
 	"duration": "Duration",
 	"high": "High",
 	"low": "Low",

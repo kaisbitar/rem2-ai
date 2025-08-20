@@ -7,7 +7,7 @@ interface HeaderProps {
 	className?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ className }) => {
+const Header: React.FC<HeaderProps> = () => {
 	const navigate = useNavigate();
 
 	const headerContainerClasses = css({
@@ -23,21 +23,16 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 		display: "flex",
 		fontSize: "3xl",
 		fontWeight: "light",
-		// marginBottom: "2",
 		letterSpacing: "tight",
 	});
 
 	const superscriptClasses = css({
-		marginLeft: "0.5",
-		marginRight: "0.5",
+		marginLeft: "0",
+		marginRight: "2",
 		fontWeight: "bold",
+
 	});
 
-	// const taglineClasses = css({
-	// 	fontSize: "sm",
-	// 	opacity: "0.95",
-	// 	fontWeight: "light",
-	// });
 
 	const settingsButtonClasses = css({
 		fontSize: "lg",
@@ -46,7 +41,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 	});
 
 	return (
-		<header className={`${headerContainerClasses} ${className || ""}`}>
+		<header className={headerContainerClasses}>
 			<div className={"gradient-bar"} />
 
 			<button
@@ -57,9 +52,8 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
 				<ListIcon size={16} />
 			</button>
 			<h1 className={titleClasses}>
-				RE <Plant color="green" style={{ margin: "0px 2px" }} />
-				<span className={superscriptClasses}>m2</span>.AI
-				{/* <p className={taglineClasses}>Track & Restore AI Impact</p> */}
+				<Plant color="green" style={{ margin: "0px 2px" }} />
+				<span className={superscriptClasses}>m2 </span> Balance.AI
 			</h1>
 
 			<User size={16} />

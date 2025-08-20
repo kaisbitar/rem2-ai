@@ -1,9 +1,9 @@
 {
 	"appDescription": "Mesurez l'empreinte carbone et hydrique de vos requêtes IA",
-	"appName": "REM2 AI",
+	"appName": "m2 Balance AI",
 	"carbon": "Carbone",
 	"confirmReset": "Réinitialiser toutes les données ?",
-	"defaultTitle": "REM2 AI",
+	"defaultTitle": "m2 Balance AI",
 	"duration": "Durée",
 	"high": "Élevé",
 	"low": "Faible",

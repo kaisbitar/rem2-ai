@@ -7,6 +7,7 @@ import { formatCarbon, formatWater } from "@/utils/formatting/display";
 import type React from "react";
 import { useRef } from "react";
 import { css } from "styled-system/css";
+import { CloudRainIcon, GlobeIcon } from "@phosphor-icons/react";
 
 interface FloatingDropdownProps {
 	provider: Provider;
@@ -191,7 +192,8 @@ const FloatingDropdown: React.FC<FloatingDropdownProps> = ({
 										minValueForLoading={providerMinValues.carbon}
 										formatValue={(value: number) => formatCarbon(value)}
 									/>
-									🌎<span className={css({ color: "primary.500" })}>•</span>
+									<GlobeIcon size={19} />
+									<span className={css({ color: "primary.500" })}>•</span>
 									{/* 🎯 ANIMATED WATER */}
 									<AnimatedLoadingCounter
 										realValue={serviceStats.water}
@@ -199,7 +201,7 @@ const FloatingDropdown: React.FC<FloatingDropdownProps> = ({
 										minValueForLoading={providerMinValues.water}
 										formatValue={(value: number) => formatWater(value)}
 									/>
-									💧
+									<CloudRainIcon size={19} />
 								</>
 							)}
 						</span>

@@ -1,6 +1,5 @@
 import StatCard from "@/components/common/StatCard";
 import { useAppContext } from "@/context/AppContext";
-// import { CarbonCalculator } from "@/utils/calculations/carbon";
 import {
 	formatDuration,
 	formatCarbon,
@@ -20,18 +19,18 @@ import type React from "react";
 import { css } from "styled-system/css";
 
 const StatsSection: React.FC = () => {
-	const { stats } = useAppContext();
+	const { stats, viewMode } = useAppContext();
 
 	const containerClasses = css({
 		marginTop: "3",
 	});
 
-	// const headerClasses = css({
-	// 	fontSize: "lg",
-	// 	fontWeight: "semibold",
-	// 	marginBottom: "5px",
-	// 	marginTop: "20px",
-	// });
+	const headerClasses = css({
+		fontSize: "lg",
+		fontWeight: "semibold",
+		marginBottom: "5px",
+		marginTop: "20px",
+	});
 
 	const statsGridClasses = css({
 		display: "flex",
@@ -43,11 +42,11 @@ const StatsSection: React.FC = () => {
 
 	return (
 		<div className={containerClasses}>
-			{/* <h2 className={headerClasses}>
-			 === "daily"
+			<h2 className={headerClasses}>
+				{viewMode === "daily"
 					? i18n.t("todayConsumption")
 					: i18n.t("totalConsumption")}
-			</h2> */}
+			</h2>
 
 			<h6>AI Usage Equivalences</h6>
 			<div className={statsGridClasses}>

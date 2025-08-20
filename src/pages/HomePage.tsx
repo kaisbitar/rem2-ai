@@ -10,7 +10,7 @@ import CallToActionButton from "@/components/common/CallToActionButton";
 import { Footer } from "@/components/common/Footer";
 
 const HomePage: React.FC = () => {
-	const [showStats] = useState(true);
+	const [showStats, setShowStats] = useState(true);
 
 	const containerClasses = css({
 		background: "white",
@@ -34,32 +34,12 @@ const HomePage: React.FC = () => {
 		minHeight: 0,
 	});
 
-	// const toggleModelsBreakdown = () => {
-	// 	setShowStats(!showStats);
-	// };
-
 	const contentContainerClasses = css({
 		position: "relative",
-		marginBottom: "30px",
-		// overflow: "scroll",
-		// height: "350px",
-	});
+		opacity: showStats ? 1 : 0,
+		height: showStats ? "100%" : "0%",
+		transition: "opacity .4s ease-in-out, height .5s ease-in-out",
 
-	const statsClasses = css({
-		transition: "transform 0.3s ease",
-		// transform: showStats ? "translateY(0)" : "translateY(-100%)",
-		// opacity: showStats ? 1 : 0,
-	});
-
-	const servicesClasses = css({
-		// position: "absolute",
-		// top: 0,
-		// left: 0,
-		// right: 0,
-		// transition: "transform 0.3s ease",
-		// transform: showStats ? "translateY(100%)" : "translateY(0)",
-		// opacity: showStats ? 0 : 1,
-		display: showStats ? "none" : "block",
 	});
 
 	const balanceHeaderClasses = css({
@@ -70,10 +50,9 @@ const HomePage: React.FC = () => {
 	});
 
 	const autoBalanceClasses = css({
-		// position: "relative",
-		bottom: "35px",
+		position: "relative",
+		bottom: "-5px",
 		width: "150px",
-		// top: "20px",
 	});
 	return (
 		<div className={containerClasses}>
@@ -83,14 +62,15 @@ const HomePage: React.FC = () => {
 					Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance
 				</h3>
 
-				<Balance consumed={1.2} restored={7.2} />
+				<Balance
+					consumed={1.2}
+					restored={7.2}
+					onDetailsClick={() => setShowStats(!showStats)}
+					showStats={showStats}
+				/>
 				<div className={contentContainerClasses}>
-					<div className={statsClasses}>
-						<StatsSection />
-					</div>
-					<div className={servicesClasses}>
-						<ServicesSection />
-					</div>
+					<StatsSection />
+					<ServicesSection />
 				</div>
 				<CallToActionButton
 					text="Auto Balance"
