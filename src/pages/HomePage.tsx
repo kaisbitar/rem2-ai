@@ -62,8 +62,8 @@ const HomePage: React.FC = () => {
 				</h3>
 
 				<Balance
-					consumed={5.2}
-					restored={7.2}
+					consumed={11.2}
+					restored={0}
 					onDetailsClick={() => setShowStats(!showStats)}
 					showStats={showStats}
 				/>
@@ -76,7 +76,7 @@ const HomePage: React.FC = () => {
 					tooltip="Monthly m² restoration"
 					className={`${autoBalanceClasses} btn-theme-green`}
 					icon={<FlowerIcon size={19} />}
-					onClick={() => {}}
+					onClick={() => { }}
 				/>
 			</main>
 			<Footer />
