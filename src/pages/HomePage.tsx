@@ -7,7 +7,7 @@ import Balance from "@/components/popup/Balance";
 import { useState } from "react";
 import { PlantIcon } from "@phosphor-icons/react";
 // import CallToActionButton from "@/components/common/CallToActionButton";
-import { Footer } from "@/components/common/Footer";
+// import { Footer } from "@/components/common/Footer";
 
 const HomePage: React.FC = () => {
 	const [showStats, setShowStats] = useState(true);

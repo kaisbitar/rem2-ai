@@ -113,10 +113,7 @@ const FloatingDropdown: React.FC<FloatingDropdownProps> = ({
 
 	return (
 		<div className={floatingContainerClasses} id={"floating"}>
-			<BalanceChart
-				consumed={11.2}
-				restored={9}
-			/>
+			<BalanceChart consumed={11.2} restored={9} />
 			<section
 				ref={containerRef}
 				className={mainContainerClasses}
