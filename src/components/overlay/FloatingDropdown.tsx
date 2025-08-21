@@ -8,6 +8,7 @@ import type React from "react";
 import { useRef } from "react";
 import { css } from "styled-system/css";
 import { CloudRainIcon, GlobeIcon } from "@phosphor-icons/react";
+import BalanceChart from "../common/BalanceChart";
 
 interface FloatingDropdownProps {
 	provider: Provider;
@@ -112,6 +113,10 @@ const FloatingDropdown: React.FC<FloatingDropdownProps> = ({
 
 	return (
 		<div className={floatingContainerClasses} id={"floating"}>
+			<BalanceChart
+				consumed={11.2}
+				restored={9}
+			/>
 			<section
 				ref={containerRef}
 				className={mainContainerClasses}

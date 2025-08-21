@@ -4,7 +4,9 @@ import { Plant } from "@phosphor-icons/react";
 
 const footerStyles = {
 	display: "flex",
-	position: "relative",
+	position: "absolute",
+	bottom: "0",
+	width: "100%",
 	justifyContent: "center",
 	alignItems: "center",
 	mt: "auto",
