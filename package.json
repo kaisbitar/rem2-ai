@@ -17,7 +17,8 @@
 		"lint": "biome lint --write .",
 		"i18n:validate": "bunx tsx scripts/validate-i18n.ts",
 		"prepare": "husky",
-		"clean": "rimraf ./.output && rimraf ./.wxt"
+		"clean": "rimraf ./.output && rimraf ./.wxt",
+		"test:supabase": "node test-supabase.js"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.1.2",
@@ -38,10 +39,12 @@
 		"@pandacss/dev": "^0.54.0",
 		"@pandacss/types": "^0.54.0",
 		"@phosphor-icons/react": "^2.1.10",
+		"@supabase/supabase-js": "^2.56.0",
 		"@types/react-router-dom": "^5.3.3",
 		"@wxt-dev/i18n": "^0.2.4",
 		"@wxt-dev/module-react": "^1.1.3",
 		"@wxt-dev/storage": "^1.1.1",
+		"dotenv": "^17.2.1",
 		"panda-css": "^1.0.0",
 		"preact": "^10.26.9",
 		"preact-render-to-string": "^6.5.13",
