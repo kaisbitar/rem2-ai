@@ -122,7 +122,6 @@ const FloatingDropdown: React.FC<FloatingDropdownProps> = ({
 
 	return (
 		<div className={floatingContainerClasses} id={"floating"}>
-
 			<section
 				ref={containerRef}
 				className={mainContainerClasses}
@@ -143,7 +142,11 @@ const FloatingDropdown: React.FC<FloatingDropdownProps> = ({
 						onClick={handleContainerClick}
 					/>
 				)}
-				<BalanceChart className={balanceChartClasses} consumed={11.2} restored={9} />
+				<BalanceChart
+					className={balanceChartClasses}
+					consumed={11.2}
+					restored={9}
+				/>
 				<div className={hoverContainerClasses}>
 					{isRequestActive && (
 						<svg className={animatedSvgClasses}>
