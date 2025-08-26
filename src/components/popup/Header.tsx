@@ -54,7 +54,23 @@ const Header: React.FC<HeaderProps> = () => {
 				<span className={superscriptClasses}>m2 </span> Balance.AI
 			</h1>
 
-			<User size={16} />
+			<button
+				type="button"
+				onClick={() => navigate("/login")}
+				className={css({
+					background: "none",
+					border: "none",
+					cursor: "pointer",
+					padding: "2",
+					borderRadius: "4px",
+					transition: "background-color 0.2s",
+					"&:hover": {
+						backgroundColor: "gray.100",
+					},
+				})}
+			>
+				<User size={16} />
+			</button>
 		</header>
 	);
 };

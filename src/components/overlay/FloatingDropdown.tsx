@@ -54,6 +54,7 @@ const FloatingDropdown: React.FC<FloatingDropdownProps> = ({
 		_hover: {
 			transform: dropdownState.isHidden ? "none" : "scale(0.95)",
 		},
+		display: "none",
 	});
 
 	const animatedSvgClasses = css({
@@ -111,9 +112,17 @@ const FloatingDropdown: React.FC<FloatingDropdownProps> = ({
 		color: "primary.500",
 	});
 
+	const balanceChartClasses = css({
+		marginTop: "26px",
+		background: "white",
+		padding: "10px",
+		zoom: "0.5",
+		borderRadius: "21px",
+	});
+
 	return (
 		<div className={floatingContainerClasses} id={"floating"}>
-			<BalanceChart consumed={11.2} restored={9} />
+
 			<section
 				ref={containerRef}
 				className={mainContainerClasses}
@@ -134,6 +143,7 @@ const FloatingDropdown: React.FC<FloatingDropdownProps> = ({
 						onClick={handleContainerClick}
 					/>
 				)}
+				<BalanceChart className={balanceChartClasses} consumed={11.2} restored={9} />
 				<div className={hoverContainerClasses}>
 					{isRequestActive && (
 						<svg className={animatedSvgClasses}>

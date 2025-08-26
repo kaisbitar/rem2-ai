@@ -60,11 +60,12 @@ const StatsSection: React.FC = () => {
 					label={`${i18n.t("tokens")}`}
 					icon={<CloudRain size={19} />}
 				/>
-				<StatCard value={"XXX"} label={"m2"} icon={<Plant size={19} />} />
 			</div>
 
-			<h6>AI Usage Equivalences</h6>
+			<h6>Environmental Equivalences</h6>
 			<div className={statsGridClasses}>
+				<StatCard value={"XXX"} label={"m2"} icon={<Plant size={19} />} />
+
 				<StatCard
 					value={formatCarbon(stats.carbon)}
 					label={`${i18n.t("carbon")}`}

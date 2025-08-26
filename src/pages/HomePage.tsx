@@ -37,7 +37,7 @@ const HomePage: React.FC = () => {
 	const contentContainerClasses = css({
 		// position: "relative",
 		// overflow: "hidden",
-		// opacity: showStats ? 1 : 0,
+		// opacity: showStats ? 1 : 0
 		display: showStats ? "block" : "none",
 		// height: showStats ? "100%" : "0%",
 		transition: "opacity .4s ease-in-out, height .5s ease-in-out",

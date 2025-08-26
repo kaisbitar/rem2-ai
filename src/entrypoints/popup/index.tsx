@@ -1,6 +1,7 @@
 import { AppContextProvider } from "@/context/AppContext";
 import HomePage from "@/pages/HomePage";
 import SettingsPage from "@/pages/SettingsPage";
+import LoginPage from "@/pages/LoginPage";
 import type React from "react";
 // src/popup.tsx - Chrome extension popup interface with WXT
 import { createRoot } from "react-dom/client";
@@ -16,6 +17,7 @@ const PopupRoot: React.FC = () => {
 					<Routes>
 						<Route path="/" element={<HomePage />} />
 						<Route path="/settings" element={<SettingsPage />} />
+						<Route path="/login" element={<LoginPage />} />
 					</Routes>
 				</Router>
 			</div>
