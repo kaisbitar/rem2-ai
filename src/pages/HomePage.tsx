@@ -7,10 +7,10 @@ import Balance from "@/components/popup/Balance";
 import { useState } from "react";
 import { PlantIcon } from "@phosphor-icons/react";
 // import CallToActionButton from "@/components/common/CallToActionButton";
-// import { Footer } from "@/components/common/Footer";
+import { Footer } from "@/components/common/Footer";
 
 const HomePage: React.FC = () => {
-	const [showStats, setShowStats] = useState(true);
+	const [showStats, setShowStats] = useState(false);
 
 	const containerClasses = css({
 		background: "white",
@@ -19,10 +19,12 @@ const HomePage: React.FC = () => {
 		boxShadow: "none",
 		width: "100%",
 		minWidth: "400px",
-		// height: showStats ? "100%" : "0px",
+		height: showStats ? "100%" : "0px",
 		// display: "flex",
 		// flexDirection: "column",
 		color: "gray.700",
+		transition: " height .5s ease-in-out",
+
 	});
 
 	const mainClasses = css({
@@ -30,17 +32,19 @@ const HomePage: React.FC = () => {
 		paddingTop: "5px",
 		paddingBottom: "0px",
 		flex: 1,
-		height: showStats ? "50px" : "0px",
+		// height: showStats ? "50px" : "0px",
 		transition: " height .5s ease-in-out",
 	});
 
 	const contentContainerClasses = css({
+		// height: "100px",
+
 		// position: "relative",
-		// overflow: "hidden",
-		// opacity: showStats ? 1 : 0
-		display: showStats ? "block" : "none",
-		// height: showStats ? "100%" : "0%",
-		transition: "opacity .4s ease-in-out, height .5s ease-in-out",
+		overflow: "hidden",
+		opacity: showStats ? 1 : 0,
+		// display: showStats ? "block" : "none",
+		height: showStats ? "10%" : "50px",
+		transition: "opacity .4s ease-in-out, height .5s ease",
 	});
 
 	const balanceHeaderClasses = css({
@@ -81,7 +85,7 @@ const HomePage: React.FC = () => {
 					onClick={() => { }}
 				/> */}
 			</main>
-			{/* <Footer /> */}
+			<Footer />
 		</div>
 	);
 };
