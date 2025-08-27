@@ -312,5 +312,15 @@
 	"invalidContext": "Contexte invalide",
 	"invalidMessage": "Message invalide",
 	"unknownMessageType": "Type de message inconnu",
-	"internalError": "Erreur interne"
+	"internalError": "Erreur interne",
+	"emailAddress": "Adresse e-mail",
+	"password": "Mot de passe",
+	"signIn": "Se connecter",
+	"signUp": "S'inscrire",
+	"createAccount": "Créer un compte",
+	"welcomeBack": "Bon retour",
+	"signInToTrack": "Connectez-vous pour suivre votre impact IA",
+	"joinToTrack": "Rejoignez-nous pour commencer à suivre votre impact IA",
+	"dontHaveAccount": "Vous n'avez pas de compte ? ",
+	"alreadyHaveAccount": "Vous avez déjà un compte ? "
 }

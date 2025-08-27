@@ -312,5 +312,15 @@
 	"invalidContext": "Invalid context",
 	"invalidMessage": "Invalid message",
 	"unknownMessageType": "Unknown message type",
-	"internalError": "Internal error"
+	"internalError": "Internal error",
+	"emailAddress": "Email address",
+	"password": "Password",
+	"signIn": "Sign In",
+	"signUp": "Sign Up",
+	"createAccount": "Create Account",
+	"welcomeBack": "Welcome Back",
+	"signInToTrack": "Sign in to track your AI impact",
+	"joinToTrack": "Join us to start tracking your AI impact",
+	"dontHaveAccount": "Don't have an account? ",
+	"alreadyHaveAccount": "Already have an account? "
 }

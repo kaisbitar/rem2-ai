@@ -72,6 +72,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		backgroundColor: "#a1ca2a45",
 		borderRadius: "full",
 		overflow: "visible",
+		border: "1px solid #00800036",
 	});
 
 	const consumedBarClasses = css({

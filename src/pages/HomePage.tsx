@@ -24,7 +24,6 @@ const HomePage: React.FC = () => {
 		// flexDirection: "column",
 		color: "gray.700",
 		transition: " height .5s ease-in-out",
-
 	});
 
 	const mainClasses = css({

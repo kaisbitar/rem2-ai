@@ -16,7 +16,7 @@
 /* CallToActionButton theme classes */
 .btn-theme-green {
 	background-color: #e6f0ca;
-	border-color: green;
+	border-color: #00800036;
 	color: green;
 }
 
@@ -28,13 +28,13 @@
 
 .btn-theme-magenta {
 	background-color: #c2185b29;
-	border-color: #c2185b;
+	border-color: #c2185b2e;
 	color: #c2175b;
 }
 
 .btn-theme-magenta:hover {
 	background-color: #e91e63;
-	border-color: #ad1457;
+	border-color: #c2185b;
 	color: white;
 }
 
