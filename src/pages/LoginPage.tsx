@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { css } from "styled-system/css";
 import { ArrowLeft } from "@phosphor-icons/react";
 import AuthForm from "@/components/common/AuthForm";
-import Header from "@/components/popup/Header";
+// import Header from "@/components/popup/Header";
 
 const LoginPage: React.FC = () => {
 	const [isLogin, setIsLogin] = useState(true);
