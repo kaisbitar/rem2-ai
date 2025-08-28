@@ -39,6 +39,8 @@
 		"@pandacss/dev": "^0.54.0",
 		"@pandacss/types": "^0.54.0",
 		"@phosphor-icons/react": "^2.1.10",
+		"@supabase/auth-ui-react": "^0.4.7",
+		"@supabase/auth-ui-shared": "^0.1.8",
 		"@supabase/supabase-js": "^2.56.0",
 		"@types/react-router-dom": "^5.3.3",
 		"@wxt-dev/i18n": "^0.2.4",

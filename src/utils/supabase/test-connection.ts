@@ -1,5 +1,5 @@
 // src/utils/supabase/test-connection.ts - Test Supabase connection
-import { supabase, supabaseConfig } from "../../../supabase.config";
+import { supabase, supabaseConfig } from "../../config/supabase-client";
 
 /**
  * Test the Supabase connection

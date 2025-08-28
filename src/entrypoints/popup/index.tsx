@@ -1,7 +1,9 @@
 import { AppContextProvider } from "@/context/AppContext";
+import { AuthProvider } from "@/context/AuthContext";
 import HomePage from "@/pages/HomePage";
 import SettingsPage from "@/pages/SettingsPage";
 import LoginPage from "@/pages/LoginPage";
+import AuthCallback from "@/pages/AuthCallback";
 import type React from "react";
 // src/popup.tsx - Chrome extension popup interface with WXT
 import { createRoot } from "react-dom/client";
@@ -11,17 +13,20 @@ import "@/styles/global.css";
 
 const PopupRoot: React.FC = () => {
 	return (
-		<AppContextProvider viewMode="daily">
-			<div className={css({ fontFamily: "body" })}>
-				<Router>
-					<Routes>
-						<Route path="/" element={<HomePage />} />
-						<Route path="/settings" element={<SettingsPage />} />
-						<Route path="/login" element={<LoginPage />} />
-					</Routes>
-				</Router>
-			</div>
-		</AppContextProvider>
+		<AuthProvider>
+			<AppContextProvider viewMode="daily">
+				<div className={css({ fontFamily: "body" })}>
+					<Router>
+						<Routes>
+							<Route path="/" element={<HomePage />} />
+							<Route path="/settings" element={<SettingsPage />} />
+							<Route path="/login" element={<LoginPage />} />
+							<Route path="/auth/callback" element={<AuthCallback />} />
+						</Routes>
+					</Router>
+				</div>
+			</AppContextProvider>
+		</AuthProvider>
 	);
 };
 

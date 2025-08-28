@@ -1,18 +1,20 @@
 import type React from "react";
 import { useState } from "react";
 import { css } from "styled-system/css";
-import { User, Lock, Eye, EyeSlash } from "@phosphor-icons/react";
+import { User, Lock, Eye, EyeSlash, GoogleLogo } from "@phosphor-icons/react";
 
 interface AuthFormProps {
 	isLogin: boolean;
 	onSubmit: (email: string, password: string) => void;
 	onToggleMode: () => void;
+	onGoogleLogin?: () => void;
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({
 	isLogin,
 	onSubmit,
 	onToggleMode,
+	onGoogleLogin,
 }) => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -104,6 +106,46 @@ const AuthForm: React.FC<AuthFormProps> = ({
 		},
 	});
 
+	const googleButtonClasses = css({
+		width: "100%",
+		padding: "3",
+		backgroundColor: "white",
+		color: "gray.700",
+		border: "1px solid",
+		borderColor: "gray.300",
+		borderRadius: "6px",
+		fontSize: "sm",
+		fontWeight: "medium",
+		cursor: "pointer",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center",
+		gap: "2",
+		transition: "all 0.2s",
+		"&:hover": {
+			backgroundColor: "gray.50",
+			borderColor: "gray.400",
+		},
+		"&:active": {
+			backgroundColor: "gray.100",
+		},
+	});
+
+	const dividerClasses = css({
+		display: "flex",
+		alignItems: "center",
+		gap: "3",
+		marginY: "4",
+		color: "gray.500",
+		fontSize: "sm",
+	});
+
+	const dividerLineClasses = css({
+		flex: 1,
+		height: "1px",
+		backgroundColor: "gray.300",
+	});
+
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		onSubmit(email, password);
@@ -117,6 +159,22 @@ const AuthForm: React.FC<AuthFormProps> = ({
 
 	return (
 		<>
+			<button
+				type="button"
+				onClick={() => onGoogleLogin?.()}
+				className={googleButtonClasses}
+			>
+				<GoogleLogo size={18} />
+				{i18n.t("continueWithGoogle")}
+			</button>
+
+			<div className={dividerClasses}>
+				<div className={dividerLineClasses} />
+				{/* {i18n.t("or")} */}
+				or
+				<div className={dividerLineClasses} />
+			</div>
+
 			<form onSubmit={handleSubmit} className={formClasses}>
 				<div className={inputGroupClasses}>
 					<User className={iconClasses} size={16} />

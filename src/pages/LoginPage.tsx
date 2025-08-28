@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { css } from "styled-system/css";
 import { ArrowLeft } from "@phosphor-icons/react";
 import AuthForm from "@/components/common/AuthForm";
-// import Header from "@/components/popup/Header";
+import { supabase } from "../config/supabase-client";
+// import Header from "@/components/popup/window/Header";
 
 const LoginPage: React.FC = () => {
 	const [isLogin, setIsLogin] = useState(true);
@@ -62,6 +63,39 @@ const LoginPage: React.FC = () => {
 		});
 	};
 
+	const handleGoogleLogin = async () => {
+		try {
+			console.log("🔄 Starting Google OAuth...");
+
+			// Use Supabase's hosted auth page - simpler and avoids COOP issues
+			const { data, error } = await supabase.auth.signInWithOAuth({
+				provider: "google",
+				options: {
+					// Use Supabase's hosted auth page
+					redirectTo: `${window.location.origin}/auth/callback`,
+					// Let Supabase handle the OAuth flow
+				},
+			});
+			console.log("🔄 Google OAuth data:", data);
+
+			if (error) {
+				console.error("❌ Google OAuth error:", error);
+				return;
+			}
+
+			console.log("✅ Google OAuth initiated successfully:", data);
+
+			// For Chrome extensions, we need to handle the redirect differently
+			if (data.url) {
+				// Open the OAuth URL in the same window (not popup)
+				// This avoids COOP issues and works better with extensions
+				window.location.href = data.url;
+			}
+		} catch (error) {
+			console.error("❌ Unexpected error during Google login:", error);
+		}
+	};
+
 	const toggleMode = () => {
 		setIsLogin(!isLogin);
 	};
@@ -91,6 +125,7 @@ const LoginPage: React.FC = () => {
 				isLogin={isLogin}
 				onSubmit={handleSubmit}
 				onToggleMode={toggleMode}
+				onGoogleLogin={handleGoogleLogin}
 			/>
 		</div>
 	);

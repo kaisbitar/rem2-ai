@@ -322,5 +322,7 @@
 	"signInToTrack": "Sign in to track your AI impact",
 	"joinToTrack": "Join us to start tracking your AI impact",
 	"dontHaveAccount": "Don't have an account? ",
-	"alreadyHaveAccount": "Already have an account? "
+	"alreadyHaveAccount": "Already have an account? ",
+	"continueWithGoogle": "Continue with Google",
+	"or": "or"
 }
