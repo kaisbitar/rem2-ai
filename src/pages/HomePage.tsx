@@ -9,7 +9,7 @@ import { PlantIcon } from "@phosphor-icons/react";
 // import CallToActionButton from "@/components/common/CallToActionButton";
 import { Footer } from "@/components/common/Footer";
 import { useAuth } from "@/context/AuthContext";
-import { DatabaseSyncService } from "@/utils/storage/database-sync";
+// import { DatabaseSyncService } from "@/utils/storage/database-sync";
 
 const HomePage: React.FC = () => {
 	const { user, isDataSynced, syncUserData } = useAuth();
