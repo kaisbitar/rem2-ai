@@ -59,7 +59,10 @@ const LoginPage: React.FC = () => {
 
 	const handleSubmit = async (email: string, password: string) => {
 		try {
-			console.log(`${isLogin ? "Login" : "Register"} attempt:`, { email, password });
+			console.log(`${isLogin ? "Login" : "Register"} attempt:`, {
+				email,
+				password,
+			});
 
 			if (isLogin) {
 				// Sign in with email/password
@@ -116,14 +119,15 @@ const LoginPage: React.FC = () => {
 			// Load user's historical data from database
 			const [usageData, donations] = await Promise.all([
 				getUserUsageData(100), // Get last 100 usage records
-				getUserDonations()
+				getUserDonations(),
 			]);
 
-			console.log(`✅ Synced ${usageData.length} usage records and ${donations.length} donations`);
+			console.log(
+				`✅ Synced ${usageData.length} usage records and ${donations.length} donations`,
+			);
 
 			// TODO: Merge with local data if needed
 			// For now, we're just loading the data into AuthContext
-
 		} catch (error) {
 			console.error("❌ Error syncing user data:", error);
 			// Don't block login for sync errors

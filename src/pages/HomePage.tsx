@@ -56,7 +56,6 @@ const HomePage: React.FC = () => {
 	const footerClasses = css({
 		display: showStats ? "none" : "block",
 		transition: "opacity .4s ease-in-out, height .5s ease",
-
 	});
 
 	return (
@@ -85,7 +84,7 @@ const HomePage: React.FC = () => {
 					onClick={() => { }}
 				/> */}
 			</main>
-			<div className={footerClasses} >
+			<div className={footerClasses}>
 				<Footer />
 			</div>
 		</div>
