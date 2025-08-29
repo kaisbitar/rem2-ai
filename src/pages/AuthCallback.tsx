@@ -60,7 +60,6 @@ const AuthCallback: React.FC = () => {
 		textAlign: "center",
 	});
 
-
 	const messageClasses = css({
 		color: "gray.600",
 		marginBottom: "4",

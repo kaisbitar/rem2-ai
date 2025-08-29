@@ -2,6 +2,8 @@ import type React from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../config/supabase-client";
 import type { User, Session } from "@supabase/supabase-js";
+import { DatabaseSyncService } from "../utils/storage/database-sync";
+import { browser } from "wxt/browser";
 
 // User profile interface matching our database schema
 interface UserProfile {
@@ -116,8 +118,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			setUser(session?.user ?? null);
 
 			if (session?.user) {
+				// Store user info in Chrome storage for background script access
+				try {
+					await browser.storage.local.set({
+						authUser: {
+							id: session.user.id,
+							email: session.user.email,
+						},
+					});
+					console.log("✅ User auth info stored in Chrome storage");
+				} catch (error) {
+					console.error("❌ Error storing auth info:", error);
+				}
+
 				await loadUserProfile(session.user.id, session.user.email);
 			} else {
+				// Clear auth info from storage when user signs out
+				try {
+					await browser.storage.local.remove(["authUser"]);
+					console.log("✅ User auth info cleared from Chrome storage");
+				} catch (error) {
+					console.error("❌ Error clearing auth info:", error);
+				}
+
 				setUserProfile(null);
 			}
 		});
@@ -348,7 +371,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		try {
 			console.log("🔄 Syncing user data for:", user.email);
 
-			// Load user's historical data from database
+			// 1. Process any pending database sync data first
+			console.log("🔄 Processing pending database sync...");
+			await DatabaseSyncService.processPendingSync();
+
+			// 2. Load user's historical data from database
 			const [usageData, donations] = await Promise.all([
 				getUserUsageData(100), // Get last 100 usage records
 				getUserDonations(),

@@ -8,8 +8,12 @@ import { useState } from "react";
 import { PlantIcon } from "@phosphor-icons/react";
 // import CallToActionButton from "@/components/common/CallToActionButton";
 import { Footer } from "@/components/common/Footer";
+import { useAuth } from "@/context/AuthContext";
+import { DatabaseSyncService } from "@/utils/storage/database-sync";
 
 const HomePage: React.FC = () => {
+	const { user, isDataSynced, syncUserData } = useAuth();
+	const [isSyncing, setIsSyncing] = useState(false);
 	const [showStats, setShowStats] = useState(false);
 
 	const containerClasses = css({
@@ -58,10 +62,95 @@ const HomePage: React.FC = () => {
 		transition: "opacity .4s ease-in-out, height .5s ease",
 	});
 
+	const handleManualSync = async () => {
+		if (!user) return;
+
+		setIsSyncing(true);
+		try {
+			console.log("🔄 Manual sync triggered by user");
+			await syncUserData();
+			alert("✅ Data sync completed successfully!");
+		} catch (error) {
+			console.error("❌ Manual sync failed:", error);
+			alert("❌ Data sync failed. Please try again.");
+		} finally {
+			setIsSyncing(false);
+		}
+	};
+
 	return (
 		<div className={containerClasses}>
 			<Header />
 			<main className={mainClasses}>
+				{/* Sync Status and Manual Sync Button */}
+				{user && (
+					<div
+						className={css({
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "space-between",
+							padding: "3",
+							backgroundColor: "gray.50",
+							borderRadius: "6px",
+							marginBottom: "4",
+							border: "1px solid",
+							borderColor: "gray.200",
+						})}
+					>
+						<div
+							className={css({
+								display: "flex",
+								alignItems: "center",
+								gap: "2",
+							})}
+						>
+							<span
+								className={css({
+									fontSize: "sm",
+									color: "gray.600",
+								})}
+							>
+								Database Sync Status:
+							</span>
+							<span
+								className={css({
+									padding: "1",
+									borderRadius: "4px",
+									fontSize: "xs",
+									fontWeight: "medium",
+									backgroundColor: isDataSynced ? "green.100" : "yellow.100",
+									color: isDataSynced ? "green.700" : "yellow.700",
+								})}
+							>
+								{isDataSynced ? "✅ Synced" : "🔄 Pending"}
+							</span>
+						</div>
+						<button
+							onClick={handleManualSync}
+							disabled={isSyncing}
+							type="button"
+							className={css({
+								padding: "2",
+								backgroundColor: "blue.600",
+								color: "white",
+								border: "none",
+								borderRadius: "4px",
+								fontSize: "sm",
+								cursor: "pointer",
+								transition: "background-color 0.2s",
+								"&:hover": {
+									backgroundColor: "blue.700",
+								},
+								"&:disabled": {
+									backgroundColor: "gray.400",
+									cursor: "not-allowed",
+								},
+							})}
+						>
+							{isSyncing ? "🔄 Syncing..." : "🔄 Sync Now"}
+						</button>
+					</div>
+				)}
 				<h3 className={balanceHeaderClasses}>
 					Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance
 				</h3>
