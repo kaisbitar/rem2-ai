@@ -53,11 +53,12 @@ const HomePage: React.FC = () => {
 		marginBottom: "5px",
 	});
 
-	// const autoBalanceClasses = css({
-	// 	position: "relative",
-	// 	bottom: "-5px",
-	// 	width: "150px",
-	// });
+	const footerClasses = css({
+		display: showStats ? "none" : "block",
+		transition: "opacity .4s ease-in-out, height .5s ease",
+
+	});
+
 	return (
 		<div className={containerClasses}>
 			<Header />
@@ -84,7 +85,9 @@ const HomePage: React.FC = () => {
 					onClick={() => { }}
 				/> */}
 			</main>
-			<Footer />
+			<div className={footerClasses} >
+				<Footer />
+			</div>
 		</div>
 	);
 };

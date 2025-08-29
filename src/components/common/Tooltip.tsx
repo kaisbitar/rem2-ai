@@ -43,6 +43,8 @@ const Tooltip: React.FC<TooltipProps> = ({
 		boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
 		border: "1px solid",
 		borderColor: "gray.700",
+		maxWidth: "232px",
+		textWrapMode: "wrap",
 		"&::after": {
 			content: '""',
 			position: "absolute",
@@ -63,9 +65,9 @@ const Tooltip: React.FC<TooltipProps> = ({
 			aria-describedby="tooltip-content"
 		>
 			{children}
-			<div className={tooltipClasses} id="tooltip-content" role="tooltip">
+			<p className={tooltipClasses} id="tooltip-content">
 				{content}
-			</div>
+			</p>
 		</div>
 	);
 };

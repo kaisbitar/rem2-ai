@@ -118,7 +118,9 @@ const AuthCallback: React.FC = () => {
 
 			<h1
 				className={css({
-					...statusClasses,
+					fontSize: "lg",
+					fontWeight: "medium",
+					marginBottom: "3",
 					color: getStatusColor(),
 				})}
 			>
@@ -130,7 +132,11 @@ const AuthCallback: React.FC = () => {
 			<p className={messageClasses}>{message}</p>
 
 			{status === "error" && (
-				<button type="button" onClick={() => navigate("/login")} className={buttonClasses}>
+				<button
+					type="button"
+					onClick={() => navigate("/login")}
+					className={buttonClasses}
+				>
 					Back to Login
 				</button>
 			)}

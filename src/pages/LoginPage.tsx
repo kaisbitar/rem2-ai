@@ -6,10 +6,12 @@ import { ArrowLeft } from "@phosphor-icons/react";
 import AuthForm from "@/components/common/AuthForm";
 import { supabase } from "../config/supabase-client";
 // import Header from "@/components/popup/window/Header";
+import { useAuth } from "@/context/AuthContext";
 
 const LoginPage: React.FC = () => {
 	const [isLogin, setIsLogin] = useState(true);
 	const navigate = useNavigate();
+	const { getUserUsageData, getUserDonations } = useAuth();
 
 	const containerClasses = css({
 		background: "white",
@@ -55,12 +57,77 @@ const LoginPage: React.FC = () => {
 		},
 	});
 
-	const handleSubmit = (email: string, password: string) => {
-		// TODO: Implement authentication logic
-		console.log(`${isLogin ? "Login" : "Register"} attempt:`, {
-			email,
-			password,
-		});
+	const handleSubmit = async (email: string, password: string) => {
+		try {
+			console.log(`${isLogin ? "Login" : "Register"} attempt:`, { email, password });
+
+			if (isLogin) {
+				// Sign in with email/password
+				const { data, error } = await supabase.auth.signInWithPassword({
+					email,
+					password,
+				});
+
+				if (error) {
+					console.error("❌ Login error:", error);
+					alert(`Login failed: ${error.message}`);
+					return;
+				}
+
+				console.log("✅ Login successful:", data.user?.email);
+
+				// Sync user data after successful login
+				await syncUserData();
+
+				// Navigate to home page
+				navigate("/");
+			} else {
+				// Sign up with email/password
+				const { data, error } = await supabase.auth.signUp({
+					email,
+					password,
+				});
+
+				if (error) {
+					console.error("❌ Registration error:", error);
+					alert(`Registration failed: ${error.message}`);
+					return;
+				}
+
+				console.log("✅ Registration successful:", data.user?.email);
+
+				// For new users, we'll create profile and sync when they first sign in
+				// The AuthContext will handle profile creation automatically
+
+				// Navigate to home page
+				navigate("/");
+			}
+		} catch (error) {
+			console.error("❌ Unexpected error:", error);
+			alert("An unexpected error occurred. Please try again.");
+		}
+	};
+
+	// Function to sync user data after authentication
+	const syncUserData = async () => {
+		try {
+			console.log("🔄 Starting user data sync...");
+
+			// Load user's historical data from database
+			const [usageData, donations] = await Promise.all([
+				getUserUsageData(100), // Get last 100 usage records
+				getUserDonations()
+			]);
+
+			console.log(`✅ Synced ${usageData.length} usage records and ${donations.length} donations`);
+
+			// TODO: Merge with local data if needed
+			// For now, we're just loading the data into AuthContext
+
+		} catch (error) {
+			console.error("❌ Error syncing user data:", error);
+			// Don't block login for sync errors
+		}
 	};
 
 	const handleGoogleLogin = async () => {
@@ -84,6 +151,7 @@ const LoginPage: React.FC = () => {
 			}
 
 			console.log("✅ Google OAuth initiated successfully:", data);
+			navigate("/");
 
 			// For Chrome extensions, we need to handle the redirect differently
 			if (data.url) {

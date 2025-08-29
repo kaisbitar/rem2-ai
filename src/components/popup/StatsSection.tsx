@@ -54,34 +54,44 @@ const StatsSection: React.FC = () => {
 					value={stats.requests}
 					label={`${i18n.t("requests")} `}
 					icon={<GlobeSimpleIcon size={19} />}
+					tooltip="Number of AI requests made today."
 				/>
 				<StatCard
 					value={stats.requests * 325}
 					label={`${i18n.t("tokens")}`}
 					icon={<CloudRain size={19} />}
+					tooltip="Estimated total tokens processed. Calculated as requests × 325 (average tokens per request)."
 				/>
 			</div>
 
 			<h6>Environmental Equivalences</h6>
 			<div className={statsGridClasses}>
-				<StatCard value={"XXX"} label={"m2"} icon={<Plant size={19} />} />
+				<StatCard
+					value={"XXX"}
+					label={"m2"}
+					icon={<Plant size={19} />}
+					tooltip="Square meters of ecosystem that could be restored to offset your AI usage."
+				/>
 
 				<StatCard
 					value={formatCarbon(stats.carbon)}
 					label={`${i18n.t("carbon")}`}
 					icon={<Globe size={19} />}
+					tooltip="Carbon dioxide emissions from your AI usage."
 				/>
 
 				<StatCard
 					value={formatWater(stats.water)}
 					label={`${i18n.t("water")}`}
 					icon={<CloudRain size={19} />}
+					tooltip="Water consumption for cooling data centers that process your AI requests."
 				/>
 
 				<StatCard
 					value={formatDuration(stats.totalDuration || 0)}
 					label={`${i18n.t("totalDuration")}`}
 					icon={<Clock size={19} />}
+					tooltip="Total time spent using AI services."
 				/>
 			</div>
 
@@ -92,6 +102,7 @@ const StatsSection: React.FC = () => {
 					label="Trees"
 					unit="planted"
 					icon={<Tree size={19} />}
+					tooltip="Number of trees that would need to be planted to offset your AI carbon footprint."
 				/>
 
 				<StatCard
@@ -99,6 +110,7 @@ const StatsSection: React.FC = () => {
 					label="Peatland "
 					unit="m² rewetted"
 					icon={<Leaf size={19} />}
+					tooltip="Square meters of peatland that could be restored."
 				/>
 
 				<StatCard
@@ -106,6 +118,7 @@ const StatsSection: React.FC = () => {
 					label="Habitat"
 					unit="m² restored"
 					icon={<Butterfly size={19} />}
+					tooltip="Square meters of natural habitat that could be restored."
 				/>
 			</div>
 		</div>

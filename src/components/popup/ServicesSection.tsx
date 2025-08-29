@@ -35,13 +35,14 @@ const ServicesSection: React.FC = () => {
 		display: "flex",
 		flexDirection: "column",
 		gap: "4",
+		marginTop: "10",
 	});
 
 	const serviceHeaderClasses = css({
 		display: "flex",
 		justifyContent: "space-between",
 		alignItems: "center",
-		marginBottom: "4",
+		marginBottom: "1",
 	});
 
 	const serviceTitleClasses = css({
