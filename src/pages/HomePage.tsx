@@ -8,7 +8,7 @@ import { useState } from "react";
 import { PlantIcon } from "@phosphor-icons/react";
 // import CallToActionButton from "@/components/common/CallToActionButton";
 import { Footer } from "@/components/common/Footer";
-import { useAuth } from "@/context/AuthContext";
+// import { useAuth } from "@/context/AuthContext";
 
 const HomePage: React.FC = () => {
 	// const { user } = useAuth();

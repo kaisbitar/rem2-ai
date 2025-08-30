@@ -111,7 +111,11 @@ const LoginPage: React.FC = () => {
 
 	return (
 		<div className={containerClasses}>
-			<button onClick={handleBackClick} className={backButtonClasses} type="button">
+			<button
+				onClick={handleBackClick}
+				className={backButtonClasses}
+				type="button"
+			>
 				<ArrowLeft size={20} />
 			</button>
 
