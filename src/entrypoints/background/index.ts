@@ -11,6 +11,7 @@ import {
 	getProviderByHostname,
 } from "@/utils/providers/detection";
 import { ReactiveStorage } from "@/utils/storage/reactive";
+import { DatabaseService } from "@/utils/storage/database";
 import { type Browser, browser } from "wxt/browser";
 
 export default defineBackground(() => {
@@ -360,6 +361,31 @@ export default defineBackground(() => {
 						};
 
 						await ReactiveStorage.recordAIRequest(aiRequest);
+
+						// Try to save to database if user is authenticated and opted-in
+						try {
+							const authUser = await browser.storage.local.get(["authUser"]);
+							if (authUser.authUser?.id) {
+								// Convert to database format
+								const usageData = {
+									timestamp: new Date(aiRequest.timestamp).toISOString(),
+									energy_usage_wh: Math.round(carbonImpact * 0.5), // Rough conversion
+									co2_emissions_g: carbonImpact,
+									token_count: estimateTokenCount(aiRequest.service),
+									conversation_id: `${aiRequest.service}-${aiRequest.timestamp}-${Math.random().toString(36).substr(2, 9)}`,
+									model_used: aiRequest.service,
+								};
+
+								// Save to database (will check opt-in status)
+								await DatabaseService.saveUsageData(
+									authUser.authUser.id,
+									usageData,
+								);
+							}
+						} catch (dbError) {
+							// Silent fail - database save is optional
+							logger.log("ℹ️ Database save failed (optional):", dbError);
+						}
 					}
 
 					// Mark request end
@@ -415,5 +441,16 @@ export default defineBackground(() => {
 		} catch (error) {
 			logger.error("❌ Error during error request cleanup:", error);
 		}
+	}
+
+	// Simple token count estimation
+	function estimateTokenCount(service: string): number {
+		const baseTokens = {
+			ChatGPT: 325,
+			Claude: 300,
+			"Google Gemini": 280,
+		};
+
+		return baseTokens[service as keyof typeof baseTokens] || 325;
 	}
 });

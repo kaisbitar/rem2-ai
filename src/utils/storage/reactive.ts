@@ -1,4 +1,4 @@
-// src/utils/reactive-storage.ts - Reactive storage with detailed logs
+// src/utils/reactive-storage.ts - Clean, simple reactive storage
 import type {
 	AIRequest,
 	DailyCarbonData,
@@ -47,7 +47,6 @@ export class ReactiveStorage {
 	 */
 	private static isContextValid(): boolean {
 		try {
-			// Simple check with WXT's browser API
 			return !!browser.runtime.getManifest();
 		} catch {
 			return false;
@@ -104,7 +103,7 @@ export class ReactiveStorage {
 	}
 
 	/**
-	 * Record an AI request
+	 * Record an AI request - simple Chrome storage only
 	 */
 	static async recordAIRequest(request: AIRequest): Promise<void> {
 		logger.log("📝 Recording request:", {
@@ -118,7 +117,7 @@ export class ReactiveStorage {
 		}
 
 		try {
-			// 1. Save to local Chrome storage (existing functionality)
+			// Save to local Chrome storage
 			const todayKey = ReactiveStorage.getTodayKey();
 			const result = await browser.storage.local.get([todayKey, "globalStats"]);
 			logger.log("📊 Current data retrieved:", result);
@@ -185,129 +184,10 @@ export class ReactiveStorage {
 				globalStats: globalStats,
 			});
 
-			// 2. NEW: Save to Supabase database if user is authenticated
-			await ReactiveStorage.saveToDatabase(request);
-
 			// Notify listeners of data change
 			ReactiveStorage.notifyListeners();
 		} catch (error) {
 			logger.error("❌ Error recording AI request:", error);
-		}
-	}
-
-	/**
-	 * Save AI request data to Supabase database
-	 */
-	private static async saveToDatabase(request: AIRequest): Promise<void> {
-		try {
-			// Check if we're in a context where we can access the database
-			// This will be called from the background script, so we need to check auth state
-			const authState = await ReactiveStorage.getAuthState();
-
-			if (!authState?.user) {
-				logger.log("ℹ️ User not authenticated, skipping database save");
-				return;
-			}
-
-			logger.log("💾 Saving to database for user:", authState.user.email);
-
-			// Convert request to database format
-			const usageData = {
-				timestamp: new Date(request.timestamp).toISOString(),
-				energy_usage_wh: ReactiveStorage.calculateEnergyUsage(
-					request.carbonImpact,
-				),
-				co2_emissions_g: request.carbonImpact,
-				token_count: ReactiveStorage.estimateTokenCount(request),
-				conversation_id: ReactiveStorage.generateConversationId(request),
-				model_used: request.service,
-			};
-
-			// Queue data for database sync (popup will process it)
-			await ReactiveStorage.queueForDatabaseSync(usageData);
-		} catch (error) {
-			logger.error("❌ Error saving to database:", error);
-		}
-	}
-
-	/**
-	 * Get current authentication state
-	 */
-	private static async getAuthState(): Promise<{ user: any } | null> {
-		try {
-			// Try to get auth state from storage or message the popup
-			const result = await browser.storage.local.get(["authUser"]);
-			return result.authUser ? { user: result.authUser } : null;
-		} catch (error) {
-			logger.error("❌ Error getting auth state:", error);
-			return null;
-		}
-	}
-
-	/**
-	 * Calculate energy usage from carbon impact
-	 */
-	private static calculateEnergyUsage(carbonGrams: number): number {
-		// Rough conversion: 1g CO2 ≈ 0.5 Wh of energy
-		// This is a simplified calculation - real values vary by data center
-		return carbonGrams * 0.5;
-	}
-
-	/**
-	 * Estimate token count based on request characteristics
-	 */
-	private static estimateTokenCount(request: AIRequest): number {
-		// Estimate tokens based on duration and service
-		// ChatGPT: ~325 tokens per request (average)
-		// Claude: ~300 tokens per request
-		// Gemini: ~280 tokens per request
-		const baseTokens = {
-			ChatGPT: 325,
-			Claude: 300,
-			"Google Gemini": 280,
-		};
-
-		return baseTokens[request.service as keyof typeof baseTokens] || 325;
-	}
-
-	/**
-	 * Generate a unique conversation ID
-	 */
-	private static generateConversationId(request: AIRequest): string {
-		// Create a unique ID based on timestamp and service
-		return `${request.service}-${request.timestamp}-${Math.random().toString(36).substr(2, 9)}`;
-	}
-
-	/**
-	 * Queue data for database sync
-	 */
-	private static async queueForDatabaseSync(usageData: any): Promise<void> {
-		try {
-			// Store the data temporarily in storage
-			// The popup will pick it up and save it to the database
-			await browser.storage.local.set({
-				pendingDatabaseSync: [
-					...(await ReactiveStorage.getPendingDatabaseSync()),
-					usageData,
-				],
-			});
-
-			logger.log("📤 Data queued for database sync:", usageData);
-		} catch (error) {
-			logger.error("❌ Error queuing database sync:", error);
-		}
-	}
-
-	/**
-	 * Get pending database sync data
-	 */
-	private static async getPendingDatabaseSync(): Promise<any[]> {
-		try {
-			const result = await browser.storage.local.get(["pendingDatabaseSync"]);
-			return result.pendingDatabaseSync || [];
-		} catch (error) {
-			logger.error("❌ Error getting pending sync:", error);
-			return [];
 		}
 	}
 

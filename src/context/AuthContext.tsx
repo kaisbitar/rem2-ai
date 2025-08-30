@@ -2,10 +2,9 @@ import type React from "react";
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../config/supabase-client";
 import type { User, Session } from "@supabase/supabase-js";
-import { DatabaseSyncService } from "../utils/storage/database-sync";
 import { browser } from "wxt/browser";
 
-// User profile interface matching our database schema
+// Clean, simple interfaces matching our database schema
 interface UserProfile {
 	id: string;
 	email: string;
@@ -14,7 +13,6 @@ interface UserProfile {
 	last_active: string;
 }
 
-// Usage data interface
 interface UsageData {
 	id: string;
 	user_id: string;
@@ -26,7 +24,6 @@ interface UsageData {
 	model_used: string;
 }
 
-// Donation interface
 interface Donation {
 	id: string;
 	user_id: string;
@@ -42,26 +39,15 @@ interface AuthContextType {
 	userProfile: UserProfile | null;
 	signOut: () => Promise<void>;
 
-	// User data operations
+	// Simple user profile operations
 	getUserProfile: () => Promise<UserProfile | null>;
 	updateUserProfile: (updates: Partial<UserProfile>) => Promise<void>;
 
-	// Usage data operations
-	addUsageData: (data: Omit<UsageData, "id" | "user_id">) => Promise<void>;
+	// Simple data operations - only when user opts in
+	saveUsageData: (data: Omit<UsageData, "id" | "user_id">) => Promise<boolean>;
 	getUserUsageData: (limit?: number) => Promise<UsageData[]>;
-
-	// Donation operations
-	addDonation: (data: Omit<Donation, "id" | "user_id">) => Promise<void>;
+	saveDonation: (data: Omit<Donation, "id" | "user_id">) => Promise<boolean>;
 	getUserDonations: () => Promise<Donation[]>;
-
-	// Synced data state
-	syncedUsageData: UsageData[];
-	syncedDonations: Donation[];
-	isDataSynced: boolean;
-
-	// Data sync operations
-	syncUserData: () => Promise<void>;
-	clearSyncedData: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -83,11 +69,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	const [session, setSession] = useState<Session | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-
-	// Synced data state
-	const [syncedUsageData, setSyncedUsageData] = useState<UsageData[]>([]);
-	const [syncedDonations, setSyncedDonations] = useState<Donation[]>([]);
-	const [isDataSynced, setIsDataSynced] = useState(false);
 
 	useEffect(() => {
 		const getInitialSession = async () => {
@@ -148,15 +129,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		return () => subscription.unsubscribe();
 	}, []);
 
-	// Enhanced loadUserProfile to also sync data
 	const loadUserProfile = async (userId: string, userEmail?: string) => {
 		try {
-			console.log(
-				"🔄 Loading user profile for:",
-				userId,
-				"with email:",
-				userEmail,
-			);
+			console.log("🔄 Loading user profile for:", userId);
 
 			const { data, error } = await supabase
 				.from("user_profiles")
@@ -165,7 +140,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 				.single();
 
 			if (error && error.code !== "PGRST116") {
-				// PGRST116 = no rows returned
 				console.error("❌ Error loading user profile:", error);
 				return;
 			}
@@ -173,11 +147,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			if (data) {
 				console.log("✅ User profile found:", data);
 				setUserProfile(data);
-				// Auto-sync data when profile is loaded
-				await syncUserData();
 			} else {
 				console.log("⚠️ No profile found, creating new one...");
-				// Create profile if it doesn't exist
 				await createUserProfile(userId, userEmail);
 			}
 		} catch (error) {
@@ -187,19 +158,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 	const createUserProfile = async (userId: string, userEmail?: string) => {
 		try {
-			console.log(
-				"🔄 Creating user profile for:",
-				userId,
-				"with email:",
-				userEmail,
-			);
+			console.log("🔄 Creating user profile for:", userId);
 
 			const { data, error } = await supabase
 				.from("user_profiles")
 				.insert({
 					id: userId,
-					email: userEmail || "unknown@example.com", // Use passed email or fallback
-					opt_in_status: true,
+					email: userEmail || "unknown@example.com",
+					opt_in_status: true, // Default to opt-in
 					last_active: new Date().toISOString(),
 				})
 				.select()
@@ -217,20 +183,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		}
 	};
 
-	// Enhanced signOut to clear synced data
 	const signOut = async () => {
 		try {
 			await supabase.auth.signOut();
 			setUser(null);
 			setSession(null);
 			setUserProfile(null);
-			clearSyncedData(); // Clear synced data on sign out
 		} catch (error) {
 			console.error("Error signing out:", error);
 		}
 	};
 
-	// User profile operations
 	const getUserProfile = async (): Promise<UserProfile | null> => {
 		if (!user) return null;
 
@@ -277,9 +240,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		}
 	};
 
-	// Usage data operations
-	const addUsageData = async (data: Omit<UsageData, "id" | "user_id">) => {
-		if (!user) return;
+	// Simple usage data save - only when user opts in
+	const saveUsageData = async (
+		data: Omit<UsageData, "id" | "user_id">,
+	): Promise<boolean> => {
+		if (!user || !userProfile?.opt_in_status) {
+			console.log(
+				"ℹ️ User not authenticated or opted out, skipping database save",
+			);
+			return false;
+		}
 
 		try {
 			const { error } = await supabase.from("usage_data").insert({
@@ -288,13 +258,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			});
 
 			if (error) {
-				console.error("Error adding usage data:", error);
-				return;
+				console.error("Error saving usage data:", error);
+				return false;
 			}
 
-			console.log("✅ Usage data added successfully");
+			console.log("✅ Usage data saved to database");
+			return true;
 		} catch (error) {
-			console.error("Error in addUsageData:", error);
+			console.error("Error in saveUsageData:", error);
+			return false;
 		}
 	};
 
@@ -321,9 +293,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		}
 	};
 
-	// Donation operations
-	const addDonation = async (data: Omit<Donation, "id" | "user_id">) => {
-		if (!user) return;
+	// Simple donation save - only when user opts in
+	const saveDonation = async (
+		data: Omit<Donation, "id" | "user_id">,
+	): Promise<boolean> => {
+		if (!user || !userProfile?.opt_in_status) {
+			console.log(
+				"ℹ️ User not authenticated or opted out, skipping database save",
+			);
+			return false;
+		}
 
 		try {
 			const { error } = await supabase.from("donations").insert({
@@ -332,13 +311,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			});
 
 			if (error) {
-				console.error("Error adding donation:", error);
-				return;
+				console.error("Error saving donation:", error);
+				return false;
 			}
 
-			console.log("✅ Donation added successfully");
+			console.log("✅ Donation saved to database");
+			return true;
 		} catch (error) {
-			console.error("Error in addDonation:", error);
+			console.error("Error in saveDonation:", error);
+			return false;
 		}
 	};
 
@@ -364,43 +345,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		}
 	};
 
-	// Data sync operations
-	const syncUserData = async () => {
-		if (!user) return;
-
-		try {
-			console.log("🔄 Syncing user data for:", user.email);
-
-			// 1. Process any pending database sync data first
-			console.log("🔄 Processing pending database sync...");
-			await DatabaseSyncService.processPendingSync();
-
-			// 2. Load user's historical data from database
-			const [usageData, donations] = await Promise.all([
-				getUserUsageData(100), // Get last 100 usage records
-				getUserDonations(),
-			]);
-
-			// Update synced data state
-			setSyncedUsageData(usageData);
-			setSyncedDonations(donations);
-			setIsDataSynced(true);
-
-			console.log(
-				`✅ Synced ${usageData.length} usage records and ${donations.length} donations`,
-			);
-		} catch (error) {
-			console.error("Error in syncUserData:", error);
-			setIsDataSynced(false);
-		}
-	};
-
-	const clearSyncedData = () => {
-		setSyncedUsageData([]);
-		setSyncedDonations([]);
-		setIsDataSynced(false);
-	};
-
 	const value: AuthContextType = {
 		user,
 		session,
@@ -409,15 +353,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		signOut,
 		getUserProfile,
 		updateUserProfile,
-		addUsageData,
+		saveUsageData,
 		getUserUsageData,
-		addDonation,
+		saveDonation,
 		getUserDonations,
-		syncedUsageData,
-		syncedDonations,
-		isDataSynced,
-		syncUserData,
-		clearSyncedData,
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -57,8 +57,8 @@ const StatsSection: React.FC = () => {
 					tooltip="Number of AI requests made today."
 				/>
 				<StatCard
-					value={stats.requests * 325}
-					label={`${i18n.t("tokens")}`}
+					value={`${stats.requests * 325} + "{}"`}
+					// label={`${i18n.t("tokens")}`}
 					icon={<CloudRain size={19} />}
 					tooltip="Estimated total tokens processed. Calculated as requests × 325 (average tokens per request)."
 				/>

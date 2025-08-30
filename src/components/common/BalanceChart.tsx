@@ -63,13 +63,13 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 	});
 
 	const chartWrapperClasses = css({
-		height: "13px",
-		width: "160px",
+		height: "23px",
+		width: "176px",
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
 		position: "relative",
-		backgroundColor: "#a1ca2a45",
+		// backgroundColor: "#a1ca2a45",
 		borderRadius: "full",
 		overflow: "visible",
 		border: "1px solid #00800036",
