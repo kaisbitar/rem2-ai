@@ -56,7 +56,7 @@ const HomePage: React.FC = () => {
 		<div className={containerClasses}>
 			<Header />
 			<main className={mainClasses}>
-				<h2 >{user && <div>Hi {user.email}</div>}</h2>
+				<h2>{user && <div>Hi {user.email}</div>}</h2>
 				<h3 className={balanceHeaderClasses}>
 					Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance
 				</h3>
@@ -72,7 +72,6 @@ const HomePage: React.FC = () => {
 					<StatsSection />
 					<ServicesSection />
 				</div>
-
 
 				<div className={footerClasses}>
 					<Footer />
