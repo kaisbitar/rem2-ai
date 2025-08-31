@@ -13,25 +13,6 @@ interface UserProfile {
 	last_active: string;
 }
 
-interface UsageData {
-	id: string;
-	user_id: string;
-	timestamp: string;
-	energy_usage_wh: number;
-	co2_emissions_g: number;
-	token_count: number;
-	conversation_id: string;
-	model_used: string;
-}
-
-interface Donation {
-	id: string;
-	user_id: string;
-	amount: number;
-	m2_restored: number;
-	donation_date: string;
-}
-
 interface AuthContextType {
 	user: User | null;
 	session: Session | null;
@@ -39,15 +20,9 @@ interface AuthContextType {
 	userProfile: UserProfile | null;
 	signOut: () => Promise<void>;
 
-	// Simple user profile operations
+	// User profile operations ONLY
 	getUserProfile: () => Promise<UserProfile | null>;
 	updateUserProfile: (updates: Partial<UserProfile>) => Promise<void>;
-
-	// Simple data operations - only when user opts in
-	saveUsageData: (data: Omit<UsageData, "id" | "user_id">) => Promise<boolean>;
-	getUserUsageData: (limit?: number) => Promise<UsageData[]>;
-	saveDonation: (data: Omit<Donation, "id" | "user_id">) => Promise<boolean>;
-	getUserDonations: () => Promise<Donation[]>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -164,7 +139,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 				.from("user_profiles")
 				.insert({
 					id: userId,
-					email: userEmail || "unknown@example.com",
+					email: userEmail,
 					opt_in_status: true, // Default to opt-in
 					last_active: new Date().toISOString(),
 				})
@@ -240,111 +215,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		}
 	};
 
-	// Simple usage data save - only when user opts in
-	const saveUsageData = async (
-		data: Omit<UsageData, "id" | "user_id">,
-	): Promise<boolean> => {
-		if (!user || !userProfile?.opt_in_status) {
-			console.log(
-				"ℹ️ User not authenticated or opted out, skipping database save",
-			);
-			return false;
-		}
-
-		try {
-			const { error } = await supabase.from("usage_data").insert({
-				...data,
-				user_id: user.id,
-			});
-
-			if (error) {
-				console.error("Error saving usage data:", error);
-				return false;
-			}
-
-			console.log("✅ Usage data saved to database");
-			return true;
-		} catch (error) {
-			console.error("Error in saveUsageData:", error);
-			return false;
-		}
-	};
-
-	const getUserUsageData = async (limit = 50): Promise<UsageData[]> => {
-		if (!user) return [];
-
-		try {
-			const { data, error } = await supabase
-				.from("usage_data")
-				.select("*")
-				.eq("user_id", user.id)
-				.order("timestamp", { ascending: false })
-				.limit(limit);
-
-			if (error) {
-				console.error("Error getting user usage data:", error);
-				return [];
-			}
-
-			return data || [];
-		} catch (error) {
-			console.error("Error in getUserUsageData:", error);
-			return [];
-		}
-	};
-
-	// Simple donation save - only when user opts in
-	const saveDonation = async (
-		data: Omit<Donation, "id" | "user_id">,
-	): Promise<boolean> => {
-		if (!user || !userProfile?.opt_in_status) {
-			console.log(
-				"ℹ️ User not authenticated or opted out, skipping database save",
-			);
-			return false;
-		}
-
-		try {
-			const { error } = await supabase.from("donations").insert({
-				...data,
-				user_id: user.id,
-			});
-
-			if (error) {
-				console.error("Error saving donation:", error);
-				return false;
-			}
-
-			console.log("✅ Donation saved to database");
-			return true;
-		} catch (error) {
-			console.error("Error in saveDonation:", error);
-			return false;
-		}
-	};
-
-	const getUserDonations = async (): Promise<Donation[]> => {
-		if (!user) return [];
-
-		try {
-			const { data, error } = await supabase
-				.from("donations")
-				.select("*")
-				.eq("user_id", user.id)
-				.order("donation_date", { ascending: false });
-
-			if (error) {
-				console.error("Error getting user donations:", error);
-				return [];
-			}
-
-			return data || [];
-		} catch (error) {
-			console.error("Error in getUserDonations:", error);
-			return [];
-		}
-	};
-
 	const value: AuthContextType = {
 		user,
 		session,
@@ -353,10 +223,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		signOut,
 		getUserProfile,
 		updateUserProfile,
-		saveUsageData,
-		getUserUsageData,
-		saveDonation,
-		getUserDonations,
 	};
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

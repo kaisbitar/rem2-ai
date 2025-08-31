@@ -6,12 +6,11 @@ import Header from "@/components/popup/Header";
 import Balance from "@/components/popup/Balance";
 import { useState } from "react";
 import { PlantIcon } from "@phosphor-icons/react";
-// import CallToActionButton from "@/components/common/CallToActionButton";
 import { Footer } from "@/components/common/Footer";
-// import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 
 const HomePage: React.FC = () => {
-	// const { user } = useAuth();
+	const { user } = useAuth();
 	const [showStats, setShowStats] = useState(false);
 
 	const containerClasses = css({
@@ -57,6 +56,7 @@ const HomePage: React.FC = () => {
 		<div className={containerClasses}>
 			<Header />
 			<main className={mainClasses}>
+				<h2 >{user && <div>Hi {user.email}</div>}</h2>
 				<h3 className={balanceHeaderClasses}>
 					Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance
 				</h3>
@@ -70,9 +70,9 @@ const HomePage: React.FC = () => {
 
 				<div className={contentContainerClasses}>
 					<StatsSection />
+					<ServicesSection />
 				</div>
 
-				<ServicesSection />
 
 				<div className={footerClasses}>
 					<Footer />

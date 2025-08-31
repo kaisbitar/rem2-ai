@@ -1,7 +1,7 @@
 # 🗄️ **Database Architecture - Clean & Simple**
 
 ## **Overview**
-This document describes the clean, simple database integration for the AI Impact Tracker extension. The architecture follows the **KISS principle** (Keep It Simple, Stupid) and only saves data when users explicitly opt-in.
+This document describes the clean, simple database integration for the AI Impact Tracker extension. The architecture follows **clean code principles** with clear separation of concerns and only saves data when users explicitly opt-in.
 
 ## **🏗️ Architecture**
 
@@ -16,7 +16,8 @@ Background Script → Chrome Storage → Database (if opted-in)
 1. **Chrome Storage First** - All data is always saved locally
 2. **Database Optional** - Database save only happens when user opts-in
 3. **Silent Failures** - Database errors don't break the extension
-4. **Simple Integration** - No complex sync queues or state management
+4. **Single Responsibility** - Each module has one clear purpose
+5. **No Duplication** - Each piece of functionality exists in exactly one place
 
 ## **📊 Database Tables**
 
@@ -47,89 +48,111 @@ Background Script → Chrome Storage → Database (if opted-in)
 ## **🔧 Implementation**
 
 ### **1. AuthContext (src/context/AuthContext.tsx)**
-- **Simple database methods** - `saveUsageData()`, `saveDonation()`
-- **Opt-in checking** - Only saves when `userProfile.opt_in_status = true`
-- **Clean error handling** - Returns boolean success/failure
-- **No complex sync logic** - Direct database operations
+- **Single Responsibility**: Authentication and user profile state management ONLY
+- **No Database Operations**: Focused purely on auth state
+- **Clean Interface**: Simple, focused methods for auth operations
+- **User Profile Management**: Create, read, update user profiles
 
 ### **2. DatabaseService (src/utils/storage/database.ts)**
-- **Static utility class** - No complex state management
-- **Opt-in validation** - Checks user profile before saving
-- **Simple CRUD operations** - Insert, select, update
-- **Error handling** - Graceful failures, returns boolean
+- **Single Responsibility**: All database operations
+- **Static Utility Class**: No complex state management
+- **Opt-in Validation**: Checks user profile before saving
+- **Comprehensive Operations**: CRUD operations for all data types
+- **Error Handling**: Graceful failures, returns boolean
+- **Type Safety**: Full TypeScript interfaces
 
-### **3. Background Script Integration**
-- **Automatic database save** - When requests complete
-- **Silent failures** - Database errors don't break tracking
-- **Opt-in respect** - Only saves for opted-in users
-- **Simple conversion** - AI request → database format
+### **3. useDatabase Hook (src/hooks/useDatabase.ts)**
+- **React Integration**: Clean hook interface for components
+- **Authentication Aware**: Automatically checks user auth state
+- **Performance Optimized**: Uses useCallback for stable references
+- **Error Handling**: Graceful fallbacks for unauthenticated users
+- **Type Safe**: Full TypeScript support
+
+### **4. Background Script Integration**
+- **Automatic Database Save** - When requests complete
+- **Silent Failures** - Database errors don't break tracking
+- **Opt-in Respect** - Only saves for opted-in users
+- **Simple Conversion** - AI request → database format
 
 ## **🚀 Usage Examples**
 
-### **Saving Usage Data**
+### **In Components - Using useDatabase Hook**
 ```typescript
-// In background script - automatic save
-const usageData = {
-    timestamp: new Date().toISOString(),
-    energy_usage_wh: 50,
-    co2_emissions_g: 25,
-    token_count: 300,
-    conversation_id: "unique-id",
-    model_used: "ChatGPT"
+import { useDatabase } from '@/hooks/useDatabase';
+
+const MyComponent = () => {
+    const { saveUsageData, getUserUsageData, isUserOptedIn } = useDatabase();
+    
+    const handleSaveData = async () => {
+        const optedIn = await isUserOptedIn();
+        if (optedIn) {
+            const success = await saveUsageData({
+                timestamp: new Date().toISOString(),
+                energy_usage_wh: 50,
+                co2_emissions_g: 25,
+                token_count: 300,
+                conversation_id: "unique-id",
+                model_used: "ChatGPT"
+            });
+            
+            if (success) {
+                console.log("✅ Data saved to database");
+            }
+        }
+    };
+    
+    // ... rest of component
 };
+```
+
+### **In Background Script - Direct DatabaseService Usage**
+```typescript
+import { DatabaseService } from '@/utils/storage/database';
 
 // Will only save if user is authenticated and opted-in
 await DatabaseService.saveUsageData(userId, usageData);
 ```
 
-### **Saving Donations**
-```typescript
-// In popup - user-initiated save
-const donation = {
-    amount: 10.00,
-    m2_restored: 5.0,
-    donation_date: new Date().toISOString()
-};
-
-// Will only save if user is authenticated and opted-in
-await DatabaseService.saveDonation(userId, donation);
-```
-
 ### **Checking Opt-in Status**
 ```typescript
 // In any component
-const { userProfile } = useAuth();
+const { isUserOptedIn } = useDatabase();
 
-if (userProfile?.opt_in_status) {
-    // User has opted in - safe to save to database
-    console.log("User opted in to database storage");
-} else {
-    // User has not opted in - only use Chrome storage
-    console.log("User not opted in - Chrome storage only");
-}
+const checkOptIn = async () => {
+    const optedIn = await isUserOptedIn();
+    if (optedIn) {
+        console.log("User opted in to database storage");
+    } else {
+        console.log("User not opted in - Chrome storage only");
+    }
+};
 ```
 
 ## **✅ Benefits of This Architecture**
 
-### **1. Simplicity**
-- **No complex sync logic** - Direct database operations
-- **No state management** - Simple boolean returns
-- **No queues** - Immediate save or fail
+### **1. Clean Code Principles**
+- **Single Responsibility**: Each module has one clear purpose
+- **No Duplication**: Each piece of functionality exists in exactly one place
+- **Clear Interfaces**: Well-defined contracts between modules
+- **Easy Testing**: Each module can be tested independently
 
-### **2. Reliability**
-- **Chrome storage always works** - Extension never breaks
-- **Database optional** - Graceful degradation
-- **Silent failures** - User experience unaffected
+### **2. Maintainability**
+- **Easy to Modify**: Changes only need to be made in one place
+- **Clear Dependencies**: Easy to understand what depends on what
+- **Consistent Patterns**: Same approach used throughout the codebase
+- **Reduced Bugs**: Less chance of inconsistencies between implementations
 
-### **3. Performance**
-- **No background sync** - Immediate operations
-- **No polling** - On-demand database access
-- **Minimal overhead** - Only when needed
+### **3. Developer Experience**
+- **Clear Intent**: Easy to understand what each module does
+- **Type Safety**: Full TypeScript support prevents runtime errors
+- **IntelliSense**: Excellent IDE support with proper types
+- **Documentation**: Clear interfaces and examples
 
-### **4. User Privacy**
-- **Explicit opt-in** - Users control their data
-- **Local-first** - Data always stored locally
-- **Transparent** - Clear when data goes to database
+### **4. Performance**
+- **No Background Sync**: Immediate operations
+- **No Polling**: On-demand database access
+- **Minimal Overhead**: Only when needed
+- **Optimized Hooks**: Stable references prevent unnecessary re-renders
 
 ## **🧪 Testing**
 
@@ -181,6 +204,17 @@ console.log(result) // { success: true, message: "Database operations working" }
 
 ## **🎯 Summary**
 
-This architecture provides a **clean, simple, and reliable** way to integrate with the database while maintaining the extension's core functionality. It follows modern privacy principles and gives users full control over their data while ensuring the extension always works, regardless of database connectivity.
+This architecture provides a **clean, maintainable, and scalable** way to integrate with the database while maintaining the extension's core functionality. It follows modern software engineering principles and gives users full control over their data while ensuring the extension always works, regardless of database connectivity.
 
-**Key Takeaway**: Database integration is **optional and additive** - it enhances the experience for opted-in users without compromising the experience for others. 
+**Key Takeaway**: Database integration is **optional and additive** - it enhances the experience for opted-in users without compromising the experience for others. The clean separation of concerns makes the codebase easy to understand, maintain, and extend.
+
+## **🏆 Clean Code Standards Achieved**
+
+✅ **Single Responsibility Principle** - Each module has one clear purpose  
+✅ **DRY Principle** - No duplicate functionality  
+✅ **Separation of Concerns** - Clear boundaries between modules  
+✅ **Type Safety** - Full TypeScript support  
+✅ **Error Handling** - Graceful failures throughout  
+✅ **Performance** - Optimized React hooks  
+✅ **Maintainability** - Easy to modify and extend  
+✅ **Testing** - Each module can be tested independently 
