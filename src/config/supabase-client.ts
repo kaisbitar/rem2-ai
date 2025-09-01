@@ -1,36 +1,37 @@
 // src/config/supabase-client.ts - Supabase client for Chrome extension
 import { createClient } from "@supabase/supabase-js";
+import { SUPABASE_CONFIG } from "./supabase-config";
 
-// Environment-based configuration (secure and flexible)
-const SUPABASE_URL = process.env.SUPABASE_URL || "";
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || "";
+// Use configuration from the config file
+const SUPABASE_URL = SUPABASE_CONFIG.url;
+const SUPABASE_ANON_KEY = SUPABASE_CONFIG.anonKey;
 
 // Validate configuration
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-	throw new Error(
-		"Missing Supabase configuration. Please check your environment variables.",
-	);
+  throw new Error(
+    "Missing Supabase configuration. Please check your configuration file."
+  );
 }
 
 // Create and export Supabase client
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-	auth: {
-		autoRefreshToken: true,
-		persistSession: true,
-		detectSessionInUrl: false,
-	},
-	realtime: {
-		params: {
-			eventsPerSecond: 10,
-		},
-	},
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: false,
+  },
+  realtime: {
+    params: {
+      eventsPerSecond: 10,
+    },
+  },
 });
 
 // Export configuration for debugging
 export const supabaseConfig = {
-	environment: process.env.NODE_ENV || "development",
-	url: SUPABASE_URL,
-	hasAnonKey: !!SUPABASE_ANON_KEY,
+  environment: SUPABASE_CONFIG.environment,
+  url: SUPABASE_URL,
+  hasAnonKey: !!SUPABASE_ANON_KEY,
 };
 
 // Export types for use in the extension
