@@ -51,7 +51,6 @@ const HomePage: React.FC = () => {
 		display: showStats ? "none" : "block",
 		transition: "opacity .4s ease-in-out, height .5s ease",
 	});
-
 	return (
 		<div className={containerClasses}>
 			<Header />
