@@ -3,37 +3,51 @@ import { supabase } from "../../config/supabase-client";
 import { logger } from "../core/logger";
 
 // Clean, focused interfaces for database operations
-export interface DatabaseUsageData {
-	timestamp: string;
-	energy_usage_wh: number;
-	co2_emissions_g: number;
-	token_count: number;
-	conversation_id: string;
-	model_used: string;
+export interface ConsumptionMetrics {
+  timestamp: string;
+  energy_usage_wh: number;
+  co2_emissions_g: number;
+  token_count: number;
+  conversation_id: string;
+  model_used: string;
+  duration_ms: number;
+  water_consumption_ml: number;
 }
 
-export interface DatabaseDonation {
-	amount: number;
-	m2_restored: number;
-	donation_date: string;
+export interface RestorationAction {
+  action_date: string;
+  action_type: "donation" | "volunteer" | "offset";
+  amount: number;
+  m2_restored: number;
+  trees_planted: number;
+  peatland_rewetted_m2: number;
+  habitat_restored_m2: number;
+  organization?: string;
+  project_name?: string;
+  verification_status?: string;
 }
 
 export interface UserProfile {
-	id: string;
-	email: string;
-	opt_in_status: boolean;
-	created_at: string;
-	last_active: string;
+  id: string;
+  email: string;
+  opt_in_status: boolean;
+  created_at: string;
+  last_active: string;
+  total_m2_restored: number;
+  total_trees_planted: number;
+  total_peatland_rewetted: number;
+  total_habitat_restored: number;
+  total_m2_consumed: number;
 }
 
-export interface UsageDataRecord extends DatabaseUsageData {
-	id: string;
-	user_id: string;
+export interface ConsumptionMetricsRecord extends ConsumptionMetrics {
+  id: string;
+  user_id: string;
 }
 
-export interface DonationRecord extends DatabaseDonation {
-	id: string;
-	user_id: string;
+export interface RestorationActionRecord extends RestorationAction {
+  id: string;
+  user_id: string;
 }
 
 /**
@@ -41,239 +55,399 @@ export interface DonationRecord extends DatabaseDonation {
  * Follows clean architecture principles with clear separation of concerns
  */
 export class DatabaseService {
-	/**
-	 * Save usage data to database if user is authenticated and opted-in
-	 * @param userId - The user's unique identifier
-	 * @param usageData - The usage data to save
-	 * @returns Promise<boolean> - Success status
-	 */
-	static async saveUsageData(
-		userId: string,
-		usageData: DatabaseUsageData,
-	): Promise<boolean> {
-		try {
-			logger.log(`💾 Attempting to save usage data for user: ${userId}`);
+  /**
+   * Save consumption metrics to database if user is authenticated and opted-in
+   * @param userId - The user's unique identifier
+   * @param metrics - The consumption metrics to save
+   * @returns Promise<boolean> - Success status
+   */
+  static async saveConsumptionMetrics(
+    userId: string,
+    metrics: ConsumptionMetrics
+  ): Promise<boolean> {
+    try {
+      logger.log(
+        `💾 Attempting to save consumption metrics for user: ${userId}`
+      );
 
-			// Check if user profile exists and is opted-in
-			const { data: profile, error: profileError } = await supabase
-				.from("user_profiles")
-				.select("opt_in_status")
-				.eq("id", userId)
-				.single();
+      // Check if user profile exists and is opted-in
+      const { data: profile, error: profileError } = await supabase
+        .from("user_profiles")
+        .select("opt_in_status")
+        .eq("id", userId)
+        .single();
 
-			if (profileError) {
-				logger.log("ℹ️ User profile not found, skipping database save");
-				return false;
-			}
+      if (profileError) {
+        logger.log("ℹ️ User profile not found, skipping database save");
+        return false;
+      }
 
-			if (!profile.opt_in_status) {
-				logger.log("ℹ️ User not opted in, skipping database save");
-				return false;
-			}
+      if (!profile.opt_in_status) {
+        logger.log("ℹ️ User not opted in, skipping database save");
+        return false;
+      }
 
-			// Save to database
-			const { error } = await supabase.from("usage_data").insert({
-				...usageData,
-				user_id: userId,
-			});
+      // Save to database
+      const { error } = await supabase.from("consumption_metrics").insert({
+        ...metrics,
+        user_id: userId,
+      });
 
-			if (error) {
-				logger.error("❌ Error saving usage data:", error);
-				return false;
-			}
+      if (error) {
+        logger.error("❌ Error saving consumption metrics:", error);
+        return false;
+      }
 
-			logger.log("✅ Usage data saved to database successfully");
-			return true;
-		} catch (error) {
-			logger.error("❌ Unexpected error in saveUsageData:", error);
-			return false;
-		}
-	}
+      // Update user profile totals
+      await DatabaseService.updateUserConsumptionTotals(userId);
 
-	/**
-	 * Save donation to database if user is authenticated and opted-in
-	 * @param userId - The user's unique identifier
-	 * @param donation - The donation data to save
-	 * @returns Promise<boolean> - Success status
-	 */
-	static async saveDonation(
-		userId: string,
-		donation: DatabaseDonation,
-	): Promise<boolean> {
-		try {
-			logger.log(`💾 Attempting to save donation for user: ${userId}`);
+      logger.log("✅ Consumption metrics saved to database successfully");
+      return true;
+    } catch (error) {
+      logger.error("❌ Unexpected error in saveConsumptionMetrics:", error);
+      return false;
+    }
+  }
 
-			// Check if user profile exists and is opted-in
-			const { data: profile, error: profileError } = await supabase
-				.from("user_profiles")
-				.select("opt_in_status")
-				.eq("id", userId)
-				.single();
+  /**
+   * Save restoration action to database if user is authenticated and opted-in
+   * @param userId - The user's unique identifier
+   * @param action - The restoration action to save
+   * @returns Promise<boolean> - Success status
+   */
+  static async saveRestorationAction(
+    userId: string,
+    action: RestorationAction
+  ): Promise<boolean> {
+    try {
+      logger.log(
+        `💾 Attempting to save restoration action for user: ${userId}`
+      );
 
-			if (profileError) {
-				logger.log("ℹ️ User profile not found, skipping database save");
-				return false;
-			}
+      // Check if user profile exists and is opted-in
+      const { data: profile, error: profileError } = await supabase
+        .from("user_profiles")
+        .select("opt_in_status")
+        .eq("id", userId)
+        .single();
 
-			if (!profile.opt_in_status) {
-				logger.log("ℹ️ User not opted in, skipping database save");
-				return false;
-			}
+      if (profileError) {
+        logger.log("ℹ️ User profile not found, skipping database save");
+        return false;
+      }
 
-			// Save to database
-			const { error } = await supabase.from("donations").insert({
-				...donation,
-				user_id: userId,
-			});
+      if (!profile.opt_in_status) {
+        logger.log("ℹ️ User not opted in, skipping database save");
+        return false;
+      }
 
-			if (error) {
-				logger.error("❌ Error saving donation:", error);
-				return false;
-			}
+      // Save to database
+      const { error } = await supabase.from("restoration_actions").insert({
+        ...action,
+        user_id: userId,
+      });
 
-			logger.log("✅ Donation saved to database successfully");
-			return true;
-		} catch (error) {
-			logger.error("❌ Unexpected error in saveDonation:", error);
-			return false;
-		}
-	}
+      if (error) {
+        logger.error("❌ Error saving restoration action:", error);
+        return false;
+      }
 
-	/**
-	 * Get user's usage data from database
-	 * @param userId - The user's unique identifier
-	 * @param limit - Maximum number of records to return
-	 * @returns Promise<UsageDataRecord[]> - Array of usage data records
-	 */
-	static async getUserUsageData(
-		userId: string,
-		limit = 50,
-	): Promise<UsageDataRecord[]> {
-		try {
-			logger.log(`📖 Fetching usage data for user: ${userId}, limit: ${limit}`);
+      // Update user profile totals
+      await DatabaseService.updateUserRestorationTotals(userId);
 
-			const { data, error } = await supabase
-				.from("usage_data")
-				.select("*")
-				.eq("user_id", userId)
-				.order("timestamp", { ascending: false })
-				.limit(limit);
+      logger.log("✅ Restoration action saved to database successfully");
+      return true;
+    } catch (error) {
+      logger.error("❌ Unexpected error in saveRestorationAction:", error);
+      return false;
+    }
+  }
 
-			if (error) {
-				logger.error("❌ Error getting user usage data:", error);
-				return [];
-			}
+  /**
+   * Get user's consumption metrics from database
+   * @param userId - The user's unique identifier
+   * @param limit - Maximum number of records to return
+   * @returns Promise<ConsumptionMetricsRecord[]> - Array of consumption metrics records
+   */
+  static async getUserConsumptionMetrics(
+    userId: string,
+    limit = 50
+  ): Promise<ConsumptionMetricsRecord[]> {
+    try {
+      logger.log(
+        `📖 Fetching consumption metrics for user: ${userId}, limit: ${limit}`
+      );
 
-			logger.log(`✅ Retrieved ${data?.length || 0} usage records`);
-			return (data as UsageDataRecord[]) || [];
-		} catch (error) {
-			logger.error("❌ Unexpected error in getUserUsageData:", error);
-			return [];
-		}
-	}
+      const { data, error } = await supabase
+        .from("consumption_metrics")
+        .select("*")
+        .eq("user_id", userId)
+        .order("timestamp", { ascending: false })
+        .limit(limit);
 
-	/**
-	 * Get user's donations from database
-	 * @param userId - The user's unique identifier
-	 * @returns Promise<DonationRecord[]> - Array of donation records
-	 */
-	static async getUserDonations(userId: string): Promise<DonationRecord[]> {
-		try {
-			logger.log(`📖 Fetching donations for user: ${userId}`);
+      if (error) {
+        logger.error("❌ Error getting user consumption metrics:", error);
+        return [];
+      }
 
-			const { data, error } = await supabase
-				.from("donations")
-				.select("*")
-				.eq("user_id", userId)
-				.order("donation_date", { ascending: false });
+      logger.log(`✅ Retrieved ${data?.length || 0} consumption records`);
+      return (data as ConsumptionMetricsRecord[]) || [];
+    } catch (error) {
+      logger.error("❌ Unexpected error in getUserConsumptionMetrics:", error);
+      return [];
+    }
+  }
 
-			if (error) {
-				logger.error("❌ Error getting user donations:", error);
-				return [];
-			}
+  /**
+   * Get user's restoration actions from database
+   * @param userId - The user's unique identifier
+   * @returns Promise<RestorationActionRecord[]> - Array of restoration action records
+   */
+  static async getUserRestorationActions(
+    userId: string
+  ): Promise<RestorationActionRecord[]> {
+    try {
+      logger.log(`📖 Fetching restoration actions for user: ${userId}`);
 
-			logger.log(`✅ Retrieved ${data?.length || 0} donation records`);
-			return (data as DonationRecord[]) || [];
-		} catch (error) {
-			logger.error("❌ Unexpected error in getUserDonations:", error);
-			return [];
-		}
-	}
+      const { data, error } = await supabase
+        .from("restoration_actions")
+        .select("*")
+        .eq("user_id", userId)
+        .order("action_date", { ascending: false });
 
-	/**
-	 * Get user profile from database
-	 * @param userId - The user's unique identifier
-	 * @returns Promise<UserProfile | null> - User profile or null if not found
-	 */
-	static async getUserProfile(userId: string): Promise<UserProfile | null> {
-		try {
-			logger.log(`📖 Fetching user profile for: ${userId}`);
+      if (error) {
+        logger.error("❌ Error getting user restoration actions:", error);
+        return [];
+      }
 
-			const { data, error } = await supabase
-				.from("user_profiles")
-				.select("*")
-				.eq("id", userId)
-				.single();
+      logger.log(`✅ Retrieved ${data?.length || 0} restoration records`);
+      return (data as RestorationActionRecord[]) || [];
+    } catch (error) {
+      logger.error("❌ Unexpected error in getUserRestorationActions:", error);
+      return [];
+    }
+  }
 
-			if (error) {
-				logger.error("❌ Error getting user profile:", error);
-				return null;
-			}
+  /**
+   * Get user profile from database
+   * @param userId - The user's unique identifier
+   * @returns Promise<UserProfile | null> - User profile or null if not found
+   */
+  static async getUserProfile(userId: string): Promise<UserProfile | null> {
+    try {
+      logger.log(`📖 Fetching user profile for: ${userId}`);
 
-			logger.log("✅ User profile retrieved successfully");
-			return data as UserProfile;
-		} catch (error) {
-			logger.error("❌ Unexpected error in getUserProfile:", error);
-			return null;
-		}
-	}
+      const { data, error } = await supabase
+        .from("user_profiles")
+        .select("*")
+        .eq("id", userId)
+        .single();
 
-	/**
-	 * Update user profile in database
-	 * @param userId - The user's unique identifier
-	 * @param updates - Partial profile data to update
-	 * @returns Promise<boolean> - Success status
-	 */
-	static async updateUserProfile(
-		userId: string,
-		updates: Partial<UserProfile>,
-	): Promise<boolean> {
-		try {
-			logger.log(`🔄 Updating user profile for: ${userId}`);
+      if (error) {
+        logger.error("❌ Error getting user profile:", error);
+        return null;
+      }
 
-			const { error } = await supabase
-				.from("user_profiles")
-				.update({
-					...updates,
-					last_active: new Date().toISOString(),
-				})
-				.eq("id", userId);
+      logger.log("✅ User profile retrieved successfully");
+      return data as UserProfile;
+    } catch (error) {
+      logger.error("❌ Unexpected error in getUserProfile:", error);
+      return null;
+    }
+  }
 
-			if (error) {
-				logger.error("❌ Error updating user profile:", error);
-				return false;
-			}
+  /**
+   * Update user profile in database
+   * @param userId - The user's unique identifier
+   * @param updates - Partial profile data to update
+   * @returns Promise<boolean> - Success status
+   */
+  static async updateUserProfile(
+    userId: string,
+    updates: Partial<UserProfile>
+  ): Promise<boolean> {
+    try {
+      logger.log(`🔄 Updating user profile for: ${userId}`);
 
-			logger.log("✅ User profile updated successfully");
-			return true;
-		} catch (error) {
-			logger.error("❌ Unexpected error in updateUserProfile:", error);
-			return false;
-		}
-	}
+      const { error } = await supabase
+        .from("user_profiles")
+        .update({
+          ...updates,
+          last_active: new Date().toISOString(),
+        })
+        .eq("id", userId);
 
-	/**
-	 * Check if user is opted-in to database storage
-	 * @param userId - The user's unique identifier
-	 * @returns Promise<boolean> - True if opted-in, false otherwise
-	 */
-	static async isUserOptedIn(userId: string): Promise<boolean> {
-		try {
-			const profile = await DatabaseService.getUserProfile(userId);
-			return profile?.opt_in_status || false;
-		} catch (error) {
-			logger.error("❌ Error checking opt-in status:", error);
-			return false;
-		}
-	}
+      if (error) {
+        logger.error("❌ Error updating user profile:", error);
+        return false;
+      }
+
+      logger.log("✅ User profile updated successfully");
+      return true;
+    } catch (error) {
+      logger.error("❌ Unexpected error in updateUserProfile:", error);
+      return false;
+    }
+  }
+
+  /**
+   * Update user consumption totals from consumption_metrics table
+   * @param userId - The user's unique identifier
+   * @returns Promise<boolean> - Success status
+   */
+  private static async updateUserConsumptionTotals(
+    userId: string
+  ): Promise<boolean> {
+    try {
+      const { data, error } = await supabase
+        .from("consumption_metrics")
+        .select("co2_emissions_g")
+        .eq("user_id", userId);
+
+      if (error) {
+        logger.error("❌ Error calculating consumption totals:", error);
+        return false;
+      }
+
+      const totalConsumed =
+        data?.reduce(
+          (sum, record) => sum + (record.co2_emissions_g || 0), // Calculate m2 potential from CO2
+          0
+        ) || 0;
+
+      await DatabaseService.updateUserProfile(userId, {
+        total_m2_consumed: totalConsumed,
+      });
+
+      return true;
+    } catch (error) {
+      logger.error("❌ Error updating consumption totals:", error);
+      return false;
+    }
+  }
+
+  /**
+   * Update user restoration totals from restoration_actions table
+   * @param userId - The user's unique identifier
+   * @returns Promise<boolean> - Success status
+   */
+  private static async updateUserRestorationTotals(
+    userId: string
+  ): Promise<boolean> {
+    try {
+      const { data, error } = await supabase
+        .from("restoration_actions")
+        .select(
+          "m2_restored, trees_planted, peatland_rewetted_m2, habitat_restored_m2"
+        )
+        .eq("user_id", userId);
+
+      if (error) {
+        logger.error("❌ Error calculating restoration totals:", error);
+        return false;
+      }
+
+      const totals = data?.reduce(
+        (acc, record) => ({
+          m2_restored: acc.m2_restored + (record.m2_restored || 0),
+          trees_planted: acc.trees_planted + (record.trees_planted || 0),
+          peatland_rewetted:
+            acc.peatland_rewetted + (record.peatland_rewetted_m2 || 0),
+          habitat_restored:
+            acc.habitat_restored + (record.habitat_restored_m2 || 0),
+        }),
+        {
+          m2_restored: 0,
+          trees_planted: 0,
+          peatland_rewetted: 0,
+          habitat_restored: 0,
+        }
+      ) || {
+        m2_restored: 0,
+        trees_planted: 0,
+        peatland_rewetted: 0,
+        habitat_restored: 0,
+      };
+
+      await DatabaseService.updateUserProfile(userId, {
+        total_m2_restored: totals.m2_restored,
+        total_trees_planted: totals.trees_planted,
+        total_peatland_rewetted: totals.peatland_rewetted,
+        total_habitat_restored: totals.habitat_restored,
+      });
+
+      return true;
+    } catch (error) {
+      logger.error("❌ Error updating restoration totals:", error);
+      return false;
+    }
+  }
+
+  /**
+   * Check if user is opted-in to database storage
+   * @param userId - The user's unique identifier
+   * @returns Promise<boolean> - True if opted-in, false otherwise
+   */
+  static async isUserOptedIn(userId: string): Promise<boolean> {
+    try {
+      const profile = await DatabaseService.getUserProfile(userId);
+      return profile?.opt_in_status || false;
+    } catch (error) {
+      logger.error("❌ Error checking opt-in status:", error);
+      return false;
+    }
+  }
+
+  // Legacy methods for backward compatibility (deprecated)
+  /**
+   * @deprecated Use saveConsumptionMetrics instead
+   */
+  static async saveUsageData(userId: string, usageData: any): Promise<boolean> {
+    logger.warn(
+      "⚠️ saveUsageData is deprecated, use saveConsumptionMetrics instead"
+    );
+    return DatabaseService.saveConsumptionMetrics(userId, {
+      ...usageData,
+      duration_ms: 0,
+      water_consumption_ml: 0,
+    });
+  }
+
+  /**
+   * @deprecated Use saveRestorationAction instead
+   */
+  static async saveDonation(userId: string, donation: any): Promise<boolean> {
+    logger.warn(
+      "⚠️ saveDonation is deprecated, use saveRestorationAction instead"
+    );
+    return DatabaseService.saveRestorationAction(userId, {
+      action_date: donation.donation_date,
+      action_type: "donation",
+      amount: donation.amount,
+      m2_restored: donation.m2_restored,
+      trees_planted: 0,
+      peatland_rewetted_m2: 0,
+      habitat_restored_m2: 0,
+    });
+  }
+
+  /**
+   * @deprecated Use getUserConsumptionMetrics instead
+   */
+  static async getUserUsageData(userId: string, limit = 50): Promise<any[]> {
+    logger.warn(
+      "⚠️ getUserUsageData is deprecated, use getUserConsumptionMetrics instead"
+    );
+    return DatabaseService.getUserConsumptionMetrics(userId, limit);
+  }
+
+  /**
+   * @deprecated Use getUserRestorationActions instead
+   */
+  static async getUserDonations(userId: string): Promise<any[]> {
+    logger.warn(
+      "⚠️ getUserDonations is deprecated, use getUserRestorationActions instead"
+    );
+    return DatabaseService.getUserRestorationActions(userId);
+  }
 }

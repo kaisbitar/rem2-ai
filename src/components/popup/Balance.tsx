@@ -10,6 +10,7 @@ interface BalanceProps {
 	showStats: boolean;
 	className?: string;
 	onDetailsClick?: () => void;
+	loading?: boolean;
 }
 
 const Balance: React.FC<BalanceProps> = ({
@@ -18,6 +19,7 @@ const Balance: React.FC<BalanceProps> = ({
 	showStats,
 	className = "",
 	onDetailsClick,
+	loading = false,
 }) => {
 	const containerClasses = css({
 		backgroundColor: "white",
@@ -41,11 +43,22 @@ const Balance: React.FC<BalanceProps> = ({
 		marginBottom: "5px",
 	});
 
+	if (loading) {
+		return (
+			<div className={`${containerClasses} ${className}`}>
+				<div className={"gradient-bar"} />
+				<div className={css({ textAlign: "center", width: "100%", padding: "4" })}>
+					Loading balance...
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<div className={`${containerClasses} ${className}`}>
 			<div className={"gradient-bar"} />
 			<BalanceChart consumed={consumed} restored={restored} />
-			<span className={dueLabelClasses}>Due to restore: 0.0Xm</span>
+			<span className={dueLabelClasses}>Due to restore: {(consumed - restored).toFixed(2)}m²</span>
 			<div className={css({ display: "flex", gap: "2" })}>
 				<CallToActionButton
 					text={showStats ? "Hide Details" : "Show Details"}
@@ -54,10 +67,10 @@ const Balance: React.FC<BalanceProps> = ({
 					onClick={onDetailsClick}
 				/>
 				<CallToActionButton
-					text="Restore m2"
+					text="Restore m²"
 					className="btn-theme-green"
 					icon={<Plant size={19} />}
-					onClick={() => {}}
+					onClick={() => { }}
 				/>
 			</div>
 		</div>
