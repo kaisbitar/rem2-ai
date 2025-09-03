@@ -20,21 +20,25 @@ import {
 import type React from "react";
 import { css } from "styled-system/css";
 import { useState, useEffect } from "react";
-import { MetricsCalculator, type AggregatedMetrics } from "@/utils/calculations/metrics";
+import {
+	MetricsCalculator,
+	type AggregatedMetrics,
+} from "@/utils/calculations/metrics";
 
 const StatsSection: React.FC = () => {
 	const { stats, viewMode } = useAppContext();
 	const { user } = useAuth();
 	const { getUserConsumptionMetrics } = useDatabase();
-	const [consumptionData, setConsumptionData] = useState<AggregatedMetrics | null>(null);
-	const [loading, setLoading] = useState(true);
+	const [consumptionData, setConsumptionData] =
+		useState<AggregatedMetrics | null>(null);
+	// const [loading, setLoading] = useState(true);
 
 	// Fetch consumption data and user profile
 	useEffect(() => {
 		const fetchData = async () => {
 			// If no user, use local stats from AppContext (no need to fetch from DB)
 			if (!user?.id || !getUserConsumptionMetrics) {
-				setLoading(false);
+				// setLoading(false);
 				return;
 			}
 
