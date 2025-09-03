@@ -47,7 +47,9 @@ const Balance: React.FC<BalanceProps> = ({
 		return (
 			<div className={`${containerClasses} ${className}`}>
 				<div className={"gradient-bar"} />
-				<div className={css({ textAlign: "center", width: "100%", padding: "4" })}>
+				<div
+					className={css({ textAlign: "center", width: "100%", padding: "4" })}
+				>
 					Loading balance...
 				</div>
 			</div>
@@ -58,7 +60,9 @@ const Balance: React.FC<BalanceProps> = ({
 		<div className={`${containerClasses} ${className}`}>
 			<div className={"gradient-bar"} />
 			<BalanceChart consumed={consumed} restored={restored} />
-			<span className={dueLabelClasses}>Due to restore: {(consumed - restored).toFixed(2)}m²</span>
+			<span className={dueLabelClasses}>
+				Due to restore: {(consumed - restored).toFixed(2)}m²
+			</span>
 			<div className={css({ display: "flex", gap: "2" })}>
 				<CallToActionButton
 					text={showStats ? "Hide Details" : "Show Details"}
@@ -70,7 +74,7 @@ const Balance: React.FC<BalanceProps> = ({
 					text="Restore m²"
 					className="btn-theme-green"
 					icon={<Plant size={19} />}
-					onClick={() => { }}
+					onClick={() => {}}
 				/>
 			</div>
 		</div>

@@ -2,9 +2,9 @@
 import { useCallback } from "react";
 import { useAuth } from "@/context/AuthContext";
 import {
-  DatabaseService,
-  type ConsumptionMetrics,
-  type RestorationAction,
+	DatabaseService,
+	type ConsumptionMetrics,
+	type RestorationAction,
 } from "@/utils/storage/database";
 
 /**
@@ -12,123 +12,121 @@ import {
  * Provides a clean, React-friendly interface to the DatabaseService
  */
 export const useDatabase = () => {
-  const { user } = useAuth();
+	const { user } = useAuth();
 
-  /**
-   * Save consumption metrics to database (only if user is opted-in)
-   */
-  const saveConsumptionMetrics = useCallback(
-    async (data: ConsumptionMetrics): Promise<boolean> => {
-      if (!user?.id) {
-        console.log("ℹ️ User not authenticated, skipping database save");
-        return false;
-      }
+	/**
+	 * Save consumption metrics to database (only if user is opted-in)
+	 */
+	const saveConsumptionMetrics = useCallback(
+		async (data: ConsumptionMetrics): Promise<boolean> => {
+			if (!user?.id) {
+				console.log("ℹ️ User not authenticated, skipping database save");
+				return false;
+			}
 
-      return await DatabaseService.saveConsumptionMetrics(user.id, data);
-    },
-    [user?.id]
-  );
+			return await DatabaseService.saveConsumptionMetrics(user.id, data);
+		},
+		[user?.id],
+	);
 
-  /**
-   * Save restoration action to database (only if user is opted-in)
-   */
-  const saveRestorationAction = useCallback(
-    async (data: RestorationAction): Promise<boolean> => {
-      if (!user?.id) {
-        console.log("ℹ️ User not authenticated, skipping database save");
-        return false;
-      }
+	/**
+	 * Save restoration action to database (only if user is opted-in)
+	 */
+	const saveRestorationAction = useCallback(
+		async (data: RestorationAction): Promise<boolean> => {
+			if (!user?.id) {
+				console.log("ℹ️ User not authenticated, skipping database save");
+				return false;
+			}
 
-      return await DatabaseService.saveRestorationAction(user.id, data);
-    },
-    [user?.id]
-  );
+			return await DatabaseService.saveRestorationAction(user.id, data);
+		},
+		[user?.id],
+	);
 
-  /**
-   * Get user's consumption metrics from database
-   */
-  const getUserConsumptionMetrics = useCallback(
-    async (limit = 50) => {
-      if (!user?.id) {
-        console.log(
-          "ℹ️ User not authenticated, cannot fetch consumption metrics"
-        );
-        return [];
-      }
-      const result = await DatabaseService.getUserConsumptionMetrics(
-        user.id,
-        limit
-      );
+	/**
+	 * Get user's consumption metrics from database
+	 */
+	const getUserConsumptionMetrics = useCallback(
+		async (limit = 50) => {
+			if (!user?.id) {
+				console.log(
+					"ℹ️ User not authenticated, cannot fetch consumption metrics",
+				);
+				return [];
+			}
+			const result = await DatabaseService.getUserConsumptionMetrics(
+				user.id,
+				limit,
+			);
 
-      return result;
-    },
-    [user?.id]
-  );
+			return result;
+		},
+		[user?.id],
+	);
 
-  /**
-   * Get user's restoration actions from database
-   */
-  const getUserRestorationActions = useCallback(async () => {
-    if (!user?.id) {
-      console.log(
-        "ℹ️ User not authenticated, cannot fetch restoration actions"
-      );
-      return [];
-    }
+	/**
+	 * Get user's restoration actions from database
+	 */
+	const getUserRestorationActions = useCallback(async () => {
+		if (!user?.id) {
+			console.log("ℹ️ User not authenticated, cannot fetch restoration actions");
+			return [];
+		}
 
-    return await DatabaseService.getUserRestorationActions(user.id);
-  }, [user?.id]);
+		return await DatabaseService.getUserRestorationActions(user.id);
+	}, [user?.id]);
 
-  /**
-   * Get user profile from database
-   */
-  const getUserProfile = useCallback(async () => {
-    if (!user?.id) {
-      console.log("ℹ️ User not authenticated, cannot fetch profile");
-      return null;
-    }
+	/**
+	 * Get user profile from database
+	 */
+	const getUserProfile = useCallback(async () => {
+		if (!user?.id) {
+			console.log("ℹ️ User not authenticated, cannot fetch profile");
+			return null;
+		}
 
-    return await DatabaseService.getUserProfile(user.id);
-  }, [user?.id]);
+		return await DatabaseService.getUserProfile(user.id);
+	}, [user?.id]);
 
-  /**
-   * Update user profile in database
-   */
-  const updateUserProfile = useCallback(
-    async (updates: { opt_in_status?: boolean; email?: string }) => {
-      if (!user?.id) {
-        console.log("ℹ️ User not authenticated, cannot update profile");
-        return false;
-      }
+	/**
+	 * Update user profile in database
+	 */
+	const updateUserProfile = useCallback(
+		async (updates: { opt_in_status?: boolean; email?: string }) => {
+			if (!user?.id) {
+				console.log("ℹ️ User not authenticated, cannot update profile");
+				return false;
+			}
 
-      return await DatabaseService.updateUserProfile(user.id, updates);
-    },
-    [user?.id]
-  );
+			return await DatabaseService.updateUserProfile(user.id, updates);
+		},
+		[user?.id],
+	);
 
-  /**
-   * Check if user is opted-in to database storage
-   */
-  const isUserOptedIn = useCallback(async (): Promise<boolean> => {
-    if (!user?.id) {
-      return false;
-    }
+	/**
+	 * Check if user is opted-in to database storage
+	 */
+	const isUserOptedIn = useCallback(async (): Promise<boolean> => {
+		if (!user?.id) {
+			return false;
+		}
 
-    return await DatabaseService.isUserOptedIn(user.id);
-  }, [user?.id]);
+		return await DatabaseService.isUserOptedIn(user.id);
+	}, [user?.id]);
 
-  return {
-    // New database operations
-    saveConsumptionMetrics,
-    saveRestorationAction,
-    getUserConsumptionMetrics,
-    getUserRestorationActions,
-    getUserProfile,
-    updateUserProfile,
-    isUserOptedIn,
+	return {
+		// New database operations
+		saveConsumptionMetrics,
+		saveRestorationAction,
+		getUserConsumptionMetrics,
+		getUserRestorationActions,
+		getUserProfile,
+		updateUserProfile,
+		isUserOptedIn,
 
-    // State
-    isAuthenticated: !!user?.id,
-    userId: user?.id,
-  };
+		// State
+		isAuthenticated: !!user?.id,
+		userId: user?.id,
+	};
 };
