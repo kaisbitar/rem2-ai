@@ -95,7 +95,7 @@ export default defineConfig({
     permissions: ["storage", "tabs", "webRequest", "identity"],
     oauth2: {
       client_id:
-        "242222187660-57ec27h7b04158eckdbavc2oj429287r.apps.googleusercontent.com",
+        "242222187660-mtoje8qj2gecq2jesrdmi4qoemsgah2f.apps.googleusercontent.com",
       scopes: [
         "https://www.googleapis.com/auth/userinfo.email",
         "https://www.googleapis.com/auth/userinfo.profile",

@@ -71,25 +71,71 @@ const LoginPage: React.FC = () => {
 		}
 	};
 
-	const handleGoogleLogin = () => {
-		chrome.identity.getAuthToken({ interactive: true }, (token) => {
-			if (chrome.runtime.lastError) {
-				console.error(chrome.runtime.lastError);
-				return;
-			}
-			if (token) {
-				console.log("Access token received:", token);
-				fetch('https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + token)
-					.then(response => response.json())
-					.then(userinfo => {
-						console.log('User info:', userinfo);
-						chrome.storage.local.set({ userinfo, token });
-						navigate('/profile');
-					});
-			}
-		});
-	};
+	const handleGoogleLogin = async () => {
+		try {
+			const clientId =
+				"242222187660-mtoje8qj2gecq2jesrdmi4qoemsgah2f.apps.googleusercontent.com"; // replace if needed
+			const redirectUri = chrome.identity.getRedirectURL();
+			console.log('Redirect URI:', redirectUri)
+			const nonce = crypto.randomUUID();
 
+			const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+			authUrl.searchParams.set("client_id", clientId);
+			authUrl.searchParams.set("redirect_uri", redirectUri);
+			authUrl.searchParams.set("response_type", "id_token"); // id_token is enough for Supabase
+			authUrl.searchParams.set("scope", "openid email profile");
+			authUrl.searchParams.set("prompt", "consent");
+			authUrl.searchParams.set("nonce", nonce);
+
+			chrome.identity.launchWebAuthFlow(
+				{ url: authUrl.toString(), interactive: true },
+				async (redirectUrl) => {
+					if (chrome.runtime.lastError) {
+						console.error(chrome.runtime.lastError);
+						return;
+					}
+					if (!redirectUrl) {
+						console.error("Missing redirectUrl from Google OAuth");
+						return;
+					}
+
+					const hash = new URL(redirectUrl).hash.replace(/^#/, "");
+					if (!hash) {
+						console.error("No URL fragment returned from Google");
+						return;
+					}
+
+					const params = new URLSearchParams(hash);
+					const error = params.get("error");
+					if (error) {
+						console.error("OAuth error:", error);
+						return;
+					}
+
+					const idToken = params.get("id_token");
+					if (!idToken) {
+						console.error("No id_token received from Google");
+						return;
+					}
+
+					const { error: supaError } = await supabase.auth.signInWithIdToken({
+						provider: "google",
+						token: idToken,
+						nonce,
+					});
+
+					if (supaError) {
+						console.error("Supabase sign-in failed:", supaError);
+						return;
+					}
+
+					navigate("/profile");
+				},
+			);
+		} catch (error) {
+			console.error("Google login error:", error);
+		}
+	};
 
 	const handleBackClick = () => {
 		navigate("/");
