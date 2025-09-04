@@ -71,25 +71,25 @@ const LoginPage: React.FC = () => {
 		}
 	};
 
-	const handleGoogleLogin = async () => {
-		try {
-			const { error } = await supabase.auth.signInWithOAuth({
-				provider: "google",
-				options: {
-					redirectTo: `${window.location.origin}/auth/callback`,
-				},
-			});
-			console.log("Handling Google login", window.location.origin);
-
-			if (error) {
-				alert(`Google login failed: ${error.message}`);
+	const handleGoogleLogin = () => {
+		chrome.identity.getAuthToken({ interactive: true }, (token) => {
+			if (chrome.runtime.lastError) {
+				console.error(chrome.runtime.lastError);
 				return;
 			}
-		} catch (error) {
-			console.error("Failed to sign out. Please try again.", error);
-			alert("❌ An unexpected error occurred. Please try again.");
-		}
+			if (token) {
+				console.log("Access token received:", token);
+				fetch('https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=' + token)
+					.then(response => response.json())
+					.then(userinfo => {
+						console.log('User info:', userinfo);
+						chrome.storage.local.set({ userinfo, token });
+						navigate('/profile');
+					});
+			}
+		});
 	};
+
 
 	const handleBackClick = () => {
 		navigate("/");
