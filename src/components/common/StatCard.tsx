@@ -9,7 +9,6 @@ export interface StatCardProps {
 	icon?: React.ReactNode;
 	unit?: string;
 	className?: string;
-
 }
 
 const StatCard: React.FC<StatCardProps> = ({
@@ -83,8 +82,6 @@ const StatCard: React.FC<StatCardProps> = ({
 		marginRight: "1",
 		marginTop: "-3px",
 	});
-
-
 
 	return (
 		<Tooltip content={tooltip || "No tooltip"}>

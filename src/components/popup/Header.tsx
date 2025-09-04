@@ -60,10 +60,9 @@ const Header: React.FC<HeaderProps> = () => {
 				<ListIcon size={16} />
 			</button>
 			<h1 className={titleClasses}>
-
-				<Plant color="green" style={{ margin: "0px 2px" }} />ai
-				<span className={superscriptClasses}>
-					m2Balance</span>.ai
+				<Plant color="green" style={{ margin: "0px 2px" }} />
+				ai
+				<span className={superscriptClasses}>m2Balance</span>.ai
 			</h1>
 
 			<button

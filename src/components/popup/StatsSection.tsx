@@ -3,15 +3,15 @@ import { useAppContext } from "@/context/AppContext";
 import { useDatabase } from "@/hooks/useDatabase";
 import { useAuth } from "@/context/AuthContext";
 import {
-	formatDuration,
+	// formatDuration,
 	formatCarbon,
 	formatWater,
 } from "@/utils/formatting/display";
 import {
-	Globe,
-	GlobeSimpleIcon,
-	CloudRain,
-	Clock,
+	// Globe,
+	// GlobeSimpleIcon,
+	// CloudRain,
+	// Clock,
 	Tree,
 	Leaf,
 	Butterfly,
@@ -37,16 +37,13 @@ const StatsSection: React.FC = () => {
 		useState<AggregatedMetrics | null>(null);
 	// const [loading, setLoading] = useState(true);
 
-	// Fetch consumption data and user profile
 	useEffect(() => {
 		const fetchData = async () => {
-			// If no user, use local stats from AppContext (no need to fetch from DB)
 			if (!user?.id || !getUserConsumptionMetrics) {
 				// setLoading(false);
 				return;
 			}
 
-			// If user exists, fetch from database
 			try {
 				const metrics = await getUserConsumptionMetrics();
 				const aggregatedData = MetricsCalculator.aggregateMetrics(metrics);
@@ -61,7 +58,6 @@ const StatsSection: React.FC = () => {
 		fetchData();
 	}, [user?.id, getUserConsumptionMetrics]);
 
-	// Use database data if user is authenticated, otherwise use local stats
 	const displayData = user?.id && consumptionData ? consumptionData : stats;
 
 	const containerClasses = css({

@@ -33,9 +33,9 @@ const CallToActionButton: React.FC<CallToActionButtonProps> = ({
 		_hover: disabled
 			? {}
 			: {
-				transform: "translateY(-1px)",
-				boxShadow: "0 5px 5px rgba(0, 0, 0, 0.15)",
-			},
+					transform: "translateY(-1px)",
+					boxShadow: "0 5px 5px rgba(0, 0, 0, 0.15)",
+				},
 	});
 
 	const iconClasses = css({

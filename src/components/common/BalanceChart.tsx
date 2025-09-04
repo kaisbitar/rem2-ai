@@ -104,7 +104,6 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		_hover: {
 			backgroundColor: "#0080004d",
 		},
-
 	});
 
 	const valueClasses = css({
@@ -168,10 +167,8 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 				{unit}
 			</div>
 			<div className={chartWrapperClasses}>
-				<div className={balanceChartClasses}>
-
-				</div>
-				{/* <div
+				<div className={balanceChartClasses} />
+				<div
 					className={consumedBarClasses}
 					style={{ width: `${animatedWidths.consumed}%` }}
 					onMouseEnter={(e) =>
@@ -204,10 +201,10 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 							handleMouseEnter(`Restored: ${restored} ${unit}`, e as any);
 						}
 					}}
-				/> */}
-				{/* <span className={css({ marginTop: "11" })}>
+				/>
+				<span className={css({ marginTop: "11" })}>
 					Due to restore: {(consumed - restored).toFixed(2)}m²
-				</span> */}
+				</span>
 			</div>
 			<div className={labelClasses}>
 				<span className={`${valueClasses} ${css({ color: restoredColor })}`}>

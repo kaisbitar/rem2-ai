@@ -66,17 +66,18 @@ const LoginPage: React.FC = () => {
 
 			navigate("/profile");
 		} catch (error) {
+			console.error("Failed to sign in. Please try again.", error);
 			alert("❌ An unexpected error occurred. Please try again.");
 		}
 	};
 
 	const handleGoogleLogin = async () => {
 		try {
-			const { data, error } = await supabase.auth.signInWithOAuth({
-				provider: 'google',
+			const { error } = await supabase.auth.signInWithOAuth({
+				provider: "google",
 				options: {
-					redirectTo: `${window.location.origin}/auth/callback`
-				}
+					redirectTo: `${window.location.origin}/auth/callback`,
+				},
 			});
 			console.log("Handling Google login", window.location.origin);
 
@@ -85,6 +86,7 @@ const LoginPage: React.FC = () => {
 				return;
 			}
 		} catch (error) {
+			console.error("Failed to sign out. Please try again.", error);
 			alert("❌ An unexpected error occurred. Please try again.");
 		}
 	};
@@ -117,7 +119,6 @@ const LoginPage: React.FC = () => {
 				onSubmit={handleSubmit}
 				onToggleMode={handleSignUpClick}
 				onGoogleLogin={handleGoogleLogin}
-
 			/>
 		</div>
 	);
