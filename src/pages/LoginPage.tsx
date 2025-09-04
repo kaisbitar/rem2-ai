@@ -76,7 +76,7 @@ const LoginPage: React.FC = () => {
 			const clientId =
 				"242222187660-mtoje8qj2gecq2jesrdmi4qoemsgah2f.apps.googleusercontent.com"; // replace if needed
 			const redirectUri = chrome.identity.getRedirectURL();
-			console.log('Redirect URI:', redirectUri)
+			console.log("Redirect URI:", redirectUri);
 			const nonce = crypto.randomUUID();
 
 			const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
