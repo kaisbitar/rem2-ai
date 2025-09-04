@@ -3,22 +3,13 @@ import { css, cx } from "styled-system/css";
 import Tooltip from "./Tooltip";
 
 export interface StatCardProps {
-	/** Main value to display */
 	value: string | number | React.ReactNode;
-	/** Statistic label */
 	label?: string;
-	/** Custom CSS class (optional) */
 	tooltip?: string;
 	icon?: React.ReactNode;
 	unit?: string;
 	className?: string;
-	/** Dynamic colors to apply (optional) */
-	dynamicColors?: {
-		backgroundColor?: string;
-		borderColor?: string;
-		borderColorHover?: string;
-		boxShadow?: string;
-	};
+
 }
 
 const StatCard: React.FC<StatCardProps> = ({
@@ -28,16 +19,13 @@ const StatCard: React.FC<StatCardProps> = ({
 	icon,
 	unit,
 	className = "",
-	dynamicColors,
 }) => {
 	const containerClasses = css({
 		width: "85px",
-		// height: "65px",
 		backgroundColor: "white",
 		padding: "6px",
 		paddingBottom: "0px",
 		borderRadius: "lg",
-		// boxShadow: "0 1px 2px rgba(0, 0, 0, 0.1)",
 		border: "1px solid",
 		borderColor: "gray.200",
 		position: "relative",
@@ -96,18 +84,11 @@ const StatCard: React.FC<StatCardProps> = ({
 		marginTop: "-3px",
 	});
 
-	// Combine dynamic colors with base styles
-	const dynamicStyle = dynamicColors
-		? {
-				backgroundColor: dynamicColors.backgroundColor,
-				borderColor: dynamicColors.borderColor,
-				boxShadow: dynamicColors.boxShadow,
-			}
-		: {};
+
 
 	return (
 		<Tooltip content={tooltip || "No tooltip"}>
-			<div className={cx(containerClasses, className)} style={dynamicStyle}>
+			<div className={cx(containerClasses, className)}>
 				<div className={"gradient-bar"} />
 				<div className={contentClasses}>
 					<div className={topRowClasses}>

@@ -3,6 +3,8 @@ import { AuthProvider } from "@/context/AuthContext";
 import HomePage from "@/pages/HomePage";
 import SettingsPage from "@/pages/SettingsPage";
 import LoginPage from "@/pages/LoginPage";
+import SignUpPage from "@/pages/SignUpPage";
+import ProfilePage from "@/pages/ProfilePage";
 import AuthCallback from "@/pages/AuthCallback";
 import type React from "react";
 // src/popup.tsx - Chrome extension popup interface with WXT
@@ -21,6 +23,8 @@ const PopupRoot: React.FC = () => {
 							<Route path="/" element={<HomePage />} />
 							<Route path="/settings" element={<SettingsPage />} />
 							<Route path="/login" element={<LoginPage />} />
+							<Route path="/signup" element={<SignUpPage />} />
+							<Route path="/profile" element={<ProfilePage />} />
 							<Route path="/auth/callback" element={<AuthCallback />} />
 						</Routes>
 					</Router>

@@ -49,3 +49,15 @@
 	border-color: #5d4037;
 	color: white;
 }
+
+.btn-theme-gray {
+    background-color: #cdcccd29;
+    border-color: #7f7f7f2e;
+    color: #5d5d5d;
+}
+
+.btn-theme-gray:hover {
+    background-color: #7f7f7f2e;
+    border-color: #5d5d5d;
+    color: #171717;
+}

@@ -17,6 +17,10 @@ import {
 	Butterfly,
 	Plant,
 } from "@phosphor-icons/react";
+import { BsBraces, BsSend } from "react-icons/bs";
+
+import { MdCo2, MdOutlineWaterDrop } from "react-icons/md";
+
 import type React from "react";
 import { css } from "styled-system/css";
 import { useState, useEffect } from "react";
@@ -50,7 +54,7 @@ const StatsSection: React.FC = () => {
 			} catch (error) {
 				console.error("Error fetching consumption data:", error);
 			} finally {
-				setLoading(false);
+				// setLoading(false);
 			}
 		};
 
@@ -87,18 +91,18 @@ const StatsSection: React.FC = () => {
 					: i18n.t("totalConsumption")}
 			</h2>
 
-			<h6>AI Usage Equivalences</h6>
+			<h6>AI Usage</h6>
 			<div className={statsGridClasses}>
 				<StatCard
 					value={displayData?.requests || 0}
 					label={`${i18n.t("requests")} `}
-					icon={<GlobeSimpleIcon size={19} />}
+					icon={<BsSend size={17} />}
 					tooltip="Number of AI requests made."
 				/>
 				<StatCard
 					value={displayData?.tokens || 0}
 					label={`${i18n.t("tokens")}`}
-					icon={<CloudRain size={19} />}
+					icon={<BsBraces size={17} />}
 					tooltip="Total tokens processed by AI models."
 				/>
 			</div>
@@ -111,27 +115,28 @@ const StatsSection: React.FC = () => {
 					icon={<Plant size={19} />}
 					tooltip="Square meters of ecosystem that could be restored to offset your AI usage."
 				/>
-
+				<span className={css({ fontSize: "sm", margin: "10px 0px" })}>=</span>
 				<StatCard
 					value={formatCarbon(displayData?.carbon || 0)}
-					label={`${i18n.t("carbon")}`}
-					icon={<Globe size={19} />}
+					// label={`${i18n.t("carbon")}`}
+					icon={<MdCo2 size={20} />}
 					tooltip="Carbon dioxide emissions from your AI usage."
 				/>
+				<span className={css({ fontSize: "sm", margin: "10px 0px" })}>+</span>
 
 				<StatCard
 					value={formatWater(displayData?.water || 0)}
-					label={`${i18n.t("water")}`}
-					icon={<CloudRain size={19} />}
+					// label={`${i18n.t("water")}`}
+					icon={<MdOutlineWaterDrop size={19} />}
 					tooltip="Water consumption for cooling data centers that process your AI requests."
 				/>
 
-				<StatCard
+				{/* <StatCard
 					value={formatDuration(displayData?.duration || 0)}
-					label={`${i18n.t("totalDuration")}`}
+					// label={`${i18n.t("totalDuration")}`}
 					icon={<Clock size={19} />}
 					tooltip="Total time spent using AI services."
-				/>
+				/> */}
 			</div>
 
 			<h6>Restoration Equivalences</h6>

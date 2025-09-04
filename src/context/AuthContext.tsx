@@ -69,7 +69,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange(async (event, session) => {
-			console.log("Auth state changed:", event, session?.user?.email);
+			// console.log("Auth state changed:", event, session?.user?.email);
 			setSession(session);
 			setUser(session?.user ?? null);
 
@@ -82,7 +82,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 							email: session.user.email,
 						},
 					});
-					console.log("✅ User auth info stored in Chrome storage");
+					// console.log("✅ User auth info stored in Chrome storage");
 				} catch (error) {
 					console.error("❌ Error storing auth info:", error);
 				}
@@ -92,7 +92,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 				// Clear auth info from storage when user signs out
 				try {
 					await browser.storage.local.remove(["authUser"]);
-					console.log("✅ User auth info cleared from Chrome storage");
+					// console.log("✅ User auth info cleared from Chrome storage");
 				} catch (error) {
 					console.error("❌ Error clearing auth info:", error);
 				}
@@ -106,7 +106,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 	const loadUserProfile = async (userId: string, userEmail?: string) => {
 		try {
-			console.log("🔄 Loading user profile for:", userId);
+			// console.log("🔄 Loading user profile for:", userId);
 
 			const { data, error } = await supabase
 				.from("user_profiles")

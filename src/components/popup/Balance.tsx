@@ -40,7 +40,8 @@ const Balance: React.FC<BalanceProps> = ({
 		fontSize: "sm",
 		fontWeight: "medium",
 		color: "gray.500",
-		marginBottom: "5px",
+		marginBottom: "15px",
+		margin: "auto",
 	});
 
 	if (loading) {
@@ -59,22 +60,20 @@ const Balance: React.FC<BalanceProps> = ({
 	return (
 		<div className={`${containerClasses} ${className}`}>
 			<div className={"gradient-bar"} />
-			<BalanceChart consumed={consumed} restored={restored} />
-			<span className={dueLabelClasses}>
-				Due to restore: {(consumed - restored).toFixed(2)}m²
-			</span>
-			<div className={css({ display: "flex", gap: "2" })}>
+			<BalanceChart consumed={5} restored={8} />
+
+			<div className={css({ display: "flex", gap: "2", margin: "auto", marginTop: "4" })}>
 				<CallToActionButton
 					text={showStats ? "Hide Details" : "Show Details"}
-					className="btn-theme-magenta"
+					className="btn-theme-gray"
 					icon={showStats ? <CaretUp size={19} /> : <CaretDown size={19} />}
 					onClick={onDetailsClick}
 				/>
 				<CallToActionButton
-					text="Restore m²"
+					text="Balance Your m²"
 					className="btn-theme-green"
 					icon={<Plant size={19} />}
-					onClick={() => {}}
+					onClick={() => { }}
 				/>
 			</div>
 		</div>

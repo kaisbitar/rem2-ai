@@ -2,6 +2,7 @@ import type React from "react";
 import { css } from "styled-system/css";
 import { useNavigate } from "react-router-dom";
 import { ListIcon, Plant, User } from "@phosphor-icons/react";
+import { useAuth } from "@/context/AuthContext";
 
 interface HeaderProps {
 	className?: string;
@@ -9,7 +10,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = () => {
 	const navigate = useNavigate();
-
+	const { user } = useAuth();
 	const headerContainerClasses = css({
 		padding: "10px 20px 6px 18px",
 		borderBottom: "1px solid #e5e7eb",
@@ -28,8 +29,9 @@ const Header: React.FC<HeaderProps> = () => {
 
 	const superscriptClasses = css({
 		marginLeft: "0",
-		marginRight: "2",
+		// marginRight: "2",
 		fontWeight: "bold",
+		color: "#008001",
 	});
 
 	const settingsButtonClasses = css({
@@ -37,6 +39,14 @@ const Header: React.FC<HeaderProps> = () => {
 		display: "flex",
 		gap: "4",
 	});
+
+	const handleLoginClick = () => {
+		if (user) {
+			navigate("/profile");
+		} else {
+			navigate("/login");
+		}
+	};
 
 	return (
 		<header className={headerContainerClasses}>
@@ -50,13 +60,15 @@ const Header: React.FC<HeaderProps> = () => {
 				<ListIcon size={16} />
 			</button>
 			<h1 className={titleClasses}>
-				<Plant color="green" style={{ margin: "0px 2px" }} />
-				<span className={superscriptClasses}>m2 </span> Balance.AI
+
+				<Plant color="green" style={{ margin: "0px 2px" }} />ai
+				<span className={superscriptClasses}>
+					m2Balance</span>.ai
 			</h1>
 
 			<button
 				type="button"
-				onClick={() => navigate("/login")}
+				onClick={handleLoginClick}
 				className={css({
 					background: "none",
 					border: "none",

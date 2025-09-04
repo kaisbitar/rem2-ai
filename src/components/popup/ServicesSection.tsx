@@ -86,7 +86,7 @@ const ServicesSection: React.FC = () => {
 							<span>{percentage.toFixed(1)}%</span>
 						</div>
 
-						<h6>AI Usage Equivalences</h6>
+						<h6>AI Usage</h6>
 
 						<div className={statsGridClasses}>
 							<StatCard
@@ -101,7 +101,7 @@ const ServicesSection: React.FC = () => {
 							/>
 						</div>
 
-						<h6>AI Usage Equivalences</h6>
+						<h6>AI Usage</h6>
 						<div className={statsGridClasses}>
 							<StatCard
 								value={formatCarbon(serviceStats.carbon)}

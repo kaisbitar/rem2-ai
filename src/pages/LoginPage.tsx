@@ -1,5 +1,4 @@
 import type React from "react";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { css } from "styled-system/css";
 import { ArrowLeft } from "@phosphor-icons/react";
@@ -7,7 +6,6 @@ import AuthForm from "@/components/common/AuthForm";
 import { supabase } from "../config/supabase-client";
 
 const LoginPage: React.FC = () => {
-	const [isLogin, setIsLogin] = useState(true);
 	const navigate = useNavigate();
 
 	const containerClasses = css({
@@ -56,57 +54,47 @@ const LoginPage: React.FC = () => {
 
 	const handleSubmit = async (email: string, password: string) => {
 		try {
-			console.log(`${isLogin ? "Login" : "Register"} attempt:`, {
+			const { error } = await supabase.auth.signInWithPassword({
 				email,
 				password,
 			});
 
-			if (isLogin) {
-				// Sign in with email/password
-				const { data, error } = await supabase.auth.signInWithPassword({
-					email,
-					password,
-				});
+			if (error) {
+				alert(`Login failed: ${error.message}`);
+				return;
+			}
 
-				if (error) {
-					console.error("❌ Login error:", error);
-					alert(`Login failed: ${error.message}`);
-					return;
+			navigate("/profile");
+		} catch (error) {
+			alert("❌ An unexpected error occurred. Please try again.");
+		}
+	};
+
+	const handleGoogleLogin = async () => {
+		try {
+			const { data, error } = await supabase.auth.signInWithOAuth({
+				provider: 'google',
+				options: {
+					redirectTo: `${window.location.origin}/auth/callback`
 				}
+			});
+			console.log("Handling Google login", window.location.origin);
 
-				console.log("✅ Login successful:", data.user?.email);
-
-				// Navigate to home page
-				navigate("/");
-			} else {
-				// Sign up with email/password
-				const { data, error } = await supabase.auth.signUp({
-					email,
-					password,
-				});
-
-				if (error) {
-					console.error("❌ Registration error:", error);
-					alert(`Registration failed: ${error.message}`);
-					return;
-				}
-
-				console.log("✅ Registration successful:", data.user?.email);
-
-				// Show success message and switch to login
-				alert(
-					"✅ Registration successful! Please check your email to verify your account.",
-				);
-				setIsLogin(true);
+			if (error) {
+				alert(`Google login failed: ${error.message}`);
+				return;
 			}
 		} catch (error) {
-			console.error("❌ Authentication error:", error);
 			alert("❌ An unexpected error occurred. Please try again.");
 		}
 	};
 
 	const handleBackClick = () => {
 		navigate("/");
+	};
+
+	const handleSignUpClick = () => {
+		navigate("/signup");
 	};
 
 	return (
@@ -120,20 +108,16 @@ const LoginPage: React.FC = () => {
 			</button>
 
 			<div className={headerClasses}>
-				<h1 className={titleClasses}>
-					{isLogin ? "Welcome Back" : "Create Account"}
-				</h1>
-				<p className={subtitleClasses}>
-					{isLogin
-						? "Sign in to track your AI impact"
-						: "Join us to start tracking your AI impact"}
-				</p>
+				<h1 className={titleClasses}>Welcome Back</h1>
+				<p className={subtitleClasses}>Sign in to track your AI impact</p>
 			</div>
 
 			<AuthForm
-				isLogin={isLogin}
+				isLogin={true}
 				onSubmit={handleSubmit}
-				onToggleMode={() => setIsLogin(!isLogin)}
+				onToggleMode={handleSignUpClick}
+				onGoogleLogin={handleGoogleLogin}
+
 			/>
 		</div>
 	);

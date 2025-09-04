@@ -20,8 +20,8 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 	className = "",
 }) => {
 	const totalAbsolute = Math.abs(consumed) + Math.abs(restored) || 1;
-	const consumedPercentage = (Math.abs(consumed) / totalAbsolute) * 50;
-	const restoredPercentage = (Math.abs(restored) / totalAbsolute) * 50;
+	const consumedPercentage = (Math.abs(consumed) / totalAbsolute) * 100;
+	const restoredPercentage = (Math.abs(restored) / totalAbsolute) * 100;
 
 	const [animatedWidths, setAnimatedWidths] = useState({
 		consumed: 0,
@@ -53,6 +53,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		alignItems: "center",
 		gap: "3",
 		marginBottom: "5px",
+		margin: "auto",
 	});
 
 	const labelClasses = css({
@@ -88,22 +89,6 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		_hover: {
 			backgroundColor: "#c2175b7a",
 		},
-		// "&::after": {
-		//     content: '""',
-		//     position: "absolute",
-		//     left: "-12px",
-		//     top: "50%",
-		//     transform: "translateY(-50%)",
-		//     width: "0",
-		//     height: "0",
-		//     borderStyle: "solid",
-		//     borderWidth: "8px 12px 8px 0",
-		//     borderColor: "transparent #c2175b7a transparent transparent",
-		//     zIndex: "2",
-		// },
-		// "&:hover::after": {
-		//     borderColor: `transparent ${consumedColor} transparent transparent`,
-		// },
 	});
 
 	const restoredBarClasses = css({
@@ -119,22 +104,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		_hover: {
 			backgroundColor: "#0080004d",
 		},
-		// "&::after": {
-		//     content: '""',
-		//     position: "absolute",
-		//     right: "-12px",
-		//     top: "50%",
-		//     transform: "translateY(-50%)",
-		//     width: "0",
-		//     height: "0",
-		//     borderStyle: "solid",
-		//     borderWidth: "8px 0 8px 12px",
-		//     borderColor: "transparent transparent transparent #0080004d",
-		//     zIndex: "2",
-		// },
-		// "&:hover::after": {
-		//     borderColor: `transparent transparent transparent ${restoredColor}`,
-		// },
+
 	});
 
 	const valueClasses = css({
@@ -159,7 +129,6 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		opacity: tooltip.visible ? "1" : "0",
 		visibility: tooltip.visible ? "visible" : "hidden",
 		transition: "opacity 0.4s ease",
-		// left: "100px",
 		transform: "translate(0%, -130%)",
 	});
 
@@ -176,6 +145,20 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		setTooltip((prev) => ({ ...prev, visible: false }));
 	};
 
+	// Create dynamic gradient based on percentages
+	const dynamicGradient = `linear-gradient(to right, 
+	${consumedColor} 100%, 
+	${consumedColor} ${consumedPercentage}%, 
+		${restoredColor} ${consumedPercentage}%, 
+		${restoredColor} 100%
+	)`;
+	const balanceChartClasses = css({
+		background: dynamicGradient,
+		height: "100%",
+		width: "100%",
+		borderRadius: "full",
+	});
+
 	return (
 		<div className={`${chartContainerClasses} ${className}`}>
 			<div className={labelClasses}>
@@ -185,7 +168,10 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 				{unit}
 			</div>
 			<div className={chartWrapperClasses}>
-				<div
+				<div className={balanceChartClasses}>
+
+				</div>
+				{/* <div
 					className={consumedBarClasses}
 					style={{ width: `${animatedWidths.consumed}%` }}
 					onMouseEnter={(e) =>
@@ -218,7 +204,10 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 							handleMouseEnter(`Restored: ${restored} ${unit}`, e as any);
 						}
 					}}
-				/>
+				/> */}
+				{/* <span className={css({ marginTop: "11" })}>
+					Due to restore: {(consumed - restored).toFixed(2)}m²
+				</span> */}
 			</div>
 			<div className={labelClasses}>
 				<span className={`${valueClasses} ${css({ color: restoredColor })}`}>
