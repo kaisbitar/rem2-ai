@@ -82,6 +82,7 @@ const AuthCallback: React.FC = () => {
 		minHeight: "300px",
 		padding: "6",
 		textAlign: "center",
+		width: "300px",
 	});
 
 	const messageClasses = css({

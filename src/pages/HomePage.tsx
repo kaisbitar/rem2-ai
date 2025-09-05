@@ -83,6 +83,7 @@ const HomePage: React.FC = () => {
 
 	return (
 		<div className={containerClasses}>
+
 			<Header />
 			<main className={mainClasses}>
 				<DonationBanner />

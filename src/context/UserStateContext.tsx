@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import type { UserState, UserStateContextType, UserProfile } from "@/types/user";
 import { getPaymentSession, clearPaymentSession } from "@/utils/payment/paymentSession";
+import { supabase } from "@/config/supabase-client";
 
 const UserStateContext = createContext<UserStateContextType | null>(null);
 
@@ -62,11 +63,20 @@ export const UserStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const netBalance = totalRestored - totalConsumed;
 
     const claimPaymentSession = async () => {
-        // Client-side: mark as claimed locally; server will link donation post-auth.
-        await clearPaymentSession();
         const session = await getPaymentSession();
-        if (session) return; // early return if not cleared (edge)
-        setPaymentSession(null);
+        if (!session) return;
+
+        try {
+            if (user?.id && session.sessionId) {
+                await supabase.rpc("claim_donation_session", {
+                    p_session_id: session.sessionId,
+                });
+                await getUserProfile?.(); // refresh to pick up server totals
+            }
+        } finally {
+            await clearPaymentSession(); // remove local stub regardless
+            setPaymentSession(null);
+        }
     };
 
     const value: UserStateContextType = {
