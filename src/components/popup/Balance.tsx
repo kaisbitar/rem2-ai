@@ -14,8 +14,8 @@ interface BalanceProps {
 }
 
 const Balance: React.FC<BalanceProps> = ({
-	consumed = 5,
-	restored = 3,
+	consumed,
+	restored,
 	showStats,
 	className = "",
 	onDetailsClick,
@@ -72,7 +72,7 @@ const Balance: React.FC<BalanceProps> = ({
 					text="Balance Your m²"
 					className="btn-theme-green"
 					icon={<Plant size={19} />}
-					onClick={() => {}}
+					onClick={() => { }}
 				/>
 			</div>
 		</div>

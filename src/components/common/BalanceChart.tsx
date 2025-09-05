@@ -19,209 +19,134 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 	unit = "m²",
 	className = "",
 }) => {
-	const totalAbsolute = Math.abs(consumed) + Math.abs(restored) || 1;
-	const consumedPercentage = (Math.abs(consumed) / totalAbsolute) * 100;
-	const restoredPercentage = (Math.abs(restored) / totalAbsolute) * 100;
+	const [consumedWidth, setConsumedWidth] = useState(0);
+	const [restoredWidth, setRestoredWidth] = useState(0);
 
-	const [animatedWidths, setAnimatedWidths] = useState({
-		consumed: 0,
-		restored: 0,
-	});
-
-	const [tooltip, setTooltip] = useState<{
-		content: string;
-		x: number;
-		y: number;
-		visible: boolean;
-	}>({
-		content: "",
-		x: 0,
-		y: 0,
-		visible: false,
-	});
+	const total = consumed + restored;
+	const consumedPercentage = total > 0 ? (consumed / total) * 100 : 0;
+	const restoredPercentage = total > 0 ? (restored / total) * 100 : 0;
 
 	useEffect(() => {
-		setAnimatedWidths({
-			consumed: Math.abs(consumedPercentage),
-			restored: Math.abs(restoredPercentage),
-		});
+		const timeout = setTimeout(() => {
+			setConsumedWidth(consumedPercentage);
+			setRestoredWidth(restoredPercentage);
+		}, 300);
+		return () => clearTimeout(timeout);
 	}, [consumedPercentage, restoredPercentage]);
 
-	const chartContainerClasses = css({
-		display: "grid",
-		gridTemplateColumns: "auto 1fr auto",
-		alignItems: "center",
-		gap: "3",
-		marginBottom: "5px",
+	const containerClass = css({
 		margin: "auto",
 	});
 
-	const labelClasses = css({
-		fontSize: "sm",
-		fontWeight: "medium",
-		textAlign: "center",
-		whiteSpace: "nowrap",
+	const headerClass = css({
+		display: "flex",
+		justifyContent: "space-between",
+		alignItems: "center",
+		marginBottom: "1rem",
+		fontSize: { base: "0.875rem", sm: "1rem" },
+		fontWeight: 600,
+		color: "#94a3b8",
 	});
 
-	const chartWrapperClasses = css({
-		height: "23px",
-		width: "176px",
+	const infoItemClass = css({
+		display: "flex",
+		alignItems: "center",
+		gap: "0.5rem",
+	});
+
+	const colorDotClass = css({
+		width: "0.75rem",
+		height: "0.75rem",
+		borderRadius: "50%",
+	});
+
+	const trackClass = css({
+		margin: "auto",
+		// backgroundColor: "#1e293b",
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
+		height: "2rem",
 		position: "relative",
-		// backgroundColor: "#a1ca2a45",
-		borderRadius: "full",
-		overflow: "visible",
-		border: "1px solid #00800036",
+		borderRadius: "9999px",
+		overflow: "hidden",
 	});
 
-	const consumedBarClasses = css({
+	const barClass = css({
+		height: "20px",
 		position: "absolute",
-		right: "50%",
-		height: "100%",
-		backgroundColor: consumedColor,
-		transition: "width 1s ease-out",
-		overflow: "visible",
-		borderRadius: "0px",
-		zIndex: "1",
-		cursor: "pointer",
-		_hover: {
-			backgroundColor: "#c2175b7a",
-		},
+		transition: "width 1s ease-in-out",
 	});
 
-	const restoredBarClasses = css({
-		position: "absolute",
+	const consumedBarClass = css({
 		left: "50%",
+		transform: "translateX(-100%)",
+		borderTopRightRadius: 0,
+		borderBottomRightRadius: 0,
+		borderTopLeftRadius: "9999px",
+		borderBottomLeftRadius: "9999px",
+	});
+
+	const restoredBarClass = css({
+		left: "50%",
+		borderTopLeftRadius: 0,
+		borderBottomLeftRadius: 0,
+		borderTopRightRadius: "9999px",
+		borderBottomRightRadius: "9999px",
+	});
+
+	const centerLineClass = css({
+		position: "absolute",
+		width: "5px",
 		height: "100%",
-		backgroundColor: restoredColor,
-		transition: "width 1s ease-out",
-		overflow: "visible",
-		borderRadius: "0px",
-		zIndex: "1",
-		cursor: "pointer",
-		_hover: {
-			backgroundColor: "#0080004d",
-		},
-	});
-
-	const valueClasses = css({
-		fontSize: "3xl",
-		fontWeight: "bold",
-		color: consumedColor,
-	});
-
-	const customTooltipClasses = css({
-		position: "fixed",
-		backgroundColor: "gray.800",
-		color: "white",
-		padding: "8px 12px",
-		borderRadius: "6px",
-		fontSize: "12px",
-		whiteSpace: "nowrap",
-		zIndex: "1000",
-		pointerEvents: "none",
-		boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
-		border: "1px solid",
-		borderColor: "gray.700",
-		opacity: tooltip.visible ? "1" : "0",
-		visibility: tooltip.visible ? "visible" : "hidden",
-		transition: "opacity 0.4s ease",
-		transform: "translate(0%, -130%)",
-	});
-
-	const handleMouseEnter = (content: string, event: React.MouseEvent) => {
-		setTooltip({
-			content,
-			x: event.clientX,
-			y: event.clientY,
-			visible: true,
-		});
-	};
-
-	const handleMouseLeave = () => {
-		setTooltip((prev) => ({ ...prev, visible: false }));
-	};
-
-	// Create dynamic gradient based on percentages
-	const dynamicGradient = `linear-gradient(to right, 
-	${consumedColor} 100%, 
-	${consumedColor} ${consumedPercentage}%, 
-		${restoredColor} ${consumedPercentage}%, 
-		${restoredColor} 100%
-	)`;
-	const balanceChartClasses = css({
-		background: dynamicGradient,
-		height: "100%",
-		width: "100%",
-		borderRadius: "full",
+		backgroundColor: "#e5e6e7",
+		border: "1px solid #9c9c9c",
+		borderRadius: "9999px",
+		zIndex: 10,
 	});
 
 	return (
-		<div className={`${chartContainerClasses} ${className}`}>
-			<div className={labelClasses}>
-				<span className={`${valueClasses} ${css({ color: consumedColor })}`}>
-					{consumed}
-				</span>{" "}
-				{unit}
-			</div>
-			<div className={chartWrapperClasses}>
-				<div className={balanceChartClasses} />
-				<div
-					className={consumedBarClasses}
-					style={{ width: `${animatedWidths.consumed}%` }}
-					onMouseEnter={(e) =>
-						handleMouseEnter(`Consumed: ${consumed} ${unit}`, e)
-					}
-					onMouseLeave={handleMouseLeave}
-					role="button"
-					tabIndex={0}
-					aria-label={`Consumed: ${consumed} ${unit}`}
-					onKeyDown={(e) => {
-						if (e.key === "Enter" || e.key === " ") {
-							e.preventDefault();
-							handleMouseEnter(`Consumed: ${consumed} ${unit}`, e as any);
-						}
-					}}
-				/>
-				<div
-					className={restoredBarClasses}
-					style={{ width: `${animatedWidths.restored}%` }}
-					onMouseEnter={(e) =>
-						handleMouseEnter(`Restored: ${restored} ${unit}`, e)
-					}
-					onMouseLeave={handleMouseLeave}
-					role="button"
-					tabIndex={0}
-					aria-label={`Restored: ${restored} ${unit}`}
-					onKeyDown={(e) => {
-						if (e.key === "Enter" || e.key === " ") {
-							e.preventDefault();
-							handleMouseEnter(`Restored: ${restored} ${unit}`, e as any);
-						}
-					}}
-				/>
-				<span className={css({ marginTop: "11" })}>
-					Due to restore: {(consumed - restored).toFixed(2)}m²
-				</span>
-			</div>
-			<div className={labelClasses}>
-				<span className={`${valueClasses} ${css({ color: restoredColor })}`}>
-					{restored}
-				</span>{" "}
-				{unit}
+		<div className={`${containerClass} ${className}`}>
+			<div className={headerClass}>
+				<div className={infoItemClass}>
+					<span
+						className={colorDotClass}
+						style={{ backgroundColor: consumedColor }}
+					></span>
+					<span>
+						Consumed: {consumed} {unit}
+					</span>
+				</div>
+				<div className={infoItemClass}>
+					<span>
+						Restored: {restored} {unit}
+					</span>
+					<span
+						className={colorDotClass}
+						style={{ backgroundColor: restoredColor }}
+					></span>
+				</div>
 			</div>
 
-			{/* Custom tooltip */}
-			<div
-				className={customTooltipClasses}
-				style={{
-					left: tooltip.x,
-					top: tooltip.y,
-				}}
-			>
-				{tooltip.content}
+			<div className={trackClass}>
+				<div
+					style={{
+						width: `${consumedWidth}%`,
+						background: `linear-gradient(to right, ${consumedColor}, ${consumedColor} 70%, #ff0064)`,
+						transformOrigin: "right",
+					}}
+					className={`${barClass} ${consumedBarClass}`}
+				></div>
+				<div
+					style={{
+						width: `${restoredWidth}%`,
+						background: `linear-gradient(to left, ${restoredColor}, ${restoredColor} 70%, #02cd02)`,
+
+						transformOrigin: "left",
+					}}
+					className={`${barClass} ${restoredBarClass}`}
+				></div>
+				<div className={centerLineClass}></div>
 			</div>
 		</div>
 	);

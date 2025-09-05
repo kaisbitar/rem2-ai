@@ -77,8 +77,8 @@ const HomePage: React.FC = () => {
 	});
 
 	// Calculate balance from user profile data
-	const consumed = userProfile?.total_m2_consumed || 0;
-	const restored = userProfile?.total_m2_restored || 0;
+	const consumed = userProfile?.total_m2_consumed || 40;
+	const restored = userProfile?.total_m2_restored || 18;
 
 	return (
 		<div className={containerClasses}>
