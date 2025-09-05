@@ -29,9 +29,7 @@ const AuthCallback: React.FC = () => {
 					}
 
 					const amount = Number(params.get("amount") || 0);
-					const m2 = Number(
-						params.get("m2") || params.get("m2_restored") || 0,
-					);
+					const m2 = Number(params.get("m2") || params.get("m2_restored") || 0);
 
 					await savePaymentSession({
 						sessionId,
@@ -42,7 +40,9 @@ const AuthCallback: React.FC = () => {
 					});
 
 					setStatus("success");
-					setMessage("Thank you! Your donation has been recorded on this device.");
+					setMessage(
+						"Thank you! Your donation has been recorded on this device.",
+					);
 					setTimeout(() => navigate("/"), 1200);
 					return;
 				}
@@ -67,6 +67,7 @@ const AuthCallback: React.FC = () => {
 			} catch (error) {
 				setStatus("error");
 				setMessage("An unexpected error occurred. Please try again.");
+				console.error(error);
 			}
 		};
 

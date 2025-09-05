@@ -3,7 +3,7 @@ import type React from "react";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import type { UserState, UserStateContextType, UserProfile } from "@/types/user";
-import { hasUnclaimedPaymentSession, getPaymentSession, clearPaymentSession } from "@/utils/payment/paymentSession";
+import { getPaymentSession, clearPaymentSession } from "@/utils/payment/paymentSession";
 
 const UserStateContext = createContext<UserStateContextType | null>(null);
 
@@ -29,6 +29,19 @@ export const UserStateProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         if (!user?.id) return;
         void getUserProfile?.();
     }, [user?.id, getUserProfile]);
+
+    useEffect(() => {
+        if (!user) return;
+        const restored = (userProfile as UserProfile | null)?.total_m2_restored ?? 0;
+        if (restored <= 0) return;
+        if (!paymentSession) return;
+
+        // Server state confirms donation is linked → clear local stub
+        void (async () => {
+            await clearPaymentSession();
+            setPaymentSession(null);
+        })();
+    }, [user, userProfile, paymentSession]);
 
     const userState: UserState = useMemo(() => {
         if (!user) {
