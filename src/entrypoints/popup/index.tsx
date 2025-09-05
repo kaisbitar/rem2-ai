@@ -12,24 +12,27 @@ import { createRoot } from "react-dom/client";
 import { Route, MemoryRouter as Router, Routes } from "react-router-dom";
 import { css } from "styled-system/css";
 import "@/styles/global.css";
+import { UserStateProvider } from "@/context/UserStateContext";
 
 const PopupRoot: React.FC = () => {
 	return (
 		<AuthProvider>
-			<AppContextProvider viewMode="daily">
-				<div className={css({ fontFamily: "body" })}>
-					<Router>
-						<Routes>
-							<Route path="/" element={<HomePage />} />
-							<Route path="/settings" element={<SettingsPage />} />
-							<Route path="/login" element={<LoginPage />} />
-							<Route path="/signup" element={<SignUpPage />} />
-							<Route path="/profile" element={<ProfilePage />} />
-							<Route path="/auth/callback" element={<AuthCallback />} />
-						</Routes>
-					</Router>
-				</div>
-			</AppContextProvider>
+			<UserStateProvider>
+				<AppContextProvider viewMode="daily">
+					<div className={css({ fontFamily: "body" })}>
+						<Router>
+							<Routes>
+								<Route path="/" element={<HomePage />} />
+								<Route path="/settings" element={<SettingsPage />} />
+								<Route path="/login" element={<LoginPage />} />
+								<Route path="/signup" element={<SignUpPage />} />
+								<Route path="/profile" element={<ProfilePage />} />
+								<Route path="/auth/callback" element={<AuthCallback />} />
+							</Routes>
+						</Router>
+					</div>
+				</AppContextProvider>
+			</UserStateProvider>
 		</AuthProvider>
 	);
 };

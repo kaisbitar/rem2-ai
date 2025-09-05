@@ -9,6 +9,7 @@ import { PlantIcon } from "@phosphor-icons/react";
 import { Footer } from "@/components/common/Footer";
 import { useAuth } from "@/context/AuthContext";
 import { useDatabase } from "@/hooks/useDatabase";
+import DonationBanner from "@/components/popup/DonationBanner";
 
 const HomePage: React.FC = () => {
 	const { user } = useAuth();
@@ -84,6 +85,8 @@ const HomePage: React.FC = () => {
 		<div className={containerClasses}>
 			<Header />
 			<main className={mainClasses}>
+				<DonationBanner />
+
 				<h2>{user && <div>Hi {user.email}</div>}</h2>
 				<h3 className={balanceHeaderClasses}>
 					Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance
@@ -111,3 +114,4 @@ const HomePage: React.FC = () => {
 };
 
 export default HomePage;
+

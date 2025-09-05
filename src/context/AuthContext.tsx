@@ -4,11 +4,31 @@ import { supabase } from "../config/supabase-client";
 import type { User, Session } from "@supabase/supabase-js";
 import { browser } from "wxt/browser";
 
-// Clean, simple interfaces matching our database schema
 interface UserProfile {
 	id: string;
 	email: string;
 	opt_in_status: boolean;
+
+	// Balance tracking
+	total_m2_consumed: number;
+	total_m2_restored: number;
+
+	// Restoration totals
+	total_trees_planted: number;
+	total_peatland_rewetted: number;
+	total_habitat_restored: number;
+
+	// Payment history
+	last_donation_date?: string;
+	last_donation_amount?: number;
+
+	// Gamification
+	streak_days?: number;
+	badges?: string[];
+	weekly_goal?: number;
+	monthly_goal?: number;
+
+	// Timestamps
 	created_at: string;
 	last_active: string;
 }

@@ -72,7 +72,7 @@ const Balance: React.FC<BalanceProps> = ({
 					text="Balance Your m²"
 					className="btn-theme-green"
 					icon={<Plant size={19} />}
-					onClick={() => { }}
+					onClick={() => {}}
 				/>
 			</div>
 		</div>

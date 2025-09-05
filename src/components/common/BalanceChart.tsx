@@ -112,7 +112,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 					<span
 						className={colorDotClass}
 						style={{ backgroundColor: consumedColor }}
-					></span>
+					/>
 					<span>
 						Consumed: {consumed} {unit}
 					</span>
@@ -124,7 +124,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 					<span
 						className={colorDotClass}
 						style={{ backgroundColor: restoredColor }}
-					></span>
+					/>
 				</div>
 			</div>
 
@@ -136,7 +136,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 						transformOrigin: "right",
 					}}
 					className={`${barClass} ${consumedBarClass}`}
-				></div>
+				/>
 				<div
 					style={{
 						width: `${restoredWidth}%`,
@@ -145,8 +145,8 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 						transformOrigin: "left",
 					}}
 					className={`${barClass} ${restoredBarClass}`}
-				></div>
-				<div className={centerLineClass}></div>
+				/>
+				<div className={centerLineClass} />
 			</div>
 		</div>
 	);

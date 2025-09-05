@@ -1,8 +1,9 @@
 import type React from "react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { css } from "styled-system/css";
 import { supabase } from "../config/supabase-client";
+import { savePaymentSession } from "@/utils/payment/paymentSession";
 
 const AuthCallback: React.FC = () => {
 	const [status, setStatus] = useState<"loading" | "success" | "error">(
@@ -10,45 +11,67 @@ const AuthCallback: React.FC = () => {
 	);
 	const [message, setMessage] = useState("");
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	useEffect(() => {
-		const handleAuthCallback = async () => {
+		const handleCallback = async () => {
 			try {
-				console.log("🔄 Handling auth callback...");
+				const params = new URLSearchParams(location.search);
+				const type = params.get("type");
 
-				// Get the session from the URL hash/fragment
+				// Donation callback flow (guest)
+				if (type === "donation") {
+					const sessionId = params.get("session_id") || params.get("sessionId");
+					if (!sessionId) {
+						setStatus("error");
+						setMessage("Missing donation session. Please try again.");
+						return;
+					}
+
+					const amount = Number(params.get("amount") || 0);
+					const m2 = Number(
+						params.get("m2") || params.get("m2_restored") || 0,
+					);
+
+					await savePaymentSession({
+						sessionId,
+						amount,
+						m2Restored: m2,
+						timestamp: new Date().toISOString(),
+						claimed: false,
+					});
+
+					setStatus("success");
+					setMessage("Thank you! Your donation has been recorded on this device.");
+					setTimeout(() => navigate("/"), 1200);
+					return;
+				}
+
+				// Auth callback flow (existing)
 				const { data, error } = await supabase.auth.getSession();
-
 				if (error) {
-					console.error("❌ Auth callback error:", error);
 					setStatus("error");
 					setMessage("Authentication failed. Please try again.");
 					return;
 				}
 
-				if (data.session) {
-					console.log("✅ Authentication successful:", data.session.user.email);
-					setStatus("success");
-					setMessage("Authentication successful! Redirecting...");
-
-					// Redirect to home page after successful auth
-					setTimeout(() => {
-						navigate("/");
-					}, 1500);
-				} else {
-					console.log("⚠️ No session found in callback");
+				if (!data.session) {
 					setStatus("error");
 					setMessage("Authentication incomplete. Please try again.");
+					return;
 				}
+
+				setStatus("success");
+				setMessage("Authentication successful! Redirecting...");
+				setTimeout(() => navigate("/"), 1500);
 			} catch (error) {
-				console.error("❌ Unexpected error in auth callback:", error);
 				setStatus("error");
 				setMessage("An unexpected error occurred. Please try again.");
 			}
 		};
 
-		handleAuthCallback();
-	}, [navigate]);
+		handleCallback();
+	}, [navigate, location.search]);
 
 	const containerClasses = css({
 		display: "flex",
@@ -118,9 +141,9 @@ const AuthCallback: React.FC = () => {
 					color: getStatusColor(),
 				})}
 			>
-				{status === "loading" && "Authenticating..."}
+				{status === "loading" && "Processing..."}
 				{status === "success" && "Success!"}
-				{status === "error" && "Authentication Failed"}
+				{status === "error" && "Something went wrong"}
 			</h1>
 
 			<p className={messageClasses}>{message}</p>
@@ -128,10 +151,10 @@ const AuthCallback: React.FC = () => {
 			{status === "error" && (
 				<button
 					type="button"
-					onClick={() => navigate("/login")}
+					onClick={() => navigate("/")}
 					className={buttonClasses}
 				>
-					Back to Login
+					Back to Home
 				</button>
 			)}
 		</div>
