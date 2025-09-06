@@ -10,10 +10,12 @@ import { Footer } from "@/components/common/Footer";
 import { useAuth } from "@/context/AuthContext";
 import { useDatabase } from "@/hooks/useDatabase";
 import DonationBanner from "@/components/popup/DonationBanner";
+import { useUserState } from "@/context/UserStateContext";
 
 const HomePage: React.FC = () => {
 	const { user } = useAuth();
 	const { getUserProfile } = useDatabase();
+	const { isGuest } = useUserState();
 	const [showStats, setShowStats] = useState(false);
 	const [userProfile, setUserProfile] = useState<any>(null);
 	const [loading, setLoading] = useState(true);
@@ -81,12 +83,29 @@ const HomePage: React.FC = () => {
 	const consumed = userProfile?.total_m2_consumed || 40;
 	const restored = userProfile?.total_m2_restored || 18;
 
+	const guestBadge = isGuest ? (
+		<div
+			className={css({
+				backgroundColor: "yellow.50",
+				border: "1px solid",
+				borderColor: "yellow.200",
+				color: "yellow.900",
+				fontSize: "sm",
+				padding: "2",
+				borderRadius: "md",
+				marginBottom: "3",
+			})}
+		>
+			Tracking on this device only. Create a free account to keep your history.
+		</div>
+	) : null;
+
 	return (
 		<div className={containerClasses}>
-
 			<Header />
 			<main className={mainClasses}>
 				<DonationBanner />
+				{guestBadge}
 
 				<h2>{user && <div>Hi {user.email}</div>}</h2>
 				<h3 className={balanceHeaderClasses}>

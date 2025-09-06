@@ -94,29 +94,25 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			setUser(session?.user ?? null);
 
 			if (session?.user) {
-				// Store user info in Chrome storage for background script access
 				try {
 					await browser.storage.local.set({
-						authUser: {
-							id: session.user.id,
-							email: session.user.email,
+						authUser: { id: session.user.id, email: session.user.email },
+						supabaseSession: {
+							access_token: session.access_token,
+							refresh_token: session.refresh_token,
+							expires_at: session.expires_at,
 						},
 					});
-					// console.log("✅ User auth info stored in Chrome storage");
 				} catch (error) {
 					console.error("❌ Error storing auth info:", error);
 				}
-
 				await loadUserProfile(session.user.id, session.user.email);
 			} else {
-				// Clear auth info from storage when user signs out
 				try {
-					await browser.storage.local.remove(["authUser"]);
-					// console.log("✅ User auth info cleared from Chrome storage");
+					await browser.storage.local.remove(["authUser", "supabaseSession"]);
 				} catch (error) {
 					console.error("❌ Error clearing auth info:", error);
 				}
-
 				setUserProfile(null);
 			}
 		});

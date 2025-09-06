@@ -103,9 +103,10 @@ const StatsSection: React.FC = () => {
 				/>
 			</div>
 
-			<h6>Environmental Equivalences</h6>
+			<h6>Consumption Metrics</h6>
 			<div className={statsGridClasses}>
 				<StatCard
+					className={css({ backgroundColor: "#0080003d" })}
 					value={displayData?.m2_potential?.toFixed(2) || "0.00"}
 					label={"m²"}
 					icon={<Plant size={19} />}
@@ -135,8 +136,17 @@ const StatsSection: React.FC = () => {
 				/> */}
 			</div>
 
-			<h6>Restoration Equivalences</h6>
+			<h6>Restoration Metrics</h6>
 			<div className={statsGridClasses}>
+				<StatCard
+					className={css({ backgroundColor: "#f8e3e3" })}
+					value={displayData?.m2_potential?.toFixed(2) || "0.00"}
+					label={"m²"}
+					icon={<Plant size={19} />}
+					tooltip="Square meters of ecosystem that could be restored to offset your AI usage."
+				/>
+				<span className={css({ fontSize: "sm", margin: "10px 0px" })}>=</span>
+
 				<StatCard
 					value={displayData?.trees_potential || 0}
 					label="Trees"
@@ -144,6 +154,7 @@ const StatsSection: React.FC = () => {
 					icon={<Tree size={19} />}
 					tooltip="Number of trees that would need to be planted to offset your AI carbon footprint."
 				/>
+				<span className={css({ fontSize: "sm", margin: "10px 0px" })}>+</span>
 
 				<StatCard
 					value={displayData?.peatland_potential?.toFixed(2) || "0.00"}
@@ -152,6 +163,7 @@ const StatsSection: React.FC = () => {
 					icon={<Leaf size={19} />}
 					tooltip="Square meters of peatland that could be restored."
 				/>
+				<span className={css({ fontSize: "sm", margin: "10px 0px" })}>+</span>
 
 				<StatCard
 					value={displayData?.habitat_potential?.toFixed(2) || "0.00"}

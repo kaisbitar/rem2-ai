@@ -28,8 +28,10 @@ export const Footer: React.FC = () => {
 		<footer className={css(footerStyles)}>
 			<div className={css({ display: "flex", alignItems: "center" })}>
 				<Plant color="green" style={{ margin: "0px 2px" }} />
-				<span className={superscriptClasses}>m2</span>Balance.AI
+				ai
+				<span className={superscriptClasses}>m2Balance</span>.ai
 			</div>
+
 			<div className={"gradient-bar"} />
 		</footer>
 	);
