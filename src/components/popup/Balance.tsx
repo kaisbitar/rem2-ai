@@ -95,7 +95,6 @@ const Balance: React.FC<BalanceProps> = ({
 					marginTop: "4",
 				})}
 			>
-
 				<CallToActionButton
 					text="Restore m²"
 					className="btn-theme-green"
@@ -108,21 +107,24 @@ const Balance: React.FC<BalanceProps> = ({
 					onClick={secondaryCta.onClick}
 				/>
 			</div>
-			{showStats && <CaretUp
-				// text={showStats ? "Hide Details" : "Show Details"}
-				className={detailsBtn}
-				// icon={showStats ? <CaretUp size={19} /> : <CaretDown size={19} />}
-				onClick={onDetailsClick}
-				size={20}
-			/>}
-			{!showStats && <CaretDown
-				// text={showStats ? "Hide Details" : "Show Details"}
-				className={detailsBtn}
-				// icon={showStats ? <CaretUp size={19} /> : <CaretDown size={19} />}
-				onClick={onDetailsClick}
-				size={20}
-
-			/>}
+			{showStats && (
+				<CaretUp
+					// text={showStats ? "Hide Details" : "Show Details"}
+					className={detailsBtn}
+					// icon={showStats ? <CaretUp size={19} /> : <CaretDown size={19} />}
+					onClick={onDetailsClick}
+					size={20}
+				/>
+			)}
+			{!showStats && (
+				<CaretDown
+					// text={showStats ? "Hide Details" : "Show Details"}
+					className={detailsBtn}
+					// icon={showStats ? <CaretUp size={19} /> : <CaretDown size={19} />}
+					onClick={onDetailsClick}
+					size={20}
+				/>
+			)}
 		</div>
 	);
 };

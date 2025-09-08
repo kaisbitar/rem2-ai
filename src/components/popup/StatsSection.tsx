@@ -40,23 +40,38 @@ const StatsSection: React.FC = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			if (!user?.id || !getUserConsumptionMetrics) {
-				// setLoading(false);
 				return;
 			}
 
 			try {
-				const metrics = await getUserConsumptionMetrics();
+				let metrics = [];
+				if (viewMode === "daily") {
+					// UTC day range to align with ReactiveStorage keying
+					const now = new Date();
+					const startUtc = new Date(Date.UTC(
+						now.getUTCFullYear(),
+						now.getUTCMonth(),
+						now.getUTCDate(), 0, 0, 0
+					));
+					const endUtc = new Date(Date.UTC(
+						now.getUTCFullYear(),
+						now.getUTCMonth(),
+						now.getUTCDate() + 1, 0, 0, 0
+					));
+					metrics = await getUserConsumptionMetrics(200, startUtc.toISOString(), endUtc.toISOString());
+				} else {
+					metrics = await getUserConsumptionMetrics();
+				}
 				const aggregatedData = MetricsCalculator.aggregateMetrics(metrics);
 				setConsumptionData(aggregatedData);
 			} catch (error) {
 				console.error("Error fetching consumption data:", error);
 			} finally {
-				// setLoading(false);
 			}
 		};
 
 		fetchData();
-	}, [user?.id, getUserConsumptionMetrics]);
+	}, [user?.id, getUserConsumptionMetrics, viewMode]);
 
 	const displayData = user?.id && consumptionData ? consumptionData : stats;
 

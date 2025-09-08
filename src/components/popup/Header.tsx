@@ -3,6 +3,7 @@ import { css } from "styled-system/css";
 import { useNavigate } from "react-router-dom";
 import { ListIcon, Plant, User } from "@phosphor-icons/react";
 import { useAuth } from "@/context/AuthContext";
+import logo from "@/icons/icon128.png";
 
 interface HeaderProps {
 	className?: string;
@@ -40,6 +41,10 @@ const Header: React.FC<HeaderProps> = () => {
 		gap: "4",
 	});
 
+	const logoClasses = css({
+		margin: "0px 8px",
+	});
+
 	const handleLoginClick = () => {
 		if (user) {
 			navigate("/profile");
@@ -60,7 +65,8 @@ const Header: React.FC<HeaderProps> = () => {
 				<ListIcon size={16} />
 			</button>
 			<h1 className={titleClasses}>
-				<Plant color="green" style={{ margin: "0px 2px" }} />
+				<img src={logo} alt="App icon" className={logoClasses} width={32} height={32} />
+				{/* <Plant color="green" style={{ margin: "0px 2px" }} /> */}
 				ai
 				<span className={superscriptClasses}>m2Balance</span>.ai
 			</h1>

@@ -128,6 +128,7 @@ const ProfilePage: React.FC = () => {
 	};
 
 	const handleSignOut = async () => {
+		console.log("Signing out");
 		try {
 			await signOut();
 			console.log("Signing out");
