@@ -305,63 +305,6 @@ export class DatabaseService {
   }
 
   /**
-   * Update user restoration totals from restoration_actions table
-   * @param userId - The user's unique identifier
-   * @returns Promise<boolean> - Success status
-   */
-  private static async updateUserRestorationTotals(
-    userId: string
-  ): Promise<boolean> {
-    try {
-      const { data, error } = await supabase
-        .from("restoration_actions")
-        .select(
-          "m2_restored, trees_planted, peatland_rewetted_m2, habitat_restored_m2"
-        )
-        .eq("user_id", userId);
-
-      if (error) {
-        logger.error("❌ Error calculating restoration totals:", error);
-        return false;
-      }
-
-      const totals = data?.reduce(
-        (acc, record) => ({
-          m2_restored: acc.m2_restored + (record.m2_restored || 0),
-          trees_planted: acc.trees_planted + (record.trees_planted || 0),
-          peatland_rewetted:
-            acc.peatland_rewetted + (record.peatland_rewetted_m2 || 0),
-          habitat_restored:
-            acc.habitat_restored + (record.habitat_restored_m2 || 0),
-        }),
-        {
-          m2_restored: 0,
-          trees_planted: 0,
-          peatland_rewetted: 0,
-          habitat_restored: 0,
-        }
-      ) || {
-        m2_restored: 0,
-        trees_planted: 0,
-        peatland_rewetted: 0,
-        habitat_restored: 0,
-      };
-
-      await DatabaseService.updateUserProfile(userId, {
-        total_m2_restored: totals.m2_restored,
-        total_trees_planted: totals.trees_planted,
-        total_peatland_rewetted: totals.peatland_rewetted,
-        total_habitat_restored: totals.habitat_restored,
-      });
-
-      return true;
-    } catch (error) {
-      logger.error("❌ Error updating restoration totals:", error);
-      return false;
-    }
-  }
-
-  /**
    * Check if user is opted-in to database storage
    * @param userId - The user's unique identifier
    * @returns Promise<boolean> - True if opted-in, false otherwise

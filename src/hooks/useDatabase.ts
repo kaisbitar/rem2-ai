@@ -4,7 +4,6 @@ import { useAuth } from "@/context/AuthContext";
 import {
   DatabaseService,
   type ConsumptionMetrics,
-  type RestorationAction,
 } from "@/utils/storage/database";
 
 /**

@@ -48,17 +48,31 @@ const StatsSection: React.FC = () => {
 				if (viewMode === "daily") {
 					// UTC day range to align with ReactiveStorage keying
 					const now = new Date();
-					const startUtc = new Date(Date.UTC(
-						now.getUTCFullYear(),
-						now.getUTCMonth(),
-						now.getUTCDate(), 0, 0, 0
-					));
-					const endUtc = new Date(Date.UTC(
-						now.getUTCFullYear(),
-						now.getUTCMonth(),
-						now.getUTCDate() + 1, 0, 0, 0
-					));
-					metrics = await getUserConsumptionMetrics(200, startUtc.toISOString(), endUtc.toISOString());
+					const startUtc = new Date(
+						Date.UTC(
+							now.getUTCFullYear(),
+							now.getUTCMonth(),
+							now.getUTCDate(),
+							0,
+							0,
+							0,
+						),
+					);
+					const endUtc = new Date(
+						Date.UTC(
+							now.getUTCFullYear(),
+							now.getUTCMonth(),
+							now.getUTCDate() + 1,
+							0,
+							0,
+							0,
+						),
+					);
+					metrics = await getUserConsumptionMetrics(
+						200,
+						startUtc.toISOString(),
+						endUtc.toISOString(),
+					);
 				} else {
 					metrics = await getUserConsumptionMetrics();
 				}
