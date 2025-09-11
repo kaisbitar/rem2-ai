@@ -10,7 +10,7 @@ const AboutSection: React.FC = () => {
 
 	const handleGithubClick = () => {
 		browser.tabs.create({
-			url: "https://github.com/xD3CODER/ai-impact-tracker",
+			url: "#",
 		});
 	};
 

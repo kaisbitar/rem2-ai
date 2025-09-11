@@ -1,6 +1,6 @@
 env:
   DIRECTORY: .output
-  PROJECT_NAME: ai-impact-tracker
+  PROJECT_NAME: aim2balance.ai
 name: Deploy
 on:
   push:

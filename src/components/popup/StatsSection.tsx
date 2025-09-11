@@ -135,7 +135,7 @@ const StatsSection: React.FC = () => {
 			<h6>Consumption Metrics</h6>
 			<div className={statsGridClasses}>
 				<StatCard
-					className={css({ backgroundColor: "#0080003d" })}
+					className={css({ backgroundColor: "#e6f0ca" })}
 					value={displayData?.m2_potential?.toFixed(2) || "0.00"}
 					label={"m²"}
 					icon={<Plant size={19} />}

@@ -15,7 +15,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 	consumed,
 	restored,
 	consumedColor = "#c2185b",
-	restoredColor = "green",
+	restoredColor = "#a1ca2b",
 	unit = "m²",
 	className = "",
 }) => {
@@ -23,8 +23,8 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 	const [restoredWidth, setRestoredWidth] = useState(0);
 
 	const total = consumed + restored;
-	const consumedPercentage = total > 0 ? (consumed / total) * 100 : 0;
-	const restoredPercentage = total > 0 ? (restored / total) * 100 : 0;
+	const consumedPercentage = 100//total > 0 ? (consumed / total) * 100 : 0;
+	const restoredPercentage = 3//total > 0 ? (restored / total) * 100 : 0;
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
@@ -46,6 +46,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		fontSize: { base: "0.875rem", sm: "1rem" },
 		fontWeight: 600,
 		color: "#94a3b8",
+		width: "350px",
 	});
 
 	const infoItemClass = css({

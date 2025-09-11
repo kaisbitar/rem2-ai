@@ -32,7 +32,7 @@ const Header: React.FC<HeaderProps> = () => {
 		marginLeft: "0",
 		// marginRight: "2",
 		fontWeight: "bold",
-		color: "#008001",
+		color: "green.main",
 	});
 
 	const settingsButtonClasses = css({
@@ -43,6 +43,10 @@ const Header: React.FC<HeaderProps> = () => {
 
 	const logoClasses = css({
 		margin: "0px 8px",
+		width: "32px",
+		height: "32px",
+		marginTop: "7px",
+
 	});
 
 	const handleLoginClick = () => {
@@ -69,8 +73,7 @@ const Header: React.FC<HeaderProps> = () => {
 					src={logo}
 					alt="App icon"
 					className={logoClasses}
-					width={32}
-					height={32}
+
 				/>
 				{/* <Plant color="green" style={{ margin: "0px 2px" }} /> */}
 				ai

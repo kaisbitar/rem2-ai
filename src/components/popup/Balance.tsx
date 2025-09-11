@@ -72,7 +72,7 @@ const Balance: React.FC<BalanceProps> = ({
 		// B — Registered Non‑payer
 		return {
 			text: "Set monthly target",
-			onClick: () => navigate("/settings"),
+			onClick: () => window.open('http://localhost:8080/', "_blank", "noopener,noreferrer")//navigate("/settings"),
 		};
 	})();
 
