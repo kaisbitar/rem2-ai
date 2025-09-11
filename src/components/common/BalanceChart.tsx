@@ -22,9 +22,9 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 	const [consumedWidth, setConsumedWidth] = useState(0);
 	const [restoredWidth, setRestoredWidth] = useState(0);
 
-	const total = consumed + restored;
-	const consumedPercentage = 100//total > 0 ? (consumed / total) * 100 : 0;
-	const restoredPercentage = 3//total > 0 ? (restored / total) * 100 : 0;
+	// const total = consumed + restored;
+	const consumedPercentage = 100; //total > 0 ? (consumed / total) * 100 : 0;
+	const restoredPercentage = 3; //total > 0 ? (restored / total) * 100 : 0;
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {

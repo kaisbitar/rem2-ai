@@ -46,7 +46,6 @@ const Header: React.FC<HeaderProps> = () => {
 		width: "32px",
 		height: "32px",
 		marginTop: "7px",
-
 	});
 
 	const handleLoginClick = () => {
@@ -69,12 +68,7 @@ const Header: React.FC<HeaderProps> = () => {
 				<ListIcon size={16} />
 			</button>
 			<h1 className={titleClasses}>
-				<img
-					src={logo}
-					alt="App icon"
-					className={logoClasses}
-
-				/>
+				<img src={logo} alt="App icon" className={logoClasses} />
 				{/* <Plant color="green" style={{ margin: "0px 2px" }} /> */}
 				ai
 				<span className={superscriptClasses}>m2Balance</span>.ai
