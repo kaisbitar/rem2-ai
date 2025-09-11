@@ -1,13 +1,15 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.1.2/schema.json",
 	"vcs": {
-		"enabled": false,
+		"enabled": true,
 		"clientKind": "git",
 		"useIgnoreFile": false
 	},
 	"files": {
 		"ignoreUnknown": false,
-		"includes": ["**"]
+		"includes": [
+			"**"
+		]
 	},
 	"formatter": {
 		"includes": [
@@ -19,7 +21,13 @@
 		],
 		"indentStyle": "tab"
 	},
-	"assist": { "actions": { "source": { "organizeImports": "on" } } },
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
 	"linter": {
 		"includes": [
 			"**/src/**",
