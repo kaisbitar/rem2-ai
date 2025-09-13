@@ -1,6 +1,6 @@
 import type React from "react";
 import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "../config/supabase-client";
+import { supabase, SUPABASE_STORAGE_KEY } from "../config/supabase-client";
 import type { User, Session } from "@supabase/supabase-js";
 import { browser } from "wxt/browser";
 
@@ -175,13 +175,37 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	};
 
 	const signOut = async () => {
+		if (!session && !user) return;
+
+		setLoading(true);
 		try {
-			await supabase.auth.signOut();
+			// Fire-and-forget local sign-out (avoid hangs in MV3)
+			void supabase.auth.signOut({ scope: "local" }).catch((err) => {
+				console.warn("signOut local failed:", err);
+			});
+
+			// Clear extension-shared storage
+			try {
+				await browser.storage.local.remove(["authUser", "supabaseSession"]);
+			} catch (err) {
+				console.error("Error clearing extension storage during signout:", err);
+			}
+
+			// Ensure Supabase's own localStorage session is cleared
+			try {
+				localStorage.removeItem(SUPABASE_STORAGE_KEY);
+			} catch (err) {
+				console.error("Error clearing Supabase localStorage key:", err);
+			}
+
+			// Clear local state
 			setUser(null);
 			setSession(null);
 			setUserProfile(null);
 		} catch (error) {
-			console.error("Error signing out:", error);
+			console.error("Error during sign out:", error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
