@@ -24,7 +24,6 @@ const HomePage: React.FC = () => {
 	useEffect(() => {
 		const fetchUserData = async () => {
 			if (user?.id) {
-
 				try {
 					const profile = await getUserProfile();
 					setUserProfile(profile);
@@ -32,7 +31,6 @@ const HomePage: React.FC = () => {
 					console.error("Error fetching user profile:", error);
 				} finally {
 					setLoading(false);
-
 				}
 			} else {
 				setLoading(false);

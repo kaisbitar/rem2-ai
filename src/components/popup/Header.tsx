@@ -41,12 +41,7 @@ const Header: React.FC<HeaderProps> = () => {
 		gap: "4",
 	});
 
-	const logoClasses = css({
-		margin: "0px 8px",
-		width: "32px",
-		height: "32px",
-		marginTop: "7px",
-	});
+
 	const aiClasses = css({
 		fontWeight: "bold",
 	});
