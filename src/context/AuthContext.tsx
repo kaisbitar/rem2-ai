@@ -65,6 +65,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 	const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
+	const PROFILE_CACHE_TTL_MS = 5 * 60 * 1000;
+
+	const getCachedProfile = async (uid: string) => {
+		try {
+			const { [`userProfile:${uid}`]: entry } = await browser.storage.local.get([`userProfile:${uid}`]);
+			if (!entry) return null;
+			if (Date.now() - entry.cachedAt > PROFILE_CACHE_TTL_MS) return null;
+			return entry.data as UserProfile;
+		} catch { return null; }
+	};
+
+	const setCachedProfile = async (uid: string, data: UserProfile) => {
+		try {
+			await browser.storage.local.set({ [`userProfile:${uid}`]: { data, cachedAt: Date.now() } });
+		} catch { }
+	};
+
 	useEffect(() => {
 		const getInitialSession = async () => {
 			try {
@@ -110,6 +127,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			} else {
 				try {
 					await browser.storage.local.remove(["authUser", "supabaseSession"]);
+					try { await browser.storage.local.remove([`userProfile:${user?.id}`, "authUser", "supabaseSession"]); } catch { }
 				} catch (error) {
 					console.error("❌ Error clearing auth info:", error);
 				}
@@ -122,29 +140,39 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 	const loadUserProfile = async (userId: string, userEmail?: string) => {
 		try {
-			// console.log("🔄 Loading user profile for:", userId);
-
-			const { data, error } = await supabase
-				.from("user_profiles")
-				.select("*")
-				.eq("id", userId)
-				.single();
-
-			if (error && error.code !== "PGRST116") {
-				console.error("❌ Error loading user profile:", error);
-				return;
+			// fast path: cache
+			const cached = await getCachedProfile(userId);
+			if (cached) {
+				setUserProfile(cached);
+				// soft-refresh in background
+				void refreshUserProfile(userId, userEmail);
+				return; // early return
 			}
-
-			if (data) {
-				console.log("✅ User profile found:", data);
-				setUserProfile(data);
-			} else {
-				console.log("⚠️ No profile found, creating new one...");
-				await createUserProfile(userId, userEmail);
-			}
+			// no cache → fetch
+			await refreshUserProfile(userId, userEmail);
 		} catch (error) {
 			console.error("❌ Error in loadUserProfile:", error);
 		}
+	};
+
+	const refreshUserProfile = async (userId: string, userEmail?: string) => {
+		const { data, error } = await supabase
+			.from("user_profiles")
+			.select("*")
+			.eq("id", userId)
+			.single();
+
+		if (error && error.code !== "PGRST116") {
+			console.error("❌ Error loading user profile:", error);
+			return; // early return
+		}
+
+		if (data) {
+			setUserProfile(data);
+			void setCachedProfile(userId, data);
+			return; // early return
+		}
+		await createUserProfile(userId, userEmail);
 	};
 
 	const createUserProfile = async (userId: string, userEmail?: string) => {
@@ -187,6 +215,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			// Clear extension-shared storage
 			try {
 				await browser.storage.local.remove(["authUser", "supabaseSession"]);
+				try { await browser.storage.local.remove([`userProfile:${user?.id}`, "authUser", "supabaseSession"]); } catch { }
 			} catch (err) {
 				console.error("Error clearing extension storage during signout:", err);
 			}
@@ -213,6 +242,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 		if (!user) return null;
 
 		try {
+			console.log(supabase);
 			const { data, error } = await supabase
 				.from("user_profiles")
 				.select("*")

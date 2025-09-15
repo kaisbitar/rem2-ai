@@ -4,41 +4,21 @@ import type React from "react";
 import { css } from "styled-system/css";
 import Header from "@/components/popup/Header";
 import Balance from "@/components/popup/Balance";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { PlantIcon } from "@phosphor-icons/react";
 import { Footer } from "@/components/common/Footer";
 import { useAuth } from "@/context/AuthContext";
-import { useDatabase } from "@/hooks/useDatabase";
 import DonationBanner from "@/components/popup/DonationBanner";
 import { useUserState } from "@/context/UserStateContext";
 
 const HomePage: React.FC = () => {
-	const { user } = useAuth();
-	const { getUserProfile } = useDatabase();
+	const { user, userProfile, loading: authLoading } = useAuth();
 	const { isGuest } = useUserState();
 	const [showStats, setShowStats] = useState(false);
-	const [userProfile, setUserProfile] = useState<any>(null);
-	const [loading, setLoading] = useState(true);
 
-	// Fetch user profile data on component mount
-	useEffect(() => {
-		const fetchUserData = async () => {
-			if (user?.id) {
-				try {
-					const profile = await getUserProfile();
-					setUserProfile(profile);
-				} catch (error) {
-					console.error("Error fetching user profile:", error);
-				} finally {
-					setLoading(false);
-				}
-			} else {
-				setLoading(false);
-			}
-		};
-
-		fetchUserData();
-	}, [user?.id, getUserProfile]);
+	const loading = authLoading;
+	const consumed = userProfile?.total_m2_consumed ?? 100;
+	const restored = userProfile?.total_m2_restored ?? 0;
 
 	const containerClasses = css({
 		background: "white",
@@ -78,10 +58,6 @@ const HomePage: React.FC = () => {
 		display: showStats ? "none" : "block",
 		transition: "opacity .4s ease-in-out, height .5s ease",
 	});
-
-	// Calculate balance from user profile data
-	const consumed = userProfile?.total_m2_consumed || 100;
-	const restored = userProfile?.total_m2_restored || 0;
 
 	const guestBadge = isGuest ? (
 		<div
