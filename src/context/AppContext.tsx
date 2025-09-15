@@ -20,11 +20,13 @@ type ViewMode = "daily" | "global";
 // Application configuration interface (integrated from ReactiveConfig)
 interface AppConfig {
 	toastEnabled: boolean;
+	hasOnboarded: boolean;
 }
 
 // Default configuration
 const DEFAULT_CONFIG: AppConfig = {
 	toastEnabled: true,
+	hasOnboarded: false,
 };
 
 // Storage keys

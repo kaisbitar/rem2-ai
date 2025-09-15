@@ -1,6 +1,9 @@
 import ServicesSection from "@/components/popup/ServicesSection";
 import StatsSection from "@/components/popup/StatsSection";
 import type React from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAppContext } from "@/context/AppContext";
 import { css } from "styled-system/css";
 import Header from "@/components/popup/Header";
 import Balance from "@/components/popup/Balance";
@@ -14,7 +17,16 @@ import { useUserState } from "@/context/UserStateContext";
 const HomePage: React.FC = () => {
 	const { user, userProfile, loading: authLoading } = useAuth();
 	const { isGuest } = useUserState();
+	const { config } = useAppContext();
+	const navigate = useNavigate();
 	const [showStats, setShowStats] = useState(false);
+
+	useEffect(() => {
+		if (!config?.hasOnboarded) {
+			navigate("/onboarding");
+			return;
+		}
+	}, [config?.hasOnboarded, navigate]);
 
 	const loading = authLoading;
 	const consumed = userProfile?.total_m2_consumed ?? 100;

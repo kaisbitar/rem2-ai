@@ -69,17 +69,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
 	const getCachedProfile = async (uid: string) => {
 		try {
-			const { [`userProfile:${uid}`]: entry } = await browser.storage.local.get([`userProfile:${uid}`]);
+			const { [`userProfile:${uid}`]: entry } = await browser.storage.local.get(
+				[`userProfile:${uid}`],
+			);
 			if (!entry) return null;
 			if (Date.now() - entry.cachedAt > PROFILE_CACHE_TTL_MS) return null;
 			return entry.data as UserProfile;
-		} catch { return null; }
+		} catch {
+			return null;
+		}
 	};
 
 	const setCachedProfile = async (uid: string, data: UserProfile) => {
 		try {
-			await browser.storage.local.set({ [`userProfile:${uid}`]: { data, cachedAt: Date.now() } });
-		} catch { }
+			await browser.storage.local.set({
+				[`userProfile:${uid}`]: { data, cachedAt: Date.now() },
+			});
+		} catch {}
 	};
 
 	useEffect(() => {
@@ -127,7 +133,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			} else {
 				try {
 					await browser.storage.local.remove(["authUser", "supabaseSession"]);
-					try { await browser.storage.local.remove([`userProfile:${user?.id}`, "authUser", "supabaseSession"]); } catch { }
+					try {
+						await browser.storage.local.remove([
+							`userProfile:${user?.id}`,
+							"authUser",
+							"supabaseSession",
+						]);
+					} catch {}
 				} catch (error) {
 					console.error("❌ Error clearing auth info:", error);
 				}
@@ -215,7 +227,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			// Clear extension-shared storage
 			try {
 				await browser.storage.local.remove(["authUser", "supabaseSession"]);
-				try { await browser.storage.local.remove([`userProfile:${user?.id}`, "authUser", "supabaseSession"]); } catch { }
+				try {
+					await browser.storage.local.remove([
+						`userProfile:${user?.id}`,
+						"authUser",
+						"supabaseSession",
+					]);
+				} catch {}
 			} catch (err) {
 				console.error("Error clearing extension storage during signout:", err);
 			}

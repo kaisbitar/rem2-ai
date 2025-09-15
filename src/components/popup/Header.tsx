@@ -41,7 +41,6 @@ const Header: React.FC<HeaderProps> = () => {
 		gap: "4",
 	});
 
-
 	const aiClasses = css({
 		fontWeight: "bold",
 	});
