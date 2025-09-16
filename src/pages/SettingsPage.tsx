@@ -20,7 +20,6 @@ const SettingsPage: React.FC = () => {
 		boxShadow: "none",
 		width: "100%",
 		height: "100%",
-		minWidth: "400px",
 		minHeight: "500px",
 		display: "flex",
 		flexDirection: "column",

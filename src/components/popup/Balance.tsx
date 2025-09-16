@@ -9,18 +9,14 @@ import { useNavigate } from "react-router-dom";
 interface BalanceProps {
 	consumed: number;
 	restored: number;
-	showStats: boolean;
 	className?: string;
-	onDetailsClick?: () => void;
 	loading?: boolean;
 }
 
 const Balance: React.FC<BalanceProps> = ({
 	consumed,
 	restored,
-	showStats,
 	className = "",
-	onDetailsClick,
 	loading = false,
 }) => {
 	const { userState } = useUserState();
@@ -30,7 +26,6 @@ const Balance: React.FC<BalanceProps> = ({
 		backgroundColor: "white",
 		padding: "4",
 		borderRadius: "lg",
-		border: "1px solid",
 		borderColor: "gray.200",
 		position: "relative",
 		overflow: "hidden",
@@ -41,12 +36,7 @@ const Balance: React.FC<BalanceProps> = ({
 		transition: "all 0.3s ease",
 	});
 
-	const detailsBtn = css({
-		// position: "absolute",
-		// top: "4",
-		// right: "4",
-		cursor: "pointer",
-	});
+
 
 	if (loading) {
 		return (
@@ -78,8 +68,6 @@ const Balance: React.FC<BalanceProps> = ({
 	})();
 
 	const handlePrimary = () => {
-		// Primary CTA is "Restore m²" for both A and B.
-		// Route can be adjusted later to an external donation page or in-app flow.
 		navigate("/settings");
 	};
 
@@ -108,24 +96,7 @@ const Balance: React.FC<BalanceProps> = ({
 					onClick={secondaryCta.onClick}
 				/>
 			</div>
-			{showStats && (
-				<CaretUp
-					// text={showStats ? "Hide Details" : "Show Details"}
-					className={detailsBtn}
-					// icon={showStats ? <CaretUp size={19} /> : <CaretDown size={19} />}
-					onClick={onDetailsClick}
-					size={20}
-				/>
-			)}
-			{!showStats && (
-				<CaretDown
-					// text={showStats ? "Hide Details" : "Show Details"}
-					className={detailsBtn}
-					// icon={showStats ? <CaretUp size={19} /> : <CaretDown size={19} />}
-					onClick={onDetailsClick}
-					size={20}
-				/>
-			)}
+
 		</div>
 	);
 };

@@ -28,6 +28,7 @@ const OnboardingPage: React.FC = () => {
                 display: "flex",
                 flexDirection: "column",
                 gap: "5",
+                width: "400px",
             })}
         >
             <div className={"gradient-bar"} />

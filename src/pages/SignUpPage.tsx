@@ -13,7 +13,6 @@ const SignUpPage: React.FC = () => {
 		borderRadius: "8px",
 		padding: "6",
 		width: "100%",
-		minWidth: "400px",
 		color: "gray.700",
 		boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
 	});
