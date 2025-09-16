@@ -11,7 +11,12 @@ import InsightsPage from "@/pages/InsightsPage";
 import type React from "react";
 // src/popup.tsx - Chrome extension popup interface with WXT
 import { createRoot } from "react-dom/client";
-import { Route, MemoryRouter as Router, Routes, Navigate } from "react-router-dom";
+import {
+	Route,
+	MemoryRouter as Router,
+	Routes,
+	Navigate,
+} from "react-router-dom";
 import { css } from "styled-system/css";
 import "@/styles/global.css";
 import { UserStateProvider } from "@/context/UserStateContext";

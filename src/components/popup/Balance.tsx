@@ -2,7 +2,7 @@ import type React from "react";
 import { css } from "styled-system/css";
 import CallToActionButton from "../common/CallToActionButton";
 import BalanceChart from "../common/BalanceChart";
-import { CaretUp, CaretDown, Plant } from "@phosphor-icons/react";
+import { Plant } from "@phosphor-icons/react";
 import { useUserState } from "@/context/UserStateContext";
 import { useNavigate } from "react-router-dom";
 
@@ -35,8 +35,6 @@ const Balance: React.FC<BalanceProps> = ({
 		justifyContent: "flex-start",
 		transition: "all 0.3s ease",
 	});
-
-
 
 	if (loading) {
 		return (
@@ -96,7 +94,6 @@ const Balance: React.FC<BalanceProps> = ({
 					onClick={secondaryCta.onClick}
 				/>
 			</div>
-
 		</div>
 	);
 };

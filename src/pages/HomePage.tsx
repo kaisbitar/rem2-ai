@@ -81,11 +81,7 @@ const HomePage: React.FC = () => {
 					Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance
 				</h3>
 
-				<Balance
-					consumed={consumed}
-					restored={restored}
-					loading={loading}
-				/>
+				<Balance consumed={consumed} restored={restored} loading={loading} />
 
 				<div className={footerClasses}>
 					<Footer />
