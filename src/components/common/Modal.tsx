@@ -49,14 +49,17 @@ const Modal: React.FC<ModalProps> = ({
 
 	return (
 		<button type="button" className={overlay} onClick={onClose}>
-			{/* <div
+			<div
 				className={cx(panel, className)}
 				onClick={(e) => e.stopPropagation()}
 				role="dialog"
 				aria-modal="true"
-			> */}
-			{children}
-			{/* </div> */}
+				onKeyDown={(e) => {
+					if (e.key === "Escape") onClose();
+				}}
+			>
+				{children}
+			</div>
 		</button>
 	);
 };

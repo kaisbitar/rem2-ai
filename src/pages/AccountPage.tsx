@@ -9,8 +9,18 @@ const AccountPage: React.FC = () => {
 	const { user } = useAuth();
 	const navigate = useNavigate();
 
-	const container = css({ color: "gray.700", display: "flex", flexDirection: "column", height: "600px" });
-	const main = css({ padding: "5", paddingBottom: "56px", flex: 1, overflow: "auto" });
+	const container = css({
+		color: "gray.700",
+		display: "flex",
+		flexDirection: "column",
+		height: "600px",
+	});
+	const main = css({
+		padding: "5",
+		paddingBottom: "56px",
+		flex: 1,
+		overflow: "auto",
+	});
 
 	return (
 		<div className={container}>
