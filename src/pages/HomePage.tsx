@@ -1,22 +1,25 @@
 import type React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppContext } from "@/context/AppContext";
 import { css } from "styled-system/css";
 import Header from "@/components/popup/Header";
 import Balance from "@/components/popup/Balance";
 import { PlantIcon } from "@phosphor-icons/react";
-import { Footer } from "@/components/common/Footer";
+// import { Footer } from "@/components/common/Footer";
 import { useAuth } from "@/context/AuthContext";
 import DonationBanner from "@/components/popup/DonationBanner";
 import { useUserState } from "@/context/UserStateContext";
 import BottomTabs from "@/components/common/BottomTabs";
+// import StickyRestoreBar from "@/components/common/StickyRestoreBar";
+import RestoreModal from "@/components/common/RestoreModal";
 
 const HomePage: React.FC = () => {
 	const { user, userProfile, loading: authLoading } = useAuth();
 	const { isGuest } = useUserState();
 	const { config } = useAppContext();
 	const navigate = useNavigate();
+	const [restoreOpen, setRestoreOpen] = useState(false);
 
 	useEffect(() => {
 		if (!config?.hasOnboarded) {
@@ -30,7 +33,8 @@ const HomePage: React.FC = () => {
 	const restored = userProfile?.total_m2_restored ?? 0;
 
 	const containerClasses = css({
-		color: "gray.700",
+		// color: "gray.700",
+		height: "700px !important",
 	});
 
 	const mainClasses = css({
@@ -47,10 +51,10 @@ const HomePage: React.FC = () => {
 		marginBottom: "5px",
 	});
 
-	const footerClasses = css({
-		display: "block",
-		transition: "opacity .4s ease-in-out, height .5s ease",
-	});
+	// const footerClasses = css({
+	// 	display: "block",
+	// 	transition: "opacity .4s ease-in-out, height .5s ease",
+	// });
 
 	const guestBadge = isGuest ? (
 		<div
@@ -83,11 +87,13 @@ const HomePage: React.FC = () => {
 
 				<Balance consumed={consumed} restored={restored} loading={loading} />
 
-				<div className={footerClasses}>
+				{/* <div className={footerClasses}>
 					<Footer />
-				</div>
+				</div> */}
 			</main>
+			{/* <StickyRestoreBar onClick={() => setRestoreOpen(true)} /> */}
 			<BottomTabs />
+			<RestoreModal open={restoreOpen} onClose={() => setRestoreOpen(false)} />
 		</div>
 	);
 };

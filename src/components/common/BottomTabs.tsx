@@ -35,7 +35,7 @@ const BottomTabs: React.FC = () => {
 			key: "account",
 			label: "Account",
 			icon: <User size={18} />,
-			to: user ? "/profile" : "/login",
+			to: user ? "/account" : "/account",
 		},
 	];
 
@@ -53,11 +53,12 @@ const BottomTabs: React.FC = () => {
 	const container = css({
 		position: "sticky",
 		bottom: 0,
-		width: "100%",
+		// width: "100%",
 		backgroundColor: "white",
-		borderTop: "1px solid",
-		borderColor: "gray.200",
-		paddingY: "2",
+		// borderTop: "1px solid",
+		boxShadow: "0 0 10px 0 rgb(189 189 189 / 81%)",
+		// borderColor: "gray.200",
+		// paddingY: "2",
 		zIndex: 10,
 	});
 
@@ -83,11 +84,14 @@ const BottomTabs: React.FC = () => {
 		borderRadius: "md",
 		width: "100%",
 		textAlign: "center",
+		position: "relative",
 	});
 
 	const itemActive = css({
 		color: "gray.900",
-		fontWeight: 600,
+		fontWeight: 700,
+		backgroundColor: "#f4f4f4",
+		borderRadius: "0px",
 	});
 
 	return (

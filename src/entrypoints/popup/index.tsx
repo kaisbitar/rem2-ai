@@ -8,6 +8,7 @@ import ProfilePage from "@/pages/ProfilePage";
 import AuthCallback from "@/pages/AuthCallback";
 import OnboardingPage from "@/pages/OnboardingPage";
 import InsightsPage from "@/pages/InsightsPage";
+import AccountPage from "@/pages/AccountPage";
 import type React from "react";
 // src/popup.tsx - Chrome extension popup interface with WXT
 import { createRoot } from "react-dom/client";
@@ -26,7 +27,12 @@ const PopupRoot: React.FC = () => {
 		<AuthProvider>
 			<UserStateProvider>
 				<AppContextProvider viewMode="daily">
-					<div className={css({ fontFamily: "body", width: "350px" })}>
+					<div
+						className={css({
+							fontFamily: "body",
+							width: "350px",
+						})}
+					>
 						<Router>
 							<Routes>
 								<Route path="/" element={<Navigate to="/balance" replace />} />
@@ -36,6 +42,7 @@ const PopupRoot: React.FC = () => {
 								<Route path="/login" element={<LoginPage />} />
 								<Route path="/signup" element={<SignUpPage />} />
 								<Route path="/profile" element={<ProfilePage />} />
+								<Route path="/account" element={<AccountPage />} />
 								<Route path="/auth/callback" element={<AuthCallback />} />
 								<Route path="/onboarding" element={<OnboardingPage />} />
 							</Routes>
