@@ -48,11 +48,7 @@ const Modal: React.FC<ModalProps> = ({
 	});
 
 	return (
-		<button
-			type="button"
-			className={overlay}
-			onClick={onClose}
-		>
+		<button type="button" className={overlay} onClick={onClose}>
 			{/* <div
 				className={cx(panel, className)}
 				onClick={(e) => e.stopPropagation()}

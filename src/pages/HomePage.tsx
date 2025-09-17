@@ -34,7 +34,9 @@ const HomePage: React.FC = () => {
 
 	const containerClasses = css({
 		// color: "gray.700",
-		height: "700px !important",
+		display: "flex",
+		flexDirection: "column",
+		height: "600px",
 	});
 
 	const mainClasses = css({
@@ -42,6 +44,7 @@ const HomePage: React.FC = () => {
 		paddingTop: "5px",
 		paddingBottom: "56px", // leave space for bottom tabs
 		flex: 1,
+		overflow: "auto",
 	});
 
 	const balanceHeaderClasses = css({
@@ -69,7 +72,7 @@ const HomePage: React.FC = () => {
 				marginBottom: "3",
 			})}
 		>
-			Tracking on this device only. Create a free account to keep your history.
+			Create a free account to keep your history.
 		</div>
 	) : null;
 

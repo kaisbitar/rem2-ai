@@ -30,7 +30,7 @@ const PopupRoot: React.FC = () => {
 					<div
 						className={css({
 							fontFamily: "body",
-							width: "350px",
+							width: "450px",
 						})}
 					>
 						<Router>
