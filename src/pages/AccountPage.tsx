@@ -1,7 +1,5 @@
 import type React from "react";
 import { css } from "styled-system/css";
-import Header from "@/components/popup/Header";
-import BottomTabs from "@/components/common/BottomTabs";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -9,82 +7,65 @@ const AccountPage: React.FC = () => {
 	const { user } = useAuth();
 	const navigate = useNavigate();
 
-	const container = css({
-		color: "gray.700",
-		display: "flex",
-		flexDirection: "column",
-		height: "500px",
-	});
-	const main = css({
-		padding: "5",
-		paddingBottom: "56px",
-		flex: 1,
-		overflow: "auto",
-	});
-
 	return (
-		<div className={container}>
-			<Header />
-			<main className={main}>
-				{!user ? (
-					<div
+		<>
+			{!user ? (
+				<div
+					className={css({
+						display: "flex",
+						flexDirection: "column",
+						gap: "3",
+					})}
+				>
+					<h3 className={css({ fontWeight: 700 })}>Save your footprint</h3>
+					<p className={css({ fontSize: "sm", color: "gray.700" })}>
+						Create a free account to sync your history and receipts.
+					</p>
+					<button
+						type="button"
 						className={css({
-							display: "flex",
-							flexDirection: "column",
-							gap: "3",
+							paddingX: "4",
+							paddingY: "2",
+							borderRadius: "sm",
+							backgroundColor: "green.600",
+							color: "white",
+							width: "fit-content",
 						})}
+						onClick={() => navigate("/signup")}
 					>
-						<h3 className={css({ fontWeight: 700 })}>Save your footprint</h3>
-						<p className={css({ fontSize: "sm", color: "gray.700" })}>
-							Create a free account to sync your history and receipts.
-						</p>
-						<button
-							type="button"
-							className={css({
-								paddingX: "4",
-								paddingY: "2",
-								borderRadius: "sm",
-								backgroundColor: "green.600",
-								color: "white",
-								width: "fit-content",
-							})}
-							onClick={() => navigate("/signup")}
-						>
-							Create free account
-						</button>
-					</div>
-				) : (
-					<div
+						Create free account
+					</button>
+				</div>
+			) : (
+				<div
+					className={css({
+						display: "flex",
+						flexDirection: "column",
+						gap: "3",
+					})}
+				>
+					<h3 className={css({ fontWeight: 700 })}>Your account</h3>
+					<button
+						type="button"
 						className={css({
-							display: "flex",
-							flexDirection: "column",
-							gap: "3",
+							paddingX: "4",
+							paddingY: "2",
+							borderRadius: "sm",
+							backgroundColor: "gray.100",
 						})}
+						onClick={() =>
+							window.open(
+								"https://aim2balance.ai/dashboard",
+								"_blank",
+								"noopener,noreferrer",
+							)
+						}
 					>
-						<h3 className={css({ fontWeight: 700 })}>Your account</h3>
-						<button
-							type="button"
-							className={css({
-								paddingX: "4",
-								paddingY: "2",
-								borderRadius: "sm",
-								backgroundColor: "gray.100",
-							})}
-							onClick={() =>
-								window.open(
-									"https://aim2balance.ai/dashboard",
-									"_blank",
-									"noopener,noreferrer",
-								)
-							}
-						>
-							Manage on web
-						</button>
-					</div>
-				)}
-			</main>
-			<BottomTabs />
-		</div>
+						Manage on web
+					</button>
+				</div>
+			)}
+		</>
 	);
 };
 

@@ -2,12 +2,9 @@ import StatsSection from "@/components/popup/StatsSection";
 import ServicesSection from "@/components/popup/ServicesSection";
 import type React from "react";
 import { css } from "styled-system/css";
-import Header from "@/components/popup/Header";
-// import { Footer } from "@/components/common/Footer";
 import { useAuth } from "@/context/AuthContext";
 import DonationBanner from "@/components/popup/DonationBanner";
 import { useUserState } from "@/context/UserStateContext";
-import BottomTabs from "@/components/common/BottomTabs";
 import { useState } from "react";
 import Modal from "@/components/common/Modal";
 import { useNavigate } from "react-router-dom";
@@ -24,24 +21,6 @@ const InsightsPage: React.FC = () => {
     if (authLoading) {
         return <div className={css({ padding: "5" })}>Loading…</div>;
     }
-
-    const containerClasses = css({
-        display: "flex",
-        flexDirection: "column",
-        height: "500px",
-    });
-
-    const mainClasses = css({
-        padding: "5",
-        paddingTop: "5px",
-        paddingBottom: "56px", // leave space for tabs
-        flex: 1,
-        overflow: "auto",
-    });
-
-    // const footerClasses = css({
-    //     transition: "opacity .4s ease-in-out, height .5s ease",
-    // });
 
     const selectRow = css({
         display: "flex",
@@ -61,49 +40,39 @@ const InsightsPage: React.FC = () => {
         color: "gray.700",
     });
 
-
-
     return (
-        <div className={containerClasses}>
-            <Header />
-            <main className={mainClasses}>
-                <DonationBanner />
+        <>
+            <DonationBanner />
 
-                <div className={selectRow}>
-                    <select
-                        id="insights-range"
-                        className={selectCss}
-                        value={filter}
-                        onChange={(e) => {
-                            const value = e.target.value as
-                                | "today"
-                                | "7d"
-                                | "30d"
-                                | "lifetime";
-                            if (value !== "today" && isGuest) {
-                                setSoftwallOpen(true);
-                                return;
-                            }
-                            setFilter(value);
-                        }}
-                    >
-                        <option value="today">Today</option>
-                        <option value="7d">7 days</option>
-                        <option value="30d">30 days</option>
-                        <option value="lifetime">Lifetime</option>
-                    </select>
-                </div>
+            <div className={selectRow}>
+                <select
+                    id="insights-range"
+                    className={selectCss}
+                    value={filter}
+                    onChange={(e) => {
+                        const value = e.target.value as
+                            | "today"
+                            | "7d"
+                            | "30d"
+                            | "lifetime";
+                        if (value !== "today" && isGuest) {
+                            setSoftwallOpen(true);
+                            return;
+                        }
+                        setFilter(value);
+                    }}
+                >
+                    <option value="today">Today</option>
+                    <option value="7d">7 days</option>
+                    <option value="30d">30 days</option>
+                    <option value="lifetime">Lifetime</option>
+                </select>
+            </div>
 
-                <div className={css({ overflow: "hidden" })}>
-                    <StatsSection />
-                    <ServicesSection />
-                </div>
-
-                {/* <div className={footerClasses}>
-					<Footer />
-				</div> */}
-            </main>
-            <BottomTabs />
+            <div className={css({ overflow: "hidden" })}>
+                <StatsSection />
+                <ServicesSection />
+            </div>
 
             <Modal open={softwallOpen} onClose={() => setSoftwallOpen(false)}>
                 <div
@@ -153,7 +122,7 @@ const InsightsPage: React.FC = () => {
                     </div>
                 </div>
             </Modal>
-        </div>
+        </>
     );
 };
 

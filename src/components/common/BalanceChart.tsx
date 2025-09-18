@@ -65,7 +65,6 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 
 	const trackClass = css({
 		margin: "auto",
-		// backgroundColor: "#1e293b",
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
