@@ -1,6 +1,4 @@
 import { useAppContext } from "@/context/AppContext";
-import { useDatabase } from "@/hooks/useDatabase";
-import { useAuth } from "@/context/AuthContext";
 import {
 	formatCarbon,
 	formatWater,
@@ -15,84 +13,12 @@ import { BsBraces, BsSend } from "react-icons/bs";
 import { MdCo2, MdOutlineWaterDrop } from "react-icons/md";
 import type React from "react";
 import { css } from "styled-system/css";
-import { useState, useEffect } from "react";
-import {
-	MetricsCalculator,
-	type AggregatedMetrics,
-} from "@/utils/calculations/metrics";
 import StatsGroup from "./StatsGroup";
+import { useStatsData } from "@/hooks/useStatsData";
 
 const StatsSection: React.FC = () => {
-	const { stats, viewMode } = useAppContext();
-	const { user } = useAuth();
-	const { getUserConsumptionMetrics } = useDatabase();
-	const [consumptionData, setConsumptionData] =
-		useState<AggregatedMetrics | null>(null);
-	// const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		const fetchData = async () => {
-			if (!user?.id || !getUserConsumptionMetrics) {
-				return;
-			}
-
-			try {
-				let metrics = [];
-				if (viewMode === "daily") {
-					// UTC day range to align with ReactiveStorage keying
-					const now = new Date();
-					const startUtc = new Date(
-						Date.UTC(
-							now.getUTCFullYear(),
-							now.getUTCMonth(),
-							now.getUTCDate(),
-							0,
-							0,
-							0,
-						),
-					);
-					const endUtc = new Date(
-						Date.UTC(
-							now.getUTCFullYear(),
-							now.getUTCMonth(),
-							now.getUTCDate() + 1,
-							0,
-							0,
-							0,
-						),
-					);
-					metrics = await getUserConsumptionMetrics(
-						200,
-						startUtc.toISOString(),
-						endUtc.toISOString(),
-					);
-				} else {
-					metrics = await getUserConsumptionMetrics();
-				}
-				const aggregatedData = MetricsCalculator.aggregateMetrics(metrics);
-				setConsumptionData(aggregatedData);
-			} catch (error) {
-				console.error("Error fetching consumption data:", error);
-			} finally {
-			}
-		};
-
-		fetchData();
-	}, [user?.id, getUserConsumptionMetrics, viewMode]);
-
-	// Convert TotalFootprint to AggregatedMetrics format if needed
-	const displayData: AggregatedMetrics = user?.id && consumptionData ? consumptionData : {
-		requests: stats.requests,
-		tokens: 0, // TotalFootprint doesn't have tokens
-		carbon: stats.carbon,
-		water: stats.water,
-		duration: stats.totalDuration,
-		m2_potential: stats.carbon * 0.0001, // Same conversion as in MetricsCalculator
-		trees_potential: Math.round(stats.carbon * 0.00001),
-		peatland_potential: stats.carbon * 0.00005,
-		habitat_potential: stats.carbon * 0.00008,
-	};
-	console.log(stats);
+	const { viewMode } = useAppContext();
+	const data = useStatsData();
 
 	const containerClasses = css({
 		marginTop: "3",
@@ -104,6 +30,10 @@ const StatsSection: React.FC = () => {
 		marginBottom: "5px",
 		marginTop: "20px",
 	});
+
+	if (!data) {
+		return null;
+	}
 
 	return (
 		<div className={containerClasses}>
@@ -117,13 +47,13 @@ const StatsSection: React.FC = () => {
 				title="AI Usage"
 				stats={[
 					{
-						value: displayData?.requests || 0,
+						value: data.requests,
 						label: `${i18n.t("requests")} `,
 						icon: <BsSend size={17} />,
 						tooltip: "Number of AI requests made.",
 					},
 					{
-						value: displayData?.tokens || 0,
+						value: data.tokens,
 						label: `${i18n.t("tokens")}`,
 						icon: <BsBraces size={17} />,
 						tooltip: "Total tokens processed by AI models.",
@@ -135,7 +65,7 @@ const StatsSection: React.FC = () => {
 				title="Consumption Metrics"
 				stats={[
 					{
-						value: displayData?.m2_potential?.toFixed(2) || "0.00",
+						value: data.m2_potential.toFixed(2),
 						label: "m²",
 						icon: <Plant size={19} />,
 						tooltip: "Square meters of ecosystem that could be restored to offset your AI usage.",
@@ -145,12 +75,12 @@ const StatsSection: React.FC = () => {
 						}),
 					},
 					{
-						value: formatCarbon(displayData?.carbon || 0),
+						value: formatCarbon(data.carbon),
 						icon: <MdCo2 size={20} />,
 						tooltip: "Carbon dioxide emissions from your AI usage.",
 					},
 					{
-						value: formatWater(displayData?.water || 0),
+						value: formatWater(data.water),
 						icon: <MdOutlineWaterDrop size={19} />,
 						tooltip: "Water consumption for cooling data centers that process your AI requests.",
 					},
@@ -162,7 +92,7 @@ const StatsSection: React.FC = () => {
 				title="Restoration Metrics"
 				stats={[
 					{
-						value: displayData?.m2_potential?.toFixed(2) || "0.00",
+						value: data.m2_potential.toFixed(2),
 						label: "m²",
 						icon: <Plant size={19} />,
 						tooltip: "Square meters of ecosystem that could be restored to offset your AI usage.",
@@ -173,21 +103,21 @@ const StatsSection: React.FC = () => {
 						}),
 					},
 					{
-						value: displayData?.trees_potential || 0,
+						value: data.trees_potential,
 						label: "Trees",
 						unit: "planted",
 						icon: <Tree size={19} />,
 						tooltip: "Number of trees that would need to be planted to offset your AI carbon footprint.",
 					},
 					{
-						value: displayData?.peatland_potential?.toFixed(2) || "0.00",
+						value: data.peatland_potential.toFixed(2),
 						label: "Peatland",
 						unit: "m² rewetted",
 						icon: <Leaf size={19} />,
 						tooltip: "Square meters of peatland that could be restored.",
 					},
 					{
-						value: displayData?.habitat_potential?.toFixed(2) || "0.00",
+						value: data.habitat_potential.toFixed(2),
 						label: "Habitat",
 						unit: "m² restored",
 						icon: <Butterfly size={19} />,
