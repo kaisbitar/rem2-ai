@@ -34,6 +34,7 @@ const Balance: React.FC<BalanceProps> = ({
 		alignItems: "flex-start",
 		justifyContent: "flex-start",
 		transition: "all 0.3s ease",
+		border: "1px solid #d6d6d680",
 	});
 
 	if (loading) {
@@ -71,15 +72,13 @@ const Balance: React.FC<BalanceProps> = ({
 
 	return (
 		<div className={`${containerClasses} ${className}`}>
-			<div className={"gradient-bar"} />
 			<BalanceChart consumed={consumed} restored={restored} />
 
 			<div
 				className={css({
 					display: "flex",
 					gap: "2",
-					margin: "auto",
-					marginTop: "4",
+					marginTop: "20px",
 				})}
 			>
 				<CallToActionButton

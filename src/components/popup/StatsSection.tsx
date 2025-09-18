@@ -136,9 +136,8 @@ const StatsSection: React.FC = () => {
 			<div className={statsGridClasses}>
 				<StatCard
 					className={css({
-						backgroundColor: "#e6f0ca21",
-						border: "1px solid ",
-						borderColor: "#89af24",
+						backgroundColor: "#f8e3e357",
+						borderColor: " #c2175b",
 					})}
 					value={displayData?.m2_potential?.toFixed(2) || "0.00"}
 					label={"m²"}
@@ -173,8 +172,10 @@ const StatsSection: React.FC = () => {
 			<div className={statsGridClasses}>
 				<StatCard
 					className={css({
-						backgroundColor: "#f8e3e357",
-						borderColor: " #c2175b",
+
+						backgroundColor: "#e6f0ca21",
+						border: "1px solid ",
+						borderColor: "#89af24",
 					})}
 					value={displayData?.m2_potential?.toFixed(2) || "0.00"}
 					label={"m²"}

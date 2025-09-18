@@ -9,14 +9,12 @@ import { PlantIcon } from "@phosphor-icons/react";
 // import { Footer } from "@/components/common/Footer";
 import { useAuth } from "@/context/AuthContext";
 import DonationBanner from "@/components/popup/DonationBanner";
-import { useUserState } from "@/context/UserStateContext";
 import BottomTabs from "@/components/common/BottomTabs";
 // import StickyRestoreBar from "@/components/common/StickyRestoreBar";
 import RestoreModal from "@/components/common/RestoreModal";
 
 const HomePage: React.FC = () => {
 	const { user, userProfile, loading: authLoading } = useAuth();
-	const { isGuest } = useUserState();
 	const { config } = useAppContext();
 	const navigate = useNavigate();
 	const [restoreOpen, setRestoreOpen] = useState(false);
@@ -29,14 +27,14 @@ const HomePage: React.FC = () => {
 	}, [config?.hasOnboarded, navigate]);
 
 	const loading = authLoading;
-	const consumed = userProfile?.total_m2_consumed ?? 100;
-	const restored = userProfile?.total_m2_restored ?? 0;
+	const consumed = userProfile?.total_m2_consumed ?? 60;
+	const restored = userProfile?.total_m2_restored ?? 40;
 
 	const containerClasses = css({
 		// color: "gray.700",
 		display: "flex",
 		flexDirection: "column",
-		height: "600px",
+		height: "500px",
 	});
 
 	const mainClasses = css({
@@ -51,7 +49,9 @@ const HomePage: React.FC = () => {
 		display: "flex",
 		fontSize: "lg",
 		fontWeight: "bold",
-		marginBottom: "5px",
+		marginTop: "20px",
+		marginBottom: "20px",
+
 	});
 
 	// const footerClasses = css({
@@ -59,29 +59,12 @@ const HomePage: React.FC = () => {
 	// 	transition: "opacity .4s ease-in-out, height .5s ease",
 	// });
 
-	const guestBadge = isGuest ? (
-		<div
-			className={css({
-				backgroundColor: "yellow.50",
-				border: "1px solid",
-				borderColor: "yellow.200",
-				color: "yellow.900",
-				fontSize: "sm",
-				padding: "2",
-				borderRadius: "md",
-				marginBottom: "3",
-			})}
-		>
-			Create a free account to keep your history.
-		</div>
-	) : null;
 
 	return (
 		<div className={containerClasses}>
 			<Header />
 			<main className={mainClasses}>
 				<DonationBanner />
-				{guestBadge}
 
 				<h2>{user && <div>Hi {user.email}</div>}</h2>
 				<h3 className={balanceHeaderClasses}>

@@ -23,8 +23,8 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 	const [restoredWidth, setRestoredWidth] = useState(0);
 
 	// const total = consumed + restored;
-	const consumedPercentage = 100; //total > 0 ? (consumed / total) * 100 : 0;
-	const restoredPercentage = 3; //total > 0 ? (restored / total) * 100 : 0;
+	const consumedPercentage = 40; //total > 0 ? (consumed / total) * 100 : 0;
+	const restoredPercentage = 25; //total > 0 ? (restored / total) * 100 : 0;
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
@@ -47,12 +47,14 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		fontWeight: 600,
 		color: "#94a3b8",
 		width: "350px",
+
 	});
 
 	const infoItemClass = css({
 		display: "flex",
 		alignItems: "center",
 		gap: "0.5rem",
+		fontSize: "12px",
 	});
 
 	const colorDotClass = css({
@@ -94,6 +96,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		borderBottomLeftRadius: 0,
 		borderTopRightRadius: "9999px",
 		borderBottomRightRadius: "9999px",
+		background: "linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%)",
 	});
 
 	const centerLineClass = css({
@@ -115,12 +118,12 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 						style={{ backgroundColor: consumedColor }}
 					/>
 					<span>
-						Consumed: {consumed} {unit}
+						Consumed: {consumed.toFixed(2)} {unit}
 					</span>
 				</div>
 				<div className={infoItemClass}>
 					<span>
-						Restored: {restored} {unit}
+						Restored: {restored.toFixed(2)} {unit}
 					</span>
 					<span
 						className={colorDotClass}
@@ -141,7 +144,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 				<div
 					style={{
 						width: `${restoredWidth}%`,
-						background: `linear-gradient(to left, ${restoredColor}, ${restoredColor} 70%, #02cd02)`,
+						background: `linear-gradient(to left, ${restoredColor}, ${restoredColor} 70%, #a2ca2cb3)`,
 
 						transformOrigin: "left",
 					}}

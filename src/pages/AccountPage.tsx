@@ -13,7 +13,7 @@ const AccountPage: React.FC = () => {
 		color: "gray.700",
 		display: "flex",
 		flexDirection: "column",
-		height: "600px",
+		height: "500px",
 	});
 	const main = css({
 		padding: "5",
