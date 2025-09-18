@@ -7,6 +7,7 @@ import {
   type AggregatedMetrics,
 } from "@/utils/calculations/metrics";
 import type { TotalFootprint } from "@/types/carbon";
+import { CARBON_CONVERSION_FACTORS } from "@/utils/constants/conversions";
 
 // Simple unified data structure
 interface StatsData {
@@ -88,15 +89,17 @@ export const useStatsData = () => {
 
     return {
       requests: stats.requests || 0,
-      tokens: 0, // Not available in local storage
+      tokens: stats.tokens || 0,
       carbon,
       water: stats.water || 0,
       duration: stats.totalDuration || 0,
       // Calculate potential values using the same factors as MetricsCalculator
-      m2_potential: carbon * 0.0001,
-      trees_potential: Math.round(carbon * 0.00001),
-      peatland_potential: carbon * 0.00005,
-      habitat_potential: carbon * 0.00008,
+      m2_potential: carbon * CARBON_CONVERSION_FACTORS.CO2_TO_M2,
+      trees_potential: Math.round(
+        carbon * CARBON_CONVERSION_FACTORS.CO2_TO_TREES
+      ),
+      peatland_potential: carbon * CARBON_CONVERSION_FACTORS.CO2_TO_PEATLAND,
+      habitat_potential: carbon * CARBON_CONVERSION_FACTORS.CO2_TO_HABITAT,
     };
   };
 
