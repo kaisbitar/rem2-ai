@@ -48,7 +48,7 @@ const Modal: React.FC<ModalProps> = ({
 	});
 
 	return (
-		<button type="button" className={overlay} onClick={onClose}>
+		<div className={overlay} >
 			<div
 				className={cx(panel, className)}
 				onClick={(e) => e.stopPropagation()}
@@ -60,7 +60,7 @@ const Modal: React.FC<ModalProps> = ({
 			>
 				{children}
 			</div>
-		</button>
+		</div>
 	);
 };
 

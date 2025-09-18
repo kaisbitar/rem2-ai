@@ -52,7 +52,11 @@ const PopupRoot: React.FC = () => {
 								</Route>
 
 								{/* Routes without header and bottom tabs */}
-								<Route element={<MainLayout showHeader={false} showBottomTabs={false} />}>
+								<Route
+									element={
+										<MainLayout showHeader={false} showBottomTabs={false} />
+									}
+								>
 									<Route path="/login" element={<LoginPage />} />
 									<Route path="/signup" element={<SignUpPage />} />
 									<Route path="/auth/callback" element={<AuthCallback />} />

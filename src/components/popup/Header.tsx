@@ -67,10 +67,19 @@ const Header: React.FC<HeaderProps> = () => {
 				marginBottom: "3",
 				display: "flex",
 				cursor: "pointer",
-
 			})}
 		>
-			<div className={css({ fontWeight: "bold", marginRight: "5", marginTop: "-2px", marginLeft: "1" })}>x</div> Create a free account to keep your history.
+			<div
+				className={css({
+					fontWeight: "bold",
+					marginRight: "5",
+					marginTop: "-2px",
+					marginLeft: "1",
+				})}
+			>
+				x
+			</div>{" "}
+			Create a free account to keep your history.
 		</div>
 	) : null;
 	return (

@@ -1,24 +1,18 @@
 import { useAppContext } from "@/context/AppContext";
-import {
-	formatCarbon,
-	formatWater,
-} from "@/utils/formatting/display";
-import {
-	Tree,
-	Leaf,
-	Butterfly,
-	Plant,
-} from "@phosphor-icons/react";
+import { formatCarbon, formatWater } from "@/utils/formatting/display";
+import { Tree, Leaf, Butterfly, Plant } from "@phosphor-icons/react";
 import { BsBraces, BsSend } from "react-icons/bs";
 import { MdCo2, MdOutlineWaterDrop } from "react-icons/md";
 import type React from "react";
 import { css } from "styled-system/css";
 import StatsGroup from "./StatsGroup";
 import { useStatsData } from "@/hooks/useStatsData";
+import { useState } from "react";
 
 const StatsSection: React.FC = () => {
-	const { viewMode } = useAppContext();
-	const data = useStatsData();
+	const { viewMode, stats } = useAppContext();
+	const [selectedService, setSelectedService] = useState<string | null>(null);
+	const data = useStatsData(selectedService || undefined);
 
 	const containerClasses = css({
 		marginTop: "3",
@@ -35,13 +29,63 @@ const StatsSection: React.FC = () => {
 		return null;
 	}
 
+	// Get available services for the selector
+	const services = stats?.services ? Object.keys(stats.services) : [];
+
+	const selectorClasses = css({
+		marginBottom: "4",
+		display: "flex",
+		gap: "2",
+		flexWrap: "wrap",
+	});
+
+	const serviceButtonClasses = (isSelected: boolean) =>
+		css({
+			padding: "2 3",
+			borderRadius: "md",
+			border: "1px solid",
+			borderColor: isSelected ? "blue.500" : "gray.300",
+			backgroundColor: isSelected ? "blue.50" : "white",
+			color: isSelected ? "blue.700" : "gray.700",
+			fontSize: "sm",
+			cursor: "pointer",
+			transition: "all 0.2s",
+			_hover: {
+				borderColor: "blue.400",
+				backgroundColor: "blue.25",
+			},
+		});
+
 	return (
 		<div className={containerClasses}>
 			<h2 className={headerClasses}>
+				{selectedService ? `${selectedService} - ` : ""}
 				{viewMode === "daily"
 					? i18n.t("todayConsumption")
 					: i18n.t("totalConsumption")}
 			</h2>
+
+			{services.length > 0 && (
+				<div className={selectorClasses}>
+					<button
+						type="button"
+						onClick={() => setSelectedService(null)}
+						className={serviceButtonClasses(selectedService === null)}
+					>
+						All Models
+					</button>
+					{services.map((service) => (
+						<button
+							type="button"
+							key={service}
+							onClick={() => setSelectedService(service)}
+							className={serviceButtonClasses(selectedService === service)}
+						>
+							{service}
+						</button>
+					))}
+				</div>
+			)}
 
 			<StatsGroup
 				title="AI Usage"
@@ -68,7 +112,8 @@ const StatsSection: React.FC = () => {
 						value: data.m2_potential.toFixed(2),
 						label: "m²",
 						icon: <Plant size={19} />,
-						tooltip: "Square meters of ecosystem that could be restored to offset your AI usage.",
+						tooltip:
+							"Square meters of ecosystem that could be restored to offset your AI usage.",
 						className: css({
 							backgroundColor: "#f8e3e357",
 							borderColor: " #c2175b",
@@ -82,7 +127,8 @@ const StatsSection: React.FC = () => {
 					{
 						value: formatWater(data.water),
 						icon: <MdOutlineWaterDrop size={19} />,
-						tooltip: "Water consumption for cooling data centers that process your AI requests.",
+						tooltip:
+							"Water consumption for cooling data centers that process your AI requests.",
 					},
 				]}
 				operators={["=", "+"]}
@@ -95,7 +141,8 @@ const StatsSection: React.FC = () => {
 						value: data.m2_potential.toFixed(2),
 						label: "m²",
 						icon: <Plant size={19} />,
-						tooltip: "Square meters of ecosystem that could be restored to offset your AI usage.",
+						tooltip:
+							"Square meters of ecosystem that could be restored to offset your AI usage.",
 						className: css({
 							backgroundColor: "#e6f0ca21",
 							border: "1px solid",
@@ -107,7 +154,8 @@ const StatsSection: React.FC = () => {
 						label: "Trees",
 						unit: "planted",
 						icon: <Tree size={19} />,
-						tooltip: "Number of trees that would need to be planted to offset your AI carbon footprint.",
+						tooltip:
+							"Number of trees that would need to be planted to offset your AI carbon footprint.",
 					},
 					{
 						value: data.peatland_potential.toFixed(2),

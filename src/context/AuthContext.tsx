@@ -85,7 +85,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			await browser.storage.local.set({
 				[`userProfile:${uid}`]: { data, cachedAt: Date.now() },
 			});
-		} catch { }
+		} catch {}
 	};
 
 	useEffect(() => {
@@ -101,7 +101,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 					await loadUserProfile(session.user.id, session.user.email);
 				}
 				console.log("🔄 Getting initial session");
-
 			} catch (error) {
 				console.error("Error getting initial session:", error);
 			} finally {
@@ -141,7 +140,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 							"authUser",
 							"supabaseSession",
 						]);
-					} catch { }
+					} catch {}
 				} catch (error) {
 					console.error("❌ Error clearing auth info:", error);
 				}
@@ -235,7 +234,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 						"authUser",
 						"supabaseSession",
 					]);
-				} catch { }
+				} catch {}
 			} catch (err) {
 				console.error("Error clearing extension storage during signout:", err);
 			}

@@ -47,7 +47,6 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		fontWeight: 600,
 		color: "#94a3b8",
 		width: "350px",
-
 	});
 
 	const infoItemClass = css({
@@ -95,7 +94,8 @@ const BalanceChart: React.FC<BalanceChartProps> = ({
 		borderBottomLeftRadius: 0,
 		borderTopRightRadius: "9999px",
 		borderBottomRightRadius: "9999px",
-		background: "linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%)",
+		background:
+			"linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%)",
 	});
 
 	const centerLineClass = css({
