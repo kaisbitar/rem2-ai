@@ -65,7 +65,7 @@ const InsightsPage: React.FC = () => {
 			</div>
 
 			<div className={css({ overflow: "hidden" })}>
-				<StatsSection />
+				<StatsSection dateFilter={filter} />
 			</div>
 
 			<Modal open={softwallOpen} onClose={() => setSoftwallOpen(false)}>

@@ -6,13 +6,18 @@ import { MdCo2, MdOutlineWaterDrop } from "react-icons/md";
 import type React from "react";
 import { css } from "styled-system/css";
 import StatsGroup from "./StatsGroup";
-import { useStatsData } from "@/hooks/useStatsData";
+import { useStatsData, useAvailableServices } from "@/hooks/useStatsData";
 import { useState } from "react";
 
-const StatsSection: React.FC = () => {
-	const { viewMode, stats } = useAppContext();
+interface StatsSectionProps {
+	dateFilter?: "today" | "7d" | "30d" | "lifetime";
+}
+
+const StatsSection: React.FC<StatsSectionProps> = ({ dateFilter }) => {
+	const { viewMode } = useAppContext();
 	const [selectedService, setSelectedService] = useState<string | null>(null);
-	const data = useStatsData(selectedService || undefined);
+	const data = useStatsData(selectedService || undefined, dateFilter);
+	const services = useAvailableServices(dateFilter);
 
 	const containerClasses = css({
 		marginTop: "3",
@@ -29,8 +34,7 @@ const StatsSection: React.FC = () => {
 		return null;
 	}
 
-	// Get available services for the selector
-	const services = stats?.services ? Object.keys(stats.services) : [];
+	// Services are now fetched by the hook
 
 	const selectorClasses = css({
 		marginBottom: "4",
