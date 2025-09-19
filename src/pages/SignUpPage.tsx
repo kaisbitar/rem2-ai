@@ -4,6 +4,7 @@ import { css } from "styled-system/css";
 import { ArrowLeft } from "@phosphor-icons/react";
 import AuthForm from "@/components/common/AuthForm";
 import { supabase } from "../config/supabase-client";
+import { browser } from "wxt/browser";
 
 const SignUpPage: React.FC = () => {
 	const navigate = useNavigate();
@@ -51,6 +52,25 @@ const SignUpPage: React.FC = () => {
 		},
 	});
 
+	const privacyLinkClasses = css({
+		textAlign: "center",
+		marginTop: "4",
+		fontSize: "xs",
+		color: "gray.500",
+	});
+
+	const privacyButtonClasses = css({
+		background: "none",
+		border: "none",
+		color: "blue.600",
+		cursor: "pointer",
+		textDecoration: "underline",
+		fontSize: "xs",
+		"&:hover": {
+			color: "blue.700",
+		},
+	});
+
 	const handleSubmit = async (email: string, password: string) => {
 		try {
 			const { error } = await supabase.auth.signUp({
@@ -81,6 +101,13 @@ const SignUpPage: React.FC = () => {
 		navigate("/login");
 	};
 
+	const handlePrivacyClick = () => {
+		const extensionUrl = browser.runtime.getURL("/privacy.html");
+		browser.tabs.create({
+			url: extensionUrl,
+		});
+	};
+
 	return (
 		<div className={containerClasses}>
 			<button
@@ -103,6 +130,17 @@ const SignUpPage: React.FC = () => {
 				onSubmit={handleSubmit}
 				onToggleMode={handleSignInClick}
 			/>
+
+			<div className={privacyLinkClasses}>
+				By creating an account, you agree to our{" "}
+				<button
+					type="button"
+					onClick={handlePrivacyClick}
+					className={privacyButtonClasses}
+				>
+					Privacy Policy
+				</button>
+			</div>
 		</div>
 	);
 };
