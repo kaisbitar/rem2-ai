@@ -72,11 +72,7 @@ export const UserStateProvider: React.FC<{ children: React.ReactNode }> = ({
 	const isPayer =
 		userState === "guest-payer" || userState === "registered-payer";
 
-	const totalConsumed =
-		(userProfile as UserProfile | null)?.total_m2_consumed ?? 0;
-	const totalRestored =
-		(userProfile as UserProfile | null)?.total_m2_restored ?? 0;
-	const netBalance = totalRestored - totalConsumed;
+	// Balance calculation moved to useBalance hook for centralization
 
 	const claimPaymentSession = async () => {
 		const session = await getPaymentSession();
@@ -104,17 +100,15 @@ export const UserStateProvider: React.FC<{ children: React.ReactNode }> = ({
 		isRegistered,
 		isPayer,
 
-		totalConsumed,
-		totalRestored,
-		netBalance,
+		// Balance values moved to useBalance hook
 
 		currentStreak: (userProfile as any)?.streak_days ?? 0,
 		badges: (userProfile as any)?.badges ?? [],
 
-		updateUserState: () => {}, // derived; no-op
+		updateUserState: () => { }, // derived; no-op
 		claimPaymentSession,
-		updateBalance: async () => {}, // server-owned; no-op
-		updateGamification: async () => {}, // server-owned; no-op
+		updateBalance: async () => { }, // server-owned; no-op
+		updateGamification: async () => { }, // server-owned; no-op
 	};
 
 	return (

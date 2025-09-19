@@ -8,12 +8,14 @@ import { PlantIcon } from "@phosphor-icons/react";
 import { useAuth } from "@/context/AuthContext";
 import DonationBanner from "@/components/popup/DonationBanner";
 import RestoreModal from "@/components/common/RestoreModal";
+import { useBalance } from "@/hooks/useStatsData";
 
 const HomePage: React.FC = () => {
-	const { user, userProfile, loading: authLoading } = useAuth();
+	const { user, loading: authLoading } = useAuth();
 	const { config } = useAppContext();
 	const navigate = useNavigate();
 	const [restoreOpen, setRestoreOpen] = useState(false);
+	const balance = useBalance();
 
 	useEffect(() => {
 		if (!config?.hasOnboarded) {
@@ -23,8 +25,6 @@ const HomePage: React.FC = () => {
 	}, [config?.hasOnboarded, navigate]);
 
 	const loading = authLoading;
-	const consumed = userProfile?.total_m2_consumed ?? 60;
-	const restored = userProfile?.total_m2_restored ?? 40;
 
 	const balanceHeaderClasses = css({
 		display: "flex",
@@ -33,7 +33,7 @@ const HomePage: React.FC = () => {
 		marginTop: "20px",
 		marginBottom: "20px",
 	});
-
+	console.log(balance);
 	return (
 		<>
 			<DonationBanner />
@@ -41,7 +41,7 @@ const HomePage: React.FC = () => {
 			<h3 className={balanceHeaderClasses}>
 				Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance
 			</h3>
-			<Balance consumed={consumed} restored={restored} loading={loading} />
+			<Balance consumed={balance.consumed} restored={balance.restored} loading={loading} />
 			<RestoreModal open={restoreOpen} onClose={() => setRestoreOpen(false)} />
 		</>
 	);

@@ -251,3 +251,36 @@ export const useAvailableServices = (
 
   return services;
 };
+
+// Simple balance data structure
+interface BalanceData {
+  consumed: number;
+  restored: number;
+  netBalance: number;
+}
+
+// Centralized balance hook - reuses exact same pattern as useStatsData
+export const useBalance = (): BalanceData => {
+  const { user } = useAuth();
+  const { userProfile } = useAuth();
+  const data = useStatsData(undefined, "lifetime"); // Get lifetime consumption for balance
+
+  // For authenticated users, use database totals
+  if (user?.id && userProfile) {
+    const consumed = userProfile.total_m2_consumed || 0;
+    const restored = userProfile.total_m2_restored || 0;
+    return {
+      consumed,
+      restored,
+      netBalance: restored - consumed,
+    };
+  }
+
+  // For guests, calculate from real-time data
+  const consumed = data?.m2_potential || 0;
+  return {
+    consumed,
+    restored: 0, // Guests have no restoration yet
+    netBalance: -consumed,
+  };
+};

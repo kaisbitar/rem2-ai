@@ -3,6 +3,7 @@ import CloseButton from "@/components/common/CloseButton";
 import FloatingDropdownPanel from "./FloatingDropdownPanel";
 import { useFloatingDropdownData } from "@/hooks/useFloatingDropdownData";
 import type { Provider } from "@/types/provider";
+import { useBalance } from "@/hooks/useStatsData";
 import { formatCarbon, formatWater } from "@/utils/formatting/display";
 import type React from "react";
 import { useRef } from "react";
@@ -24,6 +25,7 @@ const FloatingDropdown: React.FC<FloatingDropdownProps> = ({
 }) => {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const data = useFloatingDropdownData(provider, isOpen);
+	const balance = useBalance();
 
 	const {
 		dropdownState,
@@ -144,8 +146,8 @@ const FloatingDropdown: React.FC<FloatingDropdownProps> = ({
 				)}
 				<BalanceChart
 					className={balanceChartClasses}
-					consumed={11.2}
-					restored={9}
+					consumed={balance.consumed}
+					restored={balance.restored}
 				/>
 				<div className={hoverContainerClasses}>
 					{isRequestActive && (
