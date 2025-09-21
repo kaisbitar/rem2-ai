@@ -31,12 +31,12 @@ const BottomTabs: React.FC = () => {
 			icon: <ChartBar size={18} />,
 			to: "/insights",
 		},
-		{
-			key: "account",
-			label: "Account",
-			icon: <User size={18} />,
-			to: user ? "/account" : "/account",
-		},
+		// {
+		// 	key: "account",
+		// 	label: "Account",
+		// 	icon: <User size={18} />,
+		// 	to: user ? "/account" : "/account",
+		// },
 	];
 
 	const getIsActive = (item: TabItem) => {
@@ -63,7 +63,7 @@ const BottomTabs: React.FC = () => {
 
 	const list = css({
 		display: "grid",
-		gridTemplateColumns: "repeat(3, 1fr)",
+		gridTemplateColumns: "repeat(2, 1fr)",
 		gap: "1",
 		alignItems: "center",
 	});
@@ -73,14 +73,14 @@ const BottomTabs: React.FC = () => {
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		gap: "1",
-		paddingY: "2",
+		// gap: "1",
+		padding: "3",
 		color: "gray.600",
 		fontSize: "xs",
 		cursor: "pointer",
 		userSelect: "none",
 		"&:hover": { backgroundColor: "gray.50" },
-		borderRadius: "md",
+		borderRadius: "xlg",
 		width: "100%",
 		textAlign: "center",
 		position: "relative",

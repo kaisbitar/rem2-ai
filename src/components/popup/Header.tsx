@@ -50,9 +50,13 @@ const Header: React.FC<HeaderProps> = () => {
 	const handleLoginClick = () => {
 		if (user) {
 			navigate("/profile");
-		} else {
-			navigate("/login");
+			return;
 		}
+		const isProd = import.meta.env.MODE === "production";
+		const url = isProd
+			? "http://aim2balance.ai/dashboard/login"
+			: "http://localhost:8080/login";
+		window.open(url, "_blank", "noopener,noreferrer");
 	};
 	const guestBadge = isGuest ? (
 		<div
