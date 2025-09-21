@@ -85,10 +85,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			await browser.storage.local.set({
 				[`userProfile:${uid}`]: { data, cachedAt: Date.now() },
 			});
-		} catch {}
+		} catch { }
 	};
 
 	useEffect(() => {
+		const initSupabaseFromStorage = async () => {
+			try {
+				const { supabaseSession } = await browser.storage.local.get([
+					"supabaseSession",
+				]);
+				if (
+					supabaseSession?.access_token &&
+					supabaseSession?.refresh_token
+				) {
+					await supabase.auth.setSession({
+						access_token: supabaseSession.access_token,
+						refresh_token: supabaseSession.refresh_token,
+					});
+				}
+			} catch (e) {
+				console.error("❌ Failed to init Supabase session in popup:", e);
+			}
+		};
+
 		const getInitialSession = async () => {
 			try {
 				const {
@@ -108,7 +127,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			}
 		};
 
-		getInitialSession();
+		(async () => {
+			await initSupabaseFromStorage();
+			await getInitialSession();
+		})();
 
 		const {
 			data: { subscription },
@@ -140,7 +162,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 							"authUser",
 							"supabaseSession",
 						]);
-					} catch {}
+					} catch { }
 				} catch (error) {
 					console.error("❌ Error clearing auth info:", error);
 				}
@@ -148,7 +170,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			}
 		});
 
-		return () => subscription.unsubscribe();
+		const handleStorageChange = async (changes: any) => {
+			try {
+				const s = changes.supabaseSession?.newValue;
+				if (s?.access_token && s?.refresh_token) {
+					await supabase.auth.setSession({
+						access_token: s.access_token,
+						refresh_token: s.refresh_token,
+					});
+				}
+			} catch (e) {
+				console.error("❌ Failed to apply session from storage change:", e);
+			}
+		};
+
+		browser.storage.local.onChanged.addListener(handleStorageChange);
+
+		return () => {
+			subscription.unsubscribe();
+			browser.storage.local.onChanged.removeListener(handleStorageChange);
+		};
 	}, []);
 
 	const loadUserProfile = async (userId: string, userEmail?: string) => {
@@ -234,7 +275,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 						"authUser",
 						"supabaseSession",
 					]);
-				} catch {}
+				} catch { }
 			} catch (err) {
 				console.error("Error clearing extension storage during signout:", err);
 			}

@@ -14,8 +14,8 @@
         justify-content: center;
         min-height: 100vh;
         margin: 0;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+        /* color: white; */
       }
       .container {
         text-align: center;
@@ -33,6 +33,29 @@
         border-radius: 50%;
         animation: spin 1s linear infinite;
         margin: 0 auto 1rem;
+      }
+      .titleClasses {
+        display: flex;
+        font-size: 3xl;
+        font-weight: light;
+        letter-spacing: tight;
+      }
+
+      .superscriptClasses {
+        margin-left: 0;
+        margin-right: 2;
+        font-weight: bold;
+        color: #89af23;
+      }
+
+      .settingsButtonClasses {
+        font-size: lg;
+        display: flex;
+        gap: 4;
+      }
+
+      .aiClasses {
+        font-weight: bold;
       }
       @keyframes spin {
         0% {
@@ -53,62 +76,18 @@
     </style>
   </head>
   <body>
+    <h1 class="titleClasses">
+      <!-- <Plant color="green" style={{ margin: "0px 2px" }} /> -->
+      <span class="aiClasses">ai</span>
+      <span class="superscriptClasses">m2Balance</span>
+      <span class="aiClasses">.ai</span>
+    </h1>
     <div class="container">
       <div class="spinner"></div>
       <h1>Authenticating...</h1>
       <p>Please wait while we complete your login.</p>
     </div>
 
-    <script>
-      // This page handles the OAuth callback from Google
-      // It will automatically close and notify the extension
-
-      console.log("🔄 OAuth callback page loaded");
-
-      // Check if we're in a popup window
-      if (window.opener) {
-        console.log("✅ In popup window, notifying parent");
-
-        // Notify the parent window (extension) that auth was successful
-        try {
-          window.opener.postMessage(
-            {
-              type: "SUPABASE_AUTH_SUCCESS",
-              timestamp: Date.now(),
-            },
-            "*"
-          );
-
-          // Close the popup after a short delay
-          setTimeout(() => {
-            window.close();
-          }, 1000);
-        } catch (error) {
-          console.error("❌ Error notifying parent:", error);
-          // Fallback: just close the popup
-          setTimeout(() => {
-            window.close();
-          }, 2000);
-        }
-      } else {
-        console.log("ℹ️ Not in popup, redirecting to extension");
-
-        // If not in popup, try to redirect to the extension
-        setTimeout(() => {
-          try {
-            // Try to redirect to the extension
-            window.location.href =
-              "chrome-extension://edcagboipniaohiafoialcmniojdcone/";
-          } catch (error) {
-            console.error("❌ Cannot redirect to extension:", error);
-            // Show message to user
-            document.querySelector(".container").innerHTML = `
-                        <h1>✅ Authentication Complete!</h1>
-                        <p>You can now close this window and return to your extension.</p>
-                    `;
-          }
-        }, 2000);
-      }
-    </script>
+    <script src="oauth-callback.js"></script>
   </body>
 </html>

@@ -52,11 +52,14 @@ const Header: React.FC<HeaderProps> = () => {
 			navigate("/profile");
 			return;
 		}
-		const isProd = import.meta.env.MODE === "production";
-		const url = isProd
-			? "http://aim2balance.ai/dashboard/login"
-			: "http://localhost:8080/login";
-		window.open(url, "_blank", "noopener,noreferrer");
+		// Build redirect back to extension oauth-callback.html with token handoff
+		const siteBase = "http://localhost:8080";
+		const callbackUrl =
+			"chrome-extension://lhgikpiaojfeedbpjkkoonlbpmcofcme/oauth-callback.html";
+		const loginUrl = new URL("/login", siteBase);
+		loginUrl.searchParams.set("ext", "1");
+		loginUrl.searchParams.set("redirect_uri", callbackUrl);
+		window.open(loginUrl.toString(), "_blank", "noopener,noreferrer");
 	};
 	const guestBadge = isGuest ? (
 		<div
