@@ -41,7 +41,11 @@ const HomePage: React.FC = () => {
 			<h3 className={balanceHeaderClasses}>
 				Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance
 			</h3>
-			<Balance consumed={balance.consumed} restored={balance.restored} loading={loading} />
+			<Balance
+				consumed={balance.consumed}
+				restored={balance.restored}
+				loading={loading}
+			/>
 			<RestoreModal open={restoreOpen} onClose={() => setRestoreOpen(false)} />
 		</>
 	);

@@ -48,7 +48,7 @@ const Modal: React.FC<ModalProps> = ({
 	});
 
 	return (
-		<div className={overlay} >
+		<div className={overlay}>
 			<div
 				className={cx(panel, className)}
 				onClick={(e) => e.stopPropagation()}

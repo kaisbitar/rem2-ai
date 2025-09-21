@@ -105,10 +105,10 @@ export const UserStateProvider: React.FC<{ children: React.ReactNode }> = ({
 		currentStreak: (userProfile as any)?.streak_days ?? 0,
 		badges: (userProfile as any)?.badges ?? [],
 
-		updateUserState: () => { }, // derived; no-op
+		updateUserState: () => {}, // derived; no-op
 		claimPaymentSession,
-		updateBalance: async () => { }, // server-owned; no-op
-		updateGamification: async () => { }, // server-owned; no-op
+		updateBalance: async () => {}, // server-owned; no-op
+		updateGamification: async () => {}, // server-owned; no-op
 	};
 
 	return (
