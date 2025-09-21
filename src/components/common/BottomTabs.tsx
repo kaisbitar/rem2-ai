@@ -2,7 +2,7 @@ import type React from "react";
 import { css, cx } from "styled-system/css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ChartBar, PlantIcon } from "@phosphor-icons/react";
-import { useAuth } from "@/context/AuthContext";
+// import { useAuth } from "@/context/AuthContext";
 
 interface TabItem {
 	key: "balance" | "insights" | "account";
