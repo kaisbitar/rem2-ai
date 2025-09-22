@@ -2,7 +2,7 @@ import type React from "react";
 import { useEffect, useState } from "react";
 import { useUserState } from "@/context/UserStateContext";
 import { css } from "styled-system/css";
-import { UserPlus, X } from "@phosphor-icons/react";
+import { X } from "@phosphor-icons/react";
 
 const CreateAccountPrompt: React.FC = () => {
     const { isGuest } = useUserState();
@@ -29,13 +29,21 @@ const CreateAccountPrompt: React.FC = () => {
     };
 
     const handleCreateAccount = () => {
-        const loginUrl = process.env.NODE_ENV === "production"
-            ? "https://aim2balance.ai/login"
-            : "http://localhost:8080/login";
+        const loginUrl =
+            process.env.NODE_ENV === "production"
+                ? "https://aim2balance.ai/login"
+                : "http://localhost:8080/login";
 
         window.open(loginUrl, "_blank");
     };
-    console.log("CreateAccountPrompt render - isGuest:", isGuest, "shouldShow:", shouldShow, "hasShownPrompt:", hasShownPrompt);
+    console.log(
+        "CreateAccountPrompt render - isGuest:",
+        isGuest,
+        "shouldShow:",
+        shouldShow,
+        "hasShownPrompt:",
+        hasShownPrompt,
+    );
 
     if (!shouldShow) {
         return null;
@@ -48,12 +56,14 @@ const CreateAccountPrompt: React.FC = () => {
         left: "0",
         right: "0",
         width: "411px",
-        backgroundColor: "#f8f8f8",
-        border: "1px solid",
-        borderColor: "#cbcbcb",
+        backgroundColor: "#e6f0ca",
+        // border: "1px solid",
+        borderColor: "#bed9a4",
         borderRadius: "lg",
         padding: "12px 16px",
-        boxShadow: "0 -2px 8px rgba(0, 0, 0, 0.1)",
+        textAlign: "center",
+        cursor: "pointer",
+        // boxShadow: "0 -2px 8px rgba(0, 0, 0, 0.1)",
         zIndex: 1000,
     });
 
@@ -64,6 +74,7 @@ const CreateAccountPrompt: React.FC = () => {
         gap: "12px",
         maxWidth: "450px",
         margin: "0 auto",
+        cursor: "pointer",
     });
 
     const textClasses = css({
@@ -71,78 +82,49 @@ const CreateAccountPrompt: React.FC = () => {
         // fontSize: "sm",
         color: "#363636",
         lineHeight: "1.4",
-        fontWeight: "500",
+        fontWeight: "700",
     });
 
-    const buttonClasses = css({
-        display: "flex",
-        alignItems: "center",
-        gap: "6px",
-        backgroundColor: "blue.600",
-        color: "white",
-        padding: "8px 12px",
-        borderRadius: "sm",
-        // fontSize: "sm",
-        fontWeight: "medium",
-        border: "none",
-        cursor: "pointer",
-        transition: "all 0.2s ease",
-        _hover: {
-            backgroundColor: "blue.700",
-        },
-        _focus: {
-            outline: "2px solid",
-            outlineColor: "blue.300",
-            outlineOffset: "2px",
-        },
-    });
 
     const dismissButtonClasses = css({
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        width: "24px",
-        height: "24px",
-        backgroundColor: "transparent",
+        position: "absolute",
+        top: "8px",
+        right: "8px",
+        background: "none",
         border: "none",
         cursor: "pointer",
-        borderRadius: "sm",
-        color: "blue.600",
-        transition: "all 0.2s ease",
-        _hover: {
-            backgroundColor: "blue.100",
-            color: "blue.800",
-        },
-        _focus: {
-            outline: "2px solid",
-            outlineColor: "blue.300",
-            outlineOffset: "2px",
-        },
+        padding: "4px",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
     });
 
     return (
         <div className={containerClasses}>
-            <div className={contentClasses}>
+            <button
+                className={contentClasses}
+                onClick={handleCreateAccount}
+                type="button"
+
+            >
                 <div className={textClasses}>
-                    Create an account to save your progress and unlock premium features
+                    <p className={css({ fontSize: "sm" })}>Tracking only today's usage</p>
+                    <p style={{ color: "gray" }}>
+                        Click here to create an account to save your progress
+                    </p>
                 </div>
-                <button
-                    className={buttonClasses}
-                    onClick={handleCreateAccount}
-                    type="button"
-                >
-                    <UserPlus size={16} />
-                    Create Account
-                </button>
-                <button
-                    className={dismissButtonClasses}
-                    onClick={handleDismiss}
-                    type="button"
-                    aria-label="Dismiss message"
-                >
-                    <X size={16} />
-                </button>
-            </div>
+            </button>
+            <button
+                className={dismissButtonClasses}
+                onClick={handleDismiss}
+                type="button"
+                aria-label="Dismiss message"
+                style={{
+
+                }}
+            >
+                <X size={16} />
+            </button>
         </div>
     );
 };

@@ -3,10 +3,8 @@ import { css } from "styled-system/css";
 import { useNavigate } from "react-router-dom";
 // import { ListIcon } from "@phosphor-icons/react";
 import { useAuth } from "@/context/AuthContext";
-import { UserCircleIcon } from "@phosphor-icons/react";
 import { FaUserCircle } from "react-icons/fa";
-import { useUserState } from "@/context/UserStateContext";
-import CloseButton from "../common/CloseButton";
+// import { useUserState } from "@/context/UserStateContext";
 interface HeaderProps {
 	className?: string;
 }
@@ -14,7 +12,6 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = () => {
 	const navigate = useNavigate();
 	const { user } = useAuth();
-	const { isGuest } = useUserState();
 	const headerContainerClasses = css({
 		padding: "6px 18px 6px 18px",
 		borderBottom: "1px solid #e5e7eb",
@@ -38,12 +35,6 @@ const Header: React.FC<HeaderProps> = () => {
 		color: "green.main",
 	});
 
-	const settingsButtonClasses = css({
-		fontSize: "lg",
-		display: "flex",
-		gap: "4",
-	});
-
 	const aiClasses = css({
 		fontWeight: "bold",
 	});
@@ -65,19 +56,9 @@ const Header: React.FC<HeaderProps> = () => {
 
 	return (
 		<div>
-
 			<header className={headerContainerClasses}>
 				<div className={"gradient-bar"} />
-				{/* <button
-					type={"button"}
-					className={settingsButtonClasses}
-					onClick={() => navigate("/settings")}
-				>
-					<ListIcon size={16} />
-				</button> */}
 				<h1 className={titleClasses}>
-					{/* <img src={logo} alt="App icon" className={logoClasses} /> */}
-					{/* <Plant color="green" style={{ margin: "0px 2px" }} /> */}
 					<span className={aiClasses}>ai</span>
 					<span className={superscriptClasses}>m2Balance</span>
 					<span className={aiClasses}>.ai</span>

@@ -85,7 +85,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 			await browser.storage.local.set({
 				[`userProfile:${uid}`]: { data, cachedAt: Date.now() },
 			});
-		} catch { }
+		} catch {}
 	};
 
 	useEffect(() => {
@@ -94,10 +94,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 				const { supabaseSession } = await browser.storage.local.get([
 					"supabaseSession",
 				]);
-				if (
-					supabaseSession?.access_token &&
-					supabaseSession?.refresh_token
-				) {
+				if (supabaseSession?.access_token && supabaseSession?.refresh_token) {
 					await supabase.auth.setSession({
 						access_token: supabaseSession.access_token,
 						refresh_token: supabaseSession.refresh_token,
@@ -162,7 +159,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 							"authUser",
 							"supabaseSession",
 						]);
-					} catch { }
+					} catch {}
 				} catch (error) {
 					console.error("❌ Error clearing auth info:", error);
 				}
@@ -275,7 +272,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 						"authUser",
 						"supabaseSession",
 					]);
-				} catch { }
+				} catch {}
 			} catch (err) {
 				console.error("Error clearing extension storage during signout:", err);
 			}
