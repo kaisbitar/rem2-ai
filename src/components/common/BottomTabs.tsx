@@ -29,7 +29,6 @@ const BottomTabs: React.FC = () => {
 			icon: <ChartBar size={18} />,
 			to: "/insights",
 		},
-
 	];
 
 	const getIsActive = (item: TabItem) => {
