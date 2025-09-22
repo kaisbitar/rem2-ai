@@ -1,11 +1,12 @@
 import type React from "react";
 import { css } from "styled-system/css";
 import { useNavigate } from "react-router-dom";
-import { ListIcon, User } from "@phosphor-icons/react";
+// import { ListIcon } from "@phosphor-icons/react";
 import { useAuth } from "@/context/AuthContext";
-import { Plant } from "@phosphor-icons/react";
+import { UserCircleIcon } from "@phosphor-icons/react";
+import { FaUserCircle } from "react-icons/fa";
 import { useUserState } from "@/context/UserStateContext";
-
+import CloseButton from "../common/CloseButton";
 interface HeaderProps {
 	className?: string;
 }
@@ -15,7 +16,7 @@ const Header: React.FC<HeaderProps> = () => {
 	const { user } = useAuth();
 	const { isGuest } = useUserState();
 	const headerContainerClasses = css({
-		padding: "10px 20px 6px 18px",
+		padding: "6px 18px 6px 18px",
 		borderBottom: "1px solid #e5e7eb",
 		borderColor: "gray.200",
 		display: "flex",
@@ -25,7 +26,7 @@ const Header: React.FC<HeaderProps> = () => {
 
 	const titleClasses = css({
 		display: "flex",
-		fontSize: "3xl",
+		fontSize: "xl",
 		fontWeight: "light",
 		letterSpacing: "tight",
 	});
@@ -61,48 +62,22 @@ const Header: React.FC<HeaderProps> = () => {
 		loginUrl.searchParams.set("redirect_uri", callbackUrl);
 		window.open(loginUrl.toString(), "_blank", "noopener,noreferrer");
 	};
-	const guestBadge = isGuest ? (
-		<div
-			className={css({
-				backgroundColor: "yellow.50",
-				border: "1px solid",
-				borderColor: "yellow.200",
-				color: "yellow.900",
-				fontSize: "sm",
-				padding: "2",
-				borderRadius: "md",
-				marginBottom: "3",
-				display: "flex",
-				cursor: "pointer",
-			})}
-		>
-			<div
-				className={css({
-					fontWeight: "bold",
-					marginRight: "5",
-					marginTop: "-2px",
-					marginLeft: "1",
-				})}
-			>
-				x
-			</div>{" "}
-			Create a free account to keep your history.
-		</div>
-	) : null;
+
 	return (
 		<div>
+
 			<header className={headerContainerClasses}>
 				<div className={"gradient-bar"} />
-				<button
+				{/* <button
 					type={"button"}
 					className={settingsButtonClasses}
 					onClick={() => navigate("/settings")}
 				>
 					<ListIcon size={16} />
-				</button>
+				</button> */}
 				<h1 className={titleClasses}>
 					{/* <img src={logo} alt="App icon" className={logoClasses} /> */}
-					<Plant color="green" style={{ margin: "0px 2px" }} />
+					{/* <Plant color="green" style={{ margin: "0px 2px" }} /> */}
 					<span className={aiClasses}>ai</span>
 					<span className={superscriptClasses}>m2Balance</span>
 					<span className={aiClasses}>.ai</span>
@@ -123,10 +98,9 @@ const Header: React.FC<HeaderProps> = () => {
 						},
 					})}
 				>
-					<User size={16} />
+					<FaUserCircle size={16} />
 				</button>
 			</header>
-			{guestBadge}
 		</div>
 	);
 };

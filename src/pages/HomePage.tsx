@@ -9,6 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import DonationBanner from "@/components/popup/DonationBanner";
 import RestoreModal from "@/components/common/RestoreModal";
 import { useBalance } from "@/hooks/useStatsData";
+import CreateAccountPrompt from "@/components/common/CreateAccountPrompt";
 
 const HomePage: React.FC = () => {
 	const { user, loading: authLoading } = useAuth();
@@ -33,7 +34,6 @@ const HomePage: React.FC = () => {
 		marginTop: "20px",
 		marginBottom: "20px",
 	});
-	console.log(balance);
 	return (
 		<>
 			<DonationBanner />
@@ -47,6 +47,7 @@ const HomePage: React.FC = () => {
 				loading={loading}
 			/>
 			<RestoreModal open={restoreOpen} onClose={() => setRestoreOpen(false)} />
+			<CreateAccountPrompt />
 		</>
 	);
 };

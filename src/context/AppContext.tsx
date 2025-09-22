@@ -109,6 +109,7 @@ const convertDailyToTotal = (dailyData: DailyCarbonData): TotalFootprint => {
 		water: dailyData.totalWater,
 		totalDuration: dailyData.totalDuration,
 		services: dailyData.services,
+		tokens: dailyData.tokens,
 	};
 };
 
@@ -304,6 +305,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 			water: 0,
 			totalDuration: 0,
 			services: {},
+			tokens: 0,
 		};
 	}
 
@@ -313,6 +315,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 		carbon: 0,
 		water: 0,
 		totalDuration: 0,
+		tokens: 0,
 	};
 
 	// Handler to update configuration

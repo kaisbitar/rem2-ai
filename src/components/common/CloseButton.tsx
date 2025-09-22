@@ -4,10 +4,10 @@ import { css, cx } from "styled-system/css";
 // Styles du bouton de fermeture avec animations
 
 interface DynamicColors {
-	borderColor: string;
-	borderColorHover: string;
-	backgroundColor: string;
-	boxShadow: string;
+	borderColor?: string;
+	borderColorHover?: string;
+	backgroundColor?: string;
+	boxShadow?: string;
 }
 
 interface CloseButtonProps {
@@ -29,12 +29,12 @@ const CloseButton: React.FC<CloseButtonProps> = ({
 	};
 
 	const containerClasses = css({
-		position: "absolute",
-		top: "-12px",
-		left: "-12px",
-		width: "34px",
-		height: "34px",
-		borderRadius: "50%",
+		// position: "absolute",
+		// top: "-12px",
+		// left: "-12px",
+		// width: "34px",
+		// height: "34px",
+		// borderRadius: "50%",
 		zIndex: 99,
 		pointerEvents: "auto",
 		_hover: {
@@ -57,11 +57,11 @@ const CloseButton: React.FC<CloseButtonProps> = ({
 		fontWeight: "bold",
 		zIndex: 100,
 		transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
-		background: "rgba(240, 240, 240, 0.8)",
+		// background: "rgba/(240, 240, 240, 0.8)",
 		color: "black",
-		borderWidth: "2px",
+		// borderWidth: "2px",
 		transform: "translate(-50%, -50%)",
-		shadow: "md",
+		// shadow: "md",
 		opacity: 0,
 		pointerEvents: "none",
 		"&.visible": {
