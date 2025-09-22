@@ -20,13 +20,14 @@ const BottomTabs: React.FC = () => {
 		{
 			key: "balance",
 			label: "Balance",
-			icon: <PlantIcon size={18} />,
+			icon: <PlantIcon size={20} weight="fill" />,
 			to: "/balance",
 		},
+
 		{
 			key: "insights",
 			label: "Insights",
-			icon: <ChartBar size={18} />,
+			icon: <ChartBar size={20} weight="regular" />,
 			to: "/insights",
 		},
 	];
@@ -37,7 +38,6 @@ const BottomTabs: React.FC = () => {
 			return false;
 		}
 		if (item.key === "insights") return pathname.startsWith("/insights");
-		if (item.key === "account") return pathname.startsWith("/account");
 		return false;
 	};
 
@@ -46,15 +46,16 @@ const BottomTabs: React.FC = () => {
 		bottom: 0,
 		width: "100%",
 		backgroundColor: "white",
-		boxShadow: "0 0 10px 0 rgb(189 189 189 / 81%)",
+		padding: "12px 0",
 		zIndex: 10,
 	});
 
 	const list = css({
-		display: "grid",
-		gridTemplateColumns: "repeat(2, 1fr)",
-		gap: "1",
+		display: "flex",
+		justifyContent: "center",
 		alignItems: "center",
+		maxWidth: "450px",
+		margin: "0 auto",
 	});
 
 	const itemBtn = css({
@@ -62,23 +63,23 @@ const BottomTabs: React.FC = () => {
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		padding: "3",
-		color: "gray.600",
-		fontSize: "xs",
+		padding: "8px 16px",
+		color: "#9CA3AF",
+		fontSize: "12px",
+		fontWeight: "500",
 		cursor: "pointer",
 		userSelect: "none",
-		"&:hover": { backgroundColor: "gray.50" },
-		borderRadius: "xlg",
-		width: "100%",
+		borderRadius: "8px",
 		textAlign: "center",
 		position: "relative",
+		transition: "all 0.2s ease",
+		gap: "4px",
 	});
 
 	const itemActive = css({
-		color: "gray.900",
-		fontWeight: 700,
-		backgroundColor: "#f4f4f4",
-		borderRadius: "0px",
+		color: "#1F2937",
+		fontWeight: "700",
+		backgroundColor: "#F3F4F6",
 	});
 
 	return (
