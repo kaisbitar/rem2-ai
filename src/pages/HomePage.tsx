@@ -87,7 +87,6 @@ const HomePage: React.FC = () => {
 			</h3>
 			<Balance
 				className={balanceContainerClasses}
-
 				consumed={balance.consumed}
 				restored={balance.restored}
 				loading={loading}

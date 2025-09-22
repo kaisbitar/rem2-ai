@@ -1,8 +1,6 @@
 import type React from "react";
 import { css } from "styled-system/css";
-import CallToActionButton from "../common/CallToActionButton";
 import BalanceChart from "../common/BalanceChart";
-import { Plant } from "@phosphor-icons/react";
 import { useNavigate } from "react-router-dom";
 
 interface BalanceProps {
