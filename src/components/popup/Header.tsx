@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 // import { ListIcon } from "@phosphor-icons/react";
 import { useAuth } from "@/context/AuthContext";
 import { FaUserCircle } from "react-icons/fa";
+import { getLoginUrl } from "@/utils/constants/env";
 // import { useUserState } from "@/context/UserStateContext";
 interface HeaderProps {
 	className?: string;
@@ -44,14 +45,9 @@ const Header: React.FC<HeaderProps> = () => {
 			navigate("/profile");
 			return;
 		}
-		// Build redirect back to extension oauth-callback.html with token handoff
-		const siteBase = "http://localhost:8080";
-		const callbackUrl =
-			"chrome-extension://lhgikpiaojfeedbpjkkoonlbpmcofcme/oauth-callback.html";
-		const loginUrl = new URL("/login", siteBase);
-		loginUrl.searchParams.set("ext", "1");
-		loginUrl.searchParams.set("redirect_uri", callbackUrl);
-		window.open(loginUrl.toString(), "_blank", "noopener,noreferrer");
+		// Use environment-aware login URL
+		const loginUrl = getLoginUrl();
+		window.open(loginUrl, "_blank", "noopener,noreferrer");
 	};
 
 	return (

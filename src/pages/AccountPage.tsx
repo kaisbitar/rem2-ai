@@ -2,6 +2,7 @@ import type React from "react";
 import { css } from "styled-system/css";
 import { useAuth } from "@/context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { getSiteUrl } from "@/utils/constants/env";
 
 const AccountPage: React.FC = () => {
 	const { user } = useAuth();
@@ -55,7 +56,7 @@ const AccountPage: React.FC = () => {
 						})}
 						onClick={() =>
 							window.open(
-								"https://aim2balance.ai/dashboard",
+								`${getSiteUrl()}/dashboard`,
 								"_blank",
 								"noopener,noreferrer",
 							)

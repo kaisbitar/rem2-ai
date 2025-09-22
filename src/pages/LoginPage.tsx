@@ -4,6 +4,7 @@ import { css } from "styled-system/css";
 import { ArrowLeft } from "@phosphor-icons/react";
 import AuthForm from "@/components/common/AuthForm";
 import { supabase } from "../config/supabase-client";
+import { getGoogleClientId } from "@/utils/constants/env";
 
 const LoginPage: React.FC = () => {
 	const navigate = useNavigate();
@@ -72,8 +73,7 @@ const LoginPage: React.FC = () => {
 
 	const handleGoogleLogin = async () => {
 		try {
-			const clientId =
-				"242222187660-mtoje8qj2gecq2jesrdmi4qoemsgah2f.apps.googleusercontent.com"; // replace if needed
+			const clientId = getGoogleClientId();
 			const redirectUri = chrome.identity.getRedirectURL();
 			console.log("Redirect URI:", redirectUri);
 			const nonce = crypto.randomUUID();
