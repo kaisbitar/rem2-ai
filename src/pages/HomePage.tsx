@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppContext } from "@/context/AppContext";
 import { css } from "styled-system/css";
 import Balance from "@/components/popup/Balance";
-import { Plant, PlantIcon, UserCircle } from "@phosphor-icons/react";
+import { Plant, UserCircle } from "@phosphor-icons/react";
 import { useAuth } from "@/context/AuthContext";
 import DonationBanner from "@/components/popup/DonationBanner";
 import RestoreModal from "@/components/common/RestoreModal";
@@ -30,16 +30,8 @@ const HomePage: React.FC = () => {
 
 	const loading = authLoading;
 
-	const balanceHeaderClasses = css({
-		display: "flex",
-		fontSize: "lg",
-		fontWeight: "bold",
-		marginTop: "20px",
-		marginBottom: "20px",
-	});
-
 	const balanceContainerClasses = css({
-		marginBottom: "20px",
+		// marginBottom: "0px",
 	});
 
 	const restoreButton = css({
@@ -82,9 +74,6 @@ const HomePage: React.FC = () => {
 		<>
 			<DonationBanner />
 			<h2>{user && <div>Hi {user.email}</div>}</h2>
-			<h3 className={balanceHeaderClasses}>
-				Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance
-			</h3>
 			<Balance
 				className={balanceContainerClasses}
 				consumed={balance.consumed}

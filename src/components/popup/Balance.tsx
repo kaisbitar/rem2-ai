@@ -15,7 +15,6 @@ const Balance: React.FC<BalanceProps> = ({
 	className = "",
 	loading = false,
 }) => {
-
 	const containerClasses = css({
 		backgroundColor: "white",
 		padding: "4",
@@ -28,7 +27,7 @@ const Balance: React.FC<BalanceProps> = ({
 		alignItems: "flex-start",
 		justifyContent: "flex-start",
 		transition: "all 0.3s ease",
-		border: "1px solid #d6d6d680",
+		// border: "1px solid #d6d6d680",
 	});
 
 	if (loading) {

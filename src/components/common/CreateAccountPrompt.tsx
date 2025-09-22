@@ -63,7 +63,6 @@ const CreateAccountPrompt: React.FC = () => {
         padding: "12px 16px",
         textAlign: "center",
         cursor: "pointer",
-        // boxShadow: "0 -2px 8px rgba(0, 0, 0, 0.1)",
         zIndex: 1000,
     });
 
@@ -79,7 +78,6 @@ const CreateAccountPrompt: React.FC = () => {
 
     const textClasses = css({
         flex: "1",
-        // fontSize: "sm",
         color: "#363636",
         lineHeight: "1.4",
         fontWeight: "700",

@@ -1,157 +1,149 @@
 import type React from "react";
-import { useEffect, useState } from "react";
 import { css } from "styled-system/css";
+import { PlantIcon } from "@phosphor-icons/react";
 
 interface BalanceChartProps {
 	consumed: number;
 	restored: number;
-	consumedColor?: string;
-	restoredColor?: string;
-	unit?: string;
-	className?: string;
 }
 
-const BalanceChart: React.FC<BalanceChartProps> = ({
-	consumed,
-	restored,
-	consumedColor = "#c2185b",
-	restoredColor = "#a1ca2b",
-	unit = "m²",
-	className = "",
-}) => {
-	const [consumedWidth, setConsumedWidth] = useState(0);
-	const [restoredWidth, setRestoredWidth] = useState(0);
-
-	const total = consumed + restored;
-	const consumedPercentage =
-		total > 0 ? Math.min((consumed / total) * 100, 50) : 0;
-	const restoredPercentage =
-		total > 0 ? Math.min((restored / total) * 100, 50) : 0;
-
-	useEffect(() => {
-		const timeout = setTimeout(() => {
-			setConsumedWidth(consumedPercentage);
-			setRestoredWidth(restoredPercentage);
-		}, 300);
-		return () => clearTimeout(timeout);
-	}, [consumedPercentage, restoredPercentage]);
-
+const BalanceChart: React.FC<BalanceChartProps> = ({ consumed, restored }) => {
 	const containerClass = css({
-		margin: "auto",
+		backgroundColor: "white",
+		borderRadius: "12px",
+		width: "100%",
 	});
 
 	const headerClass = css({
 		display: "flex",
 		justifyContent: "space-between",
 		alignItems: "center",
-		marginBottom: "1rem",
-		fontSize: { base: "0.875rem", sm: "1rem" },
-		fontWeight: 600,
-		color: "#94a3b8",
-		width: "350px",
+		marginBottom: "16px",
 	});
 
-	const infoItemClass = css({
+	const titleClass = css({
+		display: "flex",
+		fontSize: "16px",
+		fontWeight: "600",
+		color: "#1F2937",
+	});
+
+	const progressItemClass = css({
+		marginBottom: "12px",
+		paddingRight: "18px",
+		paddingLeft: "18px",
+	});
+
+	const labelClass = css({
 		display: "flex",
 		alignItems: "center",
-		gap: "0.5rem",
+		gap: "8px",
+		marginBottom: "4px",
 		fontSize: "12px",
+		fontWeight: "500",
+		color: "#374151",
 	});
 
-	const colorDotClass = css({
-		width: "0.75rem",
-		height: "0.75rem",
+	const dotClass = css({
+		width: "8px",
+		height: "8px",
 		borderRadius: "50%",
 	});
 
-	const trackClass = css({
-		margin: "auto",
-		display: "flex",
-		alignItems: "center",
-		justifyContent: "center",
-		height: "2rem",
-		position: "relative",
-		borderRadius: "9999px",
+	const consumedDotClass = css({
+		width: "8px",
+		height: "8px",
+		borderRadius: "50%",
+		backgroundColor: "#c21f42",
+	});
+
+	const restoredDotClass = css({
+		width: "8px",
+		height: "8px",
+		borderRadius: "50%",
+		backgroundColor: "#89af23",
+	});
+
+	const progressBarClass = css({
+		width: "100%",
+		height: "8px",
+		backgroundColor: "#E5E7EB",
+		borderRadius: "4px",
 		overflow: "hidden",
 	});
 
-	const barClass = css({
-		height: "20px",
-		position: "absolute",
-		transition: "width 1s ease-in-out",
-	});
-
-	const consumedBarClass = css({
-		left: "50%",
-		transform: "translateX(-100%)",
-		borderTopRightRadius: 0,
-		borderBottomRightRadius: 0,
-		borderTopLeftRadius: "9999px",
-		borderBottomLeftRadius: "9999px",
-	});
-
-	const restoredBarClass = css({
-		left: "50%",
-		borderTopLeftRadius: 0,
-		borderBottomLeftRadius: 0,
-		borderTopRightRadius: "9999px",
-		borderBottomRightRadius: "9999px",
-		background:
-			"linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, rgba(237, 221, 83, 1) 100%)",
-	});
-
-	const centerLineClass = css({
-		position: "absolute",
-		width: "5px",
+	const consumedFillClass = css({
 		height: "100%",
-		backgroundColor: "#e5e6e7",
-		border: "1px solid #9c9c9c",
-		borderRadius: "9999px",
-		zIndex: 10,
+		borderRadius: "4px",
+		transition: "width 0.3s ease",
+		backgroundColor: "#c21f42",
+	});
+
+	const restoredFillClass = css({
+		height: "100%",
+		borderRadius: "4px",
+		transition: "width 0.3s ease",
+		backgroundColor: "#89af23",
+	});
+
+	const consumedValueClass = css({
+		fontSize: "14px",
+		fontWeight: "600",
+		marginLeft: "8px",
+		color: "#c21f42",
+	});
+
+	const restoredValueClass = css({
+		fontSize: "14px",
+		fontWeight: "600",
+		marginLeft: "8px",
+		color: "#89af23",
 	});
 
 	return (
-		<div className={`${containerClass} ${className}`}>
+		<div className={containerClass}>
 			<div className={headerClass}>
-				<div className={infoItemClass}>
-					<span
-						className={colorDotClass}
-						style={{ backgroundColor: consumedColor }}
-					/>
-					<span>
-						Consumed: {consumed.toFixed(2)} {unit}
-					</span>
+				<h3 className={titleClass}>Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance</h3>
+			</div>
+
+			<div className={progressItemClass}>
+				<div className={labelClass}>
+					<div className={consumedDotClass} />
+					<span>Consumed</span>
 				</div>
-				<div className={infoItemClass}>
-					<span>
-						Restored: {restored.toFixed(2)} {unit}
+				<div className={css({ display: "flex", alignItems: "center" })}>
+					<div className={progressBarClass}>
+						<div
+							className={consumedFillClass}
+							style={{
+								width: `${Math.min((consumed / 20) * 100, 100)}%`,
+							}}
+						/>
+					</div>
+					<span className={consumedValueClass}>
+						{consumed.toFixed(1)}m²
 					</span>
-					<span
-						className={colorDotClass}
-						style={{ backgroundColor: restoredColor }}
-					/>
 				</div>
 			</div>
 
-			<div className={trackClass}>
-				<div
-					style={{
-						width: `${consumedWidth}%`,
-						background: `linear-gradient(to right, ${consumedColor}, ${consumedColor} 70%, #ff0064)`,
-						transformOrigin: "right",
-					}}
-					className={`${barClass} ${consumedBarClass}`}
-				/>
-				<div
-					style={{
-						width: `${restoredWidth}%`,
-						background: `linear-gradient(to left, ${restoredColor}, ${restoredColor} 70%, #a2ca2cb3)`,
-
-						transformOrigin: "left",
-					}}
-					className={`${barClass} ${restoredBarClass}`}
-				/>
-				<div className={centerLineClass} />
+			<div className={progressItemClass}>
+				<div className={labelClass}>
+					<div className={restoredDotClass} />
+					<span>Restored</span>
+				</div>
+				<div className={css({ display: "flex", alignItems: "center" })}>
+					<div className={progressBarClass}>
+						<div
+							className={restoredFillClass}
+							style={{
+								width: `${Math.min((restored / 20) * 100, 100)}%`,
+							}}
+						/>
+					</div>
+					<span className={restoredValueClass}>
+						{restored.toFixed(1)}m²
+					</span>
+				</div>
 			</div>
 		</div>
 	);
