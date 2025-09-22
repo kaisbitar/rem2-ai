@@ -1,8 +1,7 @@
 import type React from "react";
 import { css, cx } from "styled-system/css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ChartBar, PlantIcon, User } from "@phosphor-icons/react";
-import { useAuth } from "@/context/AuthContext";
+import { ChartBar, PlantIcon } from "@phosphor-icons/react";
 
 interface TabItem {
 	key: "balance" | "insights" | "account";
@@ -14,7 +13,6 @@ interface TabItem {
 const BottomTabs: React.FC = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const { user } = useAuth();
 
 	const pathname = location?.pathname || "/";
 
@@ -31,12 +29,7 @@ const BottomTabs: React.FC = () => {
 			icon: <ChartBar size={18} />,
 			to: "/insights",
 		},
-		// {
-		// 	key: "account",
-		// 	label: "Account",
-		// 	icon: <User size={18} />,
-		// 	to: user ? "/account" : "/account",
-		// },
+
 	];
 
 	const getIsActive = (item: TabItem) => {
@@ -54,10 +47,7 @@ const BottomTabs: React.FC = () => {
 		bottom: 0,
 		width: "100%",
 		backgroundColor: "white",
-		// borderTop: "1px solid",
 		boxShadow: "0 0 10px 0 rgb(189 189 189 / 81%)",
-		// borderColor: "gray.200",
-		// paddingY: "2",
 		zIndex: 10,
 	});
 
@@ -73,7 +63,6 @@ const BottomTabs: React.FC = () => {
 		flexDirection: "column",
 		alignItems: "center",
 		justifyContent: "center",
-		// gap: "1",
 		padding: "3",
 		color: "gray.600",
 		fontSize: "xs",
