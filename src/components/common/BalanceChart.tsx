@@ -44,11 +44,11 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ consumed, restored }) => {
 		color: "#374151",
 	});
 
-	const dotClass = css({
-		width: "8px",
-		height: "8px",
-		borderRadius: "50%",
-	});
+	// const dotClass = css({
+	// 	width: "8px",
+	// 	height: "8px",
+	// 	borderRadius: "50%",
+	// });
 
 	const consumedDotClass = css({
 		width: "8px",
@@ -103,7 +103,9 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ consumed, restored }) => {
 	return (
 		<div className={containerClass}>
 			<div className={headerClass}>
-				<h3 className={titleClass}>Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance</h3>
+				<h3 className={titleClass}>
+					Your <PlantIcon style={{ margin: "0px 2px" }} /> m2 Balance
+				</h3>
 			</div>
 
 			<div className={progressItemClass}>
@@ -120,9 +122,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ consumed, restored }) => {
 							}}
 						/>
 					</div>
-					<span className={consumedValueClass}>
-						{consumed.toFixed(1)}m²
-					</span>
+					<span className={consumedValueClass}>{consumed.toFixed(1)}m²</span>
 				</div>
 			</div>
 
@@ -140,9 +140,7 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ consumed, restored }) => {
 							}}
 						/>
 					</div>
-					<span className={restoredValueClass}>
-						{restored.toFixed(1)}m²
-					</span>
+					<span className={restoredValueClass}>{restored.toFixed(1)}m²</span>
 				</div>
 			</div>
 		</div>
