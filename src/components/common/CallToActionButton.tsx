@@ -21,7 +21,7 @@ const CallToActionButton: React.FC<CallToActionButtonProps> = ({
 }) => {
 	const buttonClasses = css({
 		display: "flex",
-		maxWidth: "160px",
+		// maxWidth: "160px",
 		alignItems: "center",
 		justifyContent: "center",
 		gap: "1",
@@ -33,9 +33,9 @@ const CallToActionButton: React.FC<CallToActionButtonProps> = ({
 		_hover: disabled
 			? {}
 			: {
-					transform: "translateY(-1px)",
-					boxShadow: "0 5px 5px rgba(0, 0, 0, 0.15)",
-				},
+				transform: "translateY(-1px)",
+				boxShadow: "0 5px 5px rgba(0, 0, 0, 0.15)",
+			},
 	});
 
 	const iconClasses = css({

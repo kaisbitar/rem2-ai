@@ -1,8 +1,8 @@
 import type React from "react";
 import { css, cx } from "styled-system/css";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ChartBar, PlantIcon } from "@phosphor-icons/react";
-// import { useAuth } from "@/context/AuthContext";
+import { ChartBar, PlantIcon, User } from "@phosphor-icons/react";
+import { useAuth } from "@/context/AuthContext";
 
 interface TabItem {
 	key: "balance" | "insights" | "account";
@@ -14,7 +14,7 @@ interface TabItem {
 const BottomTabs: React.FC = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	// const { user } = useAuth();
+	const { user } = useAuth();
 
 	const pathname = location?.pathname || "/";
 

@@ -52,7 +52,7 @@ const CreateAccountPrompt: React.FC = () => {
     const containerClasses = css({
         position: "fixed",
         margin: "auto",
-        bottom: " 101px",
+        bottom: " 70px",
         left: "0",
         right: "0",
         width: "411px",
