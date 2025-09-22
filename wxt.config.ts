@@ -173,10 +173,10 @@ export default defineConfig({
       const { execSync } = await import("node:child_process");
       execSync("panda codegen --silent", { stdio: "inherit" });
     },
-    "build:manifestGenerated": (wxt, manifest) => {
-      // Manifest is already configured with host_permissions
-      // No additional processing needed
-    },
+    // "build:manifestGenerated": (wxt, manifest) => {
+    // 	// Manifest is already configured with host_permissions
+    // 	// No additional processing needed
+    // },
   },
   outDir: "dist",
 });
