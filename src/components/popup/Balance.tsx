@@ -1,7 +1,6 @@
 import type React from "react";
 import { css } from "styled-system/css";
 import BalanceChart from "../common/BalanceChart";
-import { useNavigate } from "react-router-dom";
 
 interface BalanceProps {
 	consumed: number;
@@ -16,7 +15,6 @@ const Balance: React.FC<BalanceProps> = ({
 	className = "",
 	loading = false,
 }) => {
-	const navigate = useNavigate();
 
 	const containerClasses = css({
 		backgroundColor: "white",
