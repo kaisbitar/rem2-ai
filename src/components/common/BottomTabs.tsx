@@ -27,7 +27,7 @@ const BottomTabs: React.FC = () => {
 		{
 			key: "insights",
 			label: "Insights",
-			icon: <ChartBar size={20} weight="regular" />,
+			icon: <ChartBar size={20} weight="fill" />,
 			to: "/insights",
 		},
 	];
@@ -56,6 +56,7 @@ const BottomTabs: React.FC = () => {
 		alignItems: "center",
 		maxWidth: "450px",
 		margin: "0 auto",
+		gap: "8px",
 	});
 
 	const itemBtn = css({
@@ -66,7 +67,7 @@ const BottomTabs: React.FC = () => {
 		padding: "8px 16px",
 		color: "#9CA3AF",
 		fontSize: "12px",
-		fontWeight: "500",
+		// fontWeight: "800",
 		cursor: "pointer",
 		userSelect: "none",
 		borderRadius: "8px",
@@ -74,6 +75,9 @@ const BottomTabs: React.FC = () => {
 		position: "relative",
 		transition: "all 0.2s ease",
 		gap: "4px",
+		_hover: {
+			backgroundColor: "#F3F4F6",
+		},
 	});
 
 	const itemActive = css({

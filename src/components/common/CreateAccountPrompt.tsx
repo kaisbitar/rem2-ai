@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useUserState } from "@/context/UserStateContext";
 import { css } from "styled-system/css";
 import { X } from "@phosphor-icons/react";
+import { getSiteUrl } from "@/utils/constants/env";
 
 const CreateAccountPrompt: React.FC = () => {
 	const { isGuest } = useUserState();
@@ -29,12 +30,8 @@ const CreateAccountPrompt: React.FC = () => {
 	};
 
 	const handleCreateAccount = () => {
-		const loginUrl =
-			process.env.NODE_ENV === "production"
-				? "https://aim2balance.ai/login"
-				: "http://localhost:8080/login";
-
-		window.open(loginUrl, "_blank");
+		const siteUrl = getSiteUrl();
+		window.open(`${siteUrl}/login`, "_blank");
 	};
 	console.log(
 		"CreateAccountPrompt render - isGuest:",

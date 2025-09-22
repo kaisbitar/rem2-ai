@@ -12,6 +12,7 @@ import { useBalance } from "@/hooks/useStatsData";
 import CreateAccountPrompt from "@/components/common/CreateAccountPrompt";
 import CallToActionButton from "@/components/common/CallToActionButton";
 import { useUserState } from "@/context/UserStateContext";
+import { getSiteUrl } from "@/utils/constants/env";
 
 const HomePage: React.FC = () => {
 	const { user, loading: authLoading } = useAuth();
@@ -60,14 +61,19 @@ const HomePage: React.FC = () => {
 		if (userState === "guest-non-payer" || userState === "guest-payer") {
 			return {
 				text: "Create free account",
-				onClick: () => navigate("/signup"),
+				onClick: () => {
+					const siteUrl = getSiteUrl();
+					window.open(`${siteUrl}/login`, "_blank", "noopener,noreferrer");
+				},
 			};
 		}
 		// B — Registered Non‑payer
 		return {
 			text: "View dashboard",
-			onClick: () =>
-				window.open("http://localhost:8080/", "_blank", "noopener,noreferrer"), //navigate("/settings"),
+			onClick: () => {
+				const siteUrl = getSiteUrl();
+				window.open(siteUrl, "_blank", "noopener,noreferrer");
+			},
 		};
 	})();
 	return (
@@ -84,7 +90,10 @@ const HomePage: React.FC = () => {
 				text="Balance my m²"
 				className={restoreButton}
 				icon={<Plant size={19} />}
-				onClick={() => navigate("/settings")}
+				onClick={() => {
+					const siteUrl = getSiteUrl();
+					window.open(siteUrl, "_blank", "noopener,noreferrer");
+				}}
 			/>
 			<CallToActionButton
 				text={secondaryCta.text}

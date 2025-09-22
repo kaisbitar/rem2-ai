@@ -26,6 +26,8 @@ const BalanceChart: React.FC<BalanceChartProps> = ({ consumed, restored }) => {
 		fontSize: "16px",
 		fontWeight: "600",
 		color: "#1F2937",
+		margin: "auto",
+		width: "fit-content",
 	});
 
 	const progressItemClass = css({
