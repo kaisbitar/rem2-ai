@@ -1,6 +1,6 @@
 {
 	"name": "aim2balance.ai",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"description": "Extension Chrome pour mesurer l'empreinte carbone et hydrique des requêtes IA",
 	"private": true,
 	"type": "module",

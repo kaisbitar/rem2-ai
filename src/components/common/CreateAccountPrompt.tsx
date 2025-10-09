@@ -33,15 +33,6 @@ const CreateAccountPrompt: React.FC = () => {
 		const siteUrl = getSiteUrl();
 		window.open(`${siteUrl}/login`, "_blank");
 	};
-	console.log(
-		"CreateAccountPrompt render - isGuest:",
-		isGuest,
-		"shouldShow:",
-		shouldShow,
-		"hasShownPrompt:",
-		hasShownPrompt,
-	);
-
 	if (!shouldShow) {
 		return null;
 	}

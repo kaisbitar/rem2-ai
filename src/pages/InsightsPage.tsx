@@ -17,9 +17,9 @@ const InsightsPage: React.FC = () => {
 	);
 	const [softwallOpen, setSoftwallOpen] = useState(false);
 
-	if (authLoading) {
-		return <div className={css({ padding: "5" })}>Loading…</div>;
-	}
+	// if (authLoading) {
+	// 	return <div className={css({ padding: "5" })}>Loading…</div>;
+	// }
 
 	const selectRow = css({
 		display: "flex",

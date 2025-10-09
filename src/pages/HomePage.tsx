@@ -30,7 +30,7 @@ const HomePage: React.FC = () => {
 	}, [config?.hasOnboarded, navigate]);
 
 	const loading = authLoading;
-
+	console.log(balance);
 	const balanceContainerClasses = css({
 		// marginBottom: "0px",
 	});

@@ -30,18 +30,18 @@ const Balance: React.FC<BalanceProps> = ({
 		// border: "1px solid #d6d6d680",
 	});
 
-	if (loading) {
-		return (
-			<div className={`${containerClasses} ${className}`}>
-				<div className={"gradient-bar"} />
-				<div
-					className={css({ textAlign: "center", width: "100%", padding: "4" })}
-				>
-					Loading balance...
-				</div>
-			</div>
-		);
-	}
+	// if (loading) {
+	// 	return (
+	// 		<div className={`${containerClasses} ${className}`}>
+	// 			<div className={"gradient-bar"} />
+	// 			<div
+	// 				className={css({ textAlign: "center", width: "100%", padding: "4" })}
+	// 			>
+	// 				Loading balance...
+	// 			</div>
+	// 		</div>
+	// 	);
+	// }
 
 	return (
 		<div className={`${containerClasses} ${className}`}>
