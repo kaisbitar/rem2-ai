@@ -13,7 +13,6 @@ const Balance: React.FC<BalanceProps> = ({
 	consumed,
 	restored,
 	className = "",
-	loading = false,
 }) => {
 	const containerClasses = css({
 		backgroundColor: "white",

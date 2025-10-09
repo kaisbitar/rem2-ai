@@ -9,7 +9,6 @@ import Modal from "@/components/common/Modal";
 import { useNavigate } from "react-router-dom";
 
 const InsightsPage: React.FC = () => {
-	const { loading: authLoading } = useAuth();
 	const { isGuest } = useUserState();
 	const navigate = useNavigate();
 	const [filter, setFilter] = useState<"today" | "7d" | "30d" | "lifetime">(
