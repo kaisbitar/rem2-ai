@@ -1,7 +1,6 @@
 import StatsSection from "@/components/popup/StatsSection";
 import type React from "react";
 import { css } from "styled-system/css";
-import { useAuth } from "@/context/AuthContext";
 import DonationBanner from "@/components/popup/DonationBanner";
 import { useUserState } from "@/context/UserStateContext";
 import { useState } from "react";
